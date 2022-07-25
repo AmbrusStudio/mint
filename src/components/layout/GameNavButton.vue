@@ -6,6 +6,7 @@ import ExternalLink from '../link/ExternalLink.vue'
 interface Props {
   to: string
   name: string
+  active?: boolean
 }
 
 defineProps<Props>()
@@ -14,9 +15,16 @@ defineProps<Props>()
 <template>
   <ExternalLink :to="getMainSiteLink(to)" :title="name">
     <p
-      class="px-24px xl:px-36px bg-black-bg rounded-8px font-bold text-16px xl:text-20px leading-32px xl:leading-60px text-white text-center uppercase cursor-pointer"
-    >
-      {{ name }}
-    </p>
+      class="game-nav-button flex flex-row flex-nowrap items-center xl:px-24px rounded-8px font-bold text-20px leading-60px text-white text-left uppercase cursor-pointer hover:bg-black-bg"
+      :class="{ '!bg-black-bg': active }"
+      v-html="name"
+    />
   </ExternalLink>
 </template>
+
+<style>
+/* scoped not work */
+.game-nav-button span {
+  @apply ml-10px font-bold text-12px leading-16px text-rust;
+}
+</style>

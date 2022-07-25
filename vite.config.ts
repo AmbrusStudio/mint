@@ -38,6 +38,7 @@ export default defineConfig({
           greyLight: '#A8A8A8',
           greyMedium: '#A0A4B0',
           blackBg: '#2A2A2A',
+          gameNavImg: 'linear-gradient(180deg, #3F3F3F 0%, #444444 100%)',
           white_1: '#f0f0f0',
           red_1: '#b7220c'
         },

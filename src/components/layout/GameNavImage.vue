@@ -15,10 +15,9 @@ defineProps<Props>()
 <template>
   <ExternalLink :to="getMainSiteLink(to)" :title="title">
     <img
-      class="xl:w-400px bg-white border-2px border-grey-medium/20 rounded-4px cursor-pointer select-none"
+      class="box-border xl:h-360px bg-game-nav-img border-2px border-grey-medium/20 rounded-4px cursor-pointer select-none"
       :src="img"
       :alt="title + ' Image'"
-      loading="lazy"
     />
   </ExternalLink>
 </template>
