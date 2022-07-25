@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getMainSiteLink } from '@/utils'
+import { cleanupHTML, getMainSiteLink } from '@/utils'
 
 import ExternalLink from '../link/ExternalLink.vue'
 
@@ -17,7 +17,7 @@ defineProps<Props>()
     <p
       class="game-nav-button flex flex-row flex-nowrap items-center xl:px-24px rounded-8px font-bold text-20px leading-60px text-white text-left uppercase cursor-pointer hover:bg-black-bg"
       :class="{ '!bg-black-bg': active }"
-      v-html="name"
+      v-html="cleanupHTML(name)"
     />
   </ExternalLink>
 </template>
