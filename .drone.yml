@@ -7,15 +7,6 @@ platform:
   arch: amd64
 
 steps:
-- name: build dev
-  when:
-    branch:
-    - testing
-  commands:
-  - cd /mnt/website-dev
-  - git pull
-  - yarn
-  - yarn build
 - name: build mint
   when:
     branch:
@@ -23,5 +14,14 @@ steps:
   commands:
   - cd /mnt/website-mint
   - git pull
-  - yarn
+  - yarn install --frozen-lockfile
+  - yarn build
+- name: build mint testing
+  when:
+    branch:
+    - mint-testing
+  commands:
+  - cd /mnt/website-mint-testing
+  - git pull
+  - yarn install --frozen-lockfile
   - yarn build
