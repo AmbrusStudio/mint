@@ -24,7 +24,7 @@ interface Emits {
 
 const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
-const { account, ethereum, isConnected } = useWallet()
+const { account, ethereum, connect, isConnected } = useWallet()
 
 const salerContract = ref<AmbrusStudioSaler>()
 const { price, amount, total, startTime, isWhitelistSaleStart, isPublicSaleStart } =
@@ -38,7 +38,6 @@ const disabled = computed(
   () =>
     !(
       props.editions.length &&
-      connected.value &&
       edition.value &&
       salerContract.value &&
       amount.value &&
@@ -47,7 +46,6 @@ const disabled = computed(
 )
 const buttonText = computed(() => {
   if (!props.editions.length) return 'Coming Soon'
-  if (!connected.value) return 'Connect Wallet'
   if (!(edition.value && salerContract.value)) return 'Choose an Edition'
   if (!amount.value) return 'Sold Out'
   if (isWhitelistSaleStart()) return 'Whitelist Mint'
@@ -107,6 +105,9 @@ const handleMintClick = async () => {
     isMinting.value = false
   }
 }
+const handleWalletConnect = () => {
+  connect()
+}
 
 watch(
   edition,
@@ -155,8 +156,16 @@ watch(
         class="w-full py-16px xl:py-22px bg-rust text-white font-semibold text-16px xl:text-24px leading-20px xl:leading-28px text-center uppercase hover:bg-white hover:text-rust disabled:bg-grey-medium disabled:text-white disabled:hover:text-white"
         :disabled="disabled || isMinting"
         @click.stop.prevent="handleMintClick"
+        v-if="!props.editions.length || connected"
       >
         {{ buttonText }}
+      </button>
+      <button
+        class="w-full py-16px xl:py-22px bg-rust text-white font-semibold text-16px xl:text-24px leading-20px xl:leading-28px text-center uppercase hover:bg-white hover:text-rust disabled:bg-grey-medium disabled:text-white disabled:hover:text-white"
+        @click.stop.prevent="handleWalletConnect"
+        v-else
+      >
+        Connect Wallet
       </button>
     </form>
   </div>
