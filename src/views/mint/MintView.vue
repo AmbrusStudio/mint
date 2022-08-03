@@ -42,14 +42,16 @@ watchEffect(async () => {
 
 <template>
   <PageMain>
-    <div class="grid grid-cols-1 xl:gap-y-36px xl:pt-60px pb-100px xl:pb-114px xl:relative">
-      <NFTBanner :images="nftData.information.images" />
+    <div
+      class="grid grid-cols-1 xl:grid-cols-2 xl:gap-y-36px xl:pt-60px pb-100px xl:pb-114px xl:relative"
+    >
+      <NFTBanner className="xl:col-span-2" :images="nftData.information.images" />
       <NFTDisclaimer
         className="hidden xl:flex"
         :images="nftData.disclaimer.images"
         :content="nftData.disclaimer.content"
       />
-      <div class="grid grid-cols-1 xl:gap-y-36px xl:w-540px xl:absolute xl:right-36px xl:top-96px">
+      <div class="grid grid-cols-1 xl:gap-y-36px xl:w-540px xl:-mt-480px xl:ml-56px">
         <NFTSaleCard
           :info="nftData.information"
           :editions="nftData.editions"
