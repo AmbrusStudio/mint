@@ -15,7 +15,7 @@ const demoNFTItem: NFTItem = {
     type: 'E4C Rangers NFT Series 1',
     name: 'Rin: Heir of Musashi',
     content:
-      "Rin is the first Ranger coming to E4C Verse. She'll also make an appearance in our upcoming games, E4C Final Salvation. <br>She was born in 2063 as a human and re-born in 2079 as a combat mecha. Because her family celebrated the existence of samurai ancestors, she carries the razor-sharp katana sword and scaled samurai armor. Rin has become an infamous spectral force among criminal forces throughout the central areas of Japan’s Honshu island."
+      "Rin is the first Ranger coming to E4C Verse. She'll also make an appearance in our upcoming games, E4C Final Salvation. \n\nShe was born in 2063 as a human and re-born in 2079 as a combat mecha. Because her family celebrated the existence of samurai ancestors, she carries the razor-sharp katana sword and scaled samurai armor. Rin has become an infamous spectral force among criminal forces throughout the central areas of Japan’s Honshu island."
   },
   disclaimer: {
     images: [
@@ -42,7 +42,7 @@ const demoNFTItem: NFTItem = {
     {
       title: 'NFT Sale',
       content:
-        'Ultimate Edition(15) - English auction & Open-bid 2nd price<br>Gold Edition(450) - Fixed price at 0.6 ETH'
+        'Ultimate Edition(15) - English auction & Open-bid 2nd price \n\nGold Edition(450) - Fixed price at 0.6 ETH'
     },
     {
       title: 'NFT Utilities',
