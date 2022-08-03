@@ -48,7 +48,7 @@ const demoNFTItem: NFTItem = {
     {
       title: 'NFT Staking System',
       content:
-        '<p>For Gold Edition holders, we offer you a chance to upgrade your NFT to Gold+ and earn more benefits by</p><ul><li>Staking E4C Rangers NFT for at least 90 days.</li><li>Completing specific community missions and claiming the badge.</li></ul>'
+        '<p>For Gold Edition holders, we offer you a chance to upgrade your NFT to Gold+ and earn more benefits by:</p><ul><li>Staking E4C Rangers NFT for at least 90 days.</li><li>Completing specific community missions and claiming the badge.</li></ul>'
     },
     {
       title: 'Utilities of the Gold+ Edition',
