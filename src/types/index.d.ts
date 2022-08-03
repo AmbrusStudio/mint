@@ -18,7 +18,7 @@ export type NFTItemDisclaimer = {
   /** 商品信息图片列表 */
   images: string | string[]
   /** 免责声明正文，Markdown */
-  content: string
+  content?: string
 }
 
 export type NFTItemIntro = {

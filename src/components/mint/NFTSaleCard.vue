@@ -8,7 +8,7 @@ import { useReadonlyEthereum, useSalerContract, useSalerData, useWallet } from '
 import type { NFTItemEdition, NFTItemInfo } from '@/types'
 import { alertErrorMessage, formatDatetime } from '@/utils'
 
-import MarkdownView from '../markdown/MarkdownView.vue'
+import HTMLView from '../html/HTMLView.vue'
 import type { NFTModalData } from '../modal/NFTMintModal.vue'
 import NFTCurrency from '../nft/NFTCurrency.vue'
 import NFTEditionRadio from './NFTEditionRadio.vue'
@@ -127,7 +127,7 @@ watch(
     <div class="flex flex-col gap-4px mb-24px xl:mb-36px">
       <h4 class="uppercase text-rust font-semibold text-14px leading-18px">{{ info.type }}</h4>
       <h3 class="text-white font-semibold text-20px leading-24px">{{ info.name }}</h3>
-      <MarkdownView class="text-white font-medium text-14px leading-24px" :src="info.content" />
+      <HTMLView class="text-white font-medium text-14px leading-24px" :src="info.content" />
     </div>
     <form class="flex flex-col" action="#">
       <div class="flex flex-col gap-12px mb-24px xl:mb-36px" v-if="editions.length">

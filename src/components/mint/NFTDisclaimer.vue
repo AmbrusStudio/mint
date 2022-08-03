@@ -7,12 +7,12 @@ import { Autoplay, Pagination } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { computed } from 'vue'
 
-import MarkdownView from '../markdown/MarkdownView.vue'
+import HTMLView from '../html/HTMLView.vue'
 
 interface Props {
   className?: string
   images: string | string[]
-  content: string
+  content?: string
 }
 
 const props = defineProps<Props>()
@@ -37,9 +37,9 @@ const swiperModules = [Autoplay, Pagination]
         <img class="w-full h-auto select-none" :src="image" alt="Disclaimer Image" />
       </SwiperSlide>
     </Swiper>
-    <div class="p-24px bg-white/10 text-12px leading-20px text-grey-medium">
+    <div class="p-24px bg-white/10 text-12px leading-20px text-grey-medium" v-if="content">
       <h4 class="mb-4px font-semibold uppercase">Disclaimer</h4>
-      <MarkdownView class="font-normal" :src="content" />
+      <HTMLView class="font-normal" :src="content" />
     </div>
   </div>
 </template>

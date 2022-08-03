@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { NFTItemIntro } from '@/types'
 
-import MarkdownView from '../markdown/MarkdownView.vue'
+import HTMLView from '../html/HTMLView.vue'
 
 interface Props {
   className?: string
@@ -17,22 +17,7 @@ defineProps<Props>()
       <h4 class="mt-12px xl:mt-0 mb-12px uppercase text-rust font-bold text-14px leading-18px">
         {{ intro.title }}
       </h4>
-      <MarkdownView
-        class="intro-markdown-view text-white font-normal text-14px leading-24px"
-        :src="intro.content"
-      />
+      <HTMLView class="text-white font-normal text-14px leading-24px" :src="intro.content" />
     </div>
   </div>
 </template>
-
-<style>
-.intro-markdown-view p:not(:last-of-type) {
-  @apply mb-20px;
-}
-.intro-markdown-view a {
-  @apply text-rust underline;
-}
-.intro-markdown-view ul {
-  @apply list-disc pl-20px;
-}
-</style>
