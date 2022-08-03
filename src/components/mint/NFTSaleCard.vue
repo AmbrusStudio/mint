@@ -89,7 +89,7 @@ const handleMintClick = async () => {
 
     if (isWhitelistSaleStart()) {
       if (!account.value) return
-      const signature = getWhitelistSignature(account.value)
+      const signature = await getWhitelistSignature(account.value)
       const tx = await salerContract.value.whitelistSale(signature, { value: price })
       const nftData = await getNFTInfo(nftAddress, tx)
       Object.assign(modalData, { ...nftData })

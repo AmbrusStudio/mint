@@ -3,6 +3,8 @@ import MerkleTree from 'merkletreejs'
 
 import type { NFTItem } from '@/types'
 
+import { serveRequest } from '../axios'
+
 const demoNFTItem: NFTItem = {
   information: {
     images: [
@@ -63,25 +65,7 @@ export async function getNFTItemInfo(): Promise<NFTItem> {
   return demoNFTItem
 }
 
-const demoWhitelistAddresses: string[] = [
-  '0x6465f1250c9fe162602db83791fc3fb202d70a7b',
-  '0x2ffd4622C4bB253b96577701b0cbDF3814271345',
-  '0xBf7e12D0c40DDbeD235153dbb754B5b819fF2138',
-  '0xc239d840d339a4b23417a9767309315f49e9e3c3',
-  '0x480AdEaC920dbb286A33CE6Ef9Fd16d548d9BC9b',
-  '0xa88F41690752c2a37f3989356EC0396Ed0e9C020',
-  '0xAdC41d839b7fC82Fb76bF57fAB7cdDf83bFa68aC',
-  '0xe4cfe788904c1db2cB55231E3a72cEff27410928',
-  '0x923Fe0dc3b2b3477d921BA8859e6b68F5cD97715',
-  '0xA52Fc0e787E13Fc4C63C71d23C100C9358456455',
-  '0xADAbAdD160176f0F1F492ddd549B390278Cef177'
-]
-
-const leafNodes = demoWhitelistAddresses.map((address) => ethers.utils.keccak256(address))
-const merkleTree = new MerkleTree(leafNodes, ethers.utils.keccak256, { sortPairs: true })
-console.log('HexRoot', merkleTree.getHexRoot())
-
-export function getWhitelistSignature(address: string): string[] {
-  const hash = ethers.utils.keccak256(address)
-  return merkleTree.getHexProof(hash)
+export async function getWhitelistSignature(address: string): Promise<string[]> {
+  const { data: proof } = await serveRequest.get<string[]>(`/api/v1/proof/${address}`)
+  return proof
 }
