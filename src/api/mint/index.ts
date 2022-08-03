@@ -42,7 +42,7 @@ const demoNFTItem: NFTItem = {
     {
       title: 'NFT Sale',
       content:
-        'Ultimate Edition(15) - English auction & Open-bid 2nd price\nGold Edition(450) - Fixed price at 0.6 ETH'
+        'Ultimate Edition(15) - English auction & Open-bid 2nd price\n\nGold Edition(450) - Fixed price at 0.6 ETH'
     },
     {
       title: 'NFT Utilities',
@@ -56,7 +56,7 @@ const demoNFTItem: NFTItem = {
     },
     {
       title: 'Utilities of the Gold+ Edition',
-      content: '5% in-game IP dividend ownership shared among holders and 3% additional IP dividend ownership of the corresponding character (shared among holders of Ultimate and Gold+ Edition).\n* E4C token airdrop.\n* Airdrop of the corresponding ranger in games.\n* Gold+ Loot Box airdrop of rangers and skins.\n* 15% discount on in-game purchases.\n* Complementary gifts to 3 friends.\n\nIn addition, holders who stake will also be granted 1 NFT airdrop from the next release.'
+      content: '* 5% in-game IP dividend ownership shared among holders and 3% additional IP dividend ownership of the corresponding character (shared among holders of Ultimate and Gold+ Edition).\n* E4C token airdrop.\n* Airdrop of the corresponding ranger in games.\n* Gold+ Loot Box airdrop of rangers and skins.\n* 15% discount on in-game purchases.\n* Complementary gifts to 3 friends.\n\nIn addition, holders who stake will also be granted 1 NFT airdrop from the next release.'
     }
   ]
 }
