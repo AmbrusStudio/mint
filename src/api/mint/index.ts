@@ -53,7 +53,7 @@ const demoNFTItem: NFTItem = {
     {
       title: 'Utilities of the Gold+ Edition',
       content:
-        '<ul><li>5% in-game IP dividend ownership shared among holders and 3% additional IP dividend ownership of the corresponding character (shared among holders of Ultimate and Gold+ Edition).</li><li>E4C token airdrop.</li><li>Airdrop of the corresponding ranger in games.</li><li>Gold+ Loot Box airdrop of rangers and skins.</li><li>15% discount on in-game purchases.</li><li>Complementary gifts to 3 friends.</li></ul><p>In addition, holders who stake will also be granted 1 NFT airdrop from the next release.</p>'
+        '<ul><li>5% in-game IP dividend ownership shared among holders and 3% additional IP dividend ownership of the corresponding character (shared among holders of Ultimate and Gold+ Edition).</li><li>E4C token airdrop.</li><li>Airdrop of the corresponding ranger in games.</li><li>Gold+ Loot Box airdrop of rangers and skins.</li><li>15% discount on in-game purchases.</li><li>Complementary gifts to 3 friends.</li></ul><p><br/>In addition, holders who stake will also be granted 1 NFT airdrop from the next release.</p>'
     }
   ]
 }
