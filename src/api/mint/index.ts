@@ -42,7 +42,7 @@ const demoNFTItem: NFTItem = {
     {
       title: 'NFT Sale',
       content:
-        'Ultimate Edition(15) - English auction & Open-bid 2nd price\n\nGold Edition(450) - Fixed price at 0.6 ETH'
+        'Ultimate Edition(15) - English auction & Open-bid 2nd price\nGold Edition(450) - Fixed price at 0.6 ETH'
     },
     {
       title: 'NFT Utilities',
