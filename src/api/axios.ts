@@ -52,7 +52,7 @@ class Request {
 function getAPIBaseUrl(): string {
   const baseUrl: string | undefined = import.meta.env.VITE_BACKEND_API_URL
   if (!baseUrl) throw new TypeError('VITE_BACKEND_API_URL not set')
-  return new URL('/api/v1', baseUrl).href
+  return new URL('/', baseUrl).href
 }
 
 const request = new Request(getAPIBaseUrl())
