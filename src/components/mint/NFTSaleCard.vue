@@ -31,6 +31,7 @@ const { price, amount, total, startTime, isWhitelistSaleStart, isPublicSaleStart
   useSalerData(salerContract)
 const edition = ref<string>('')
 const isMinting = ref(false)
+const nftAddress = ref<string>('')
 const connected = computed(() => isConnected())
 const selectedDate = computed(() => formatDatetime(startTime.value))
 const saleStart = computed(() => isWhitelistSaleStart() || isPublicSaleStart())
@@ -83,18 +84,18 @@ const handleMintClick = async () => {
     isMinting.value = true
 
     const price = await salerContract.value.price()
-    const nftAddress = await salerContract.value.nft()
+    const _nftAddress = nftAddress.value
 
     if (isWhitelistSaleStart()) {
       if (!account.value) return
       const signature = await getWhitelistSignature(account.value)
       const tx = await salerContract.value.whitelistSale(signature, { value: price })
-      const nftData = await getNFTInfo(nftAddress, tx)
+      const nftData = await getNFTInfo(_nftAddress, tx)
       Object.assign(modalData, { ...nftData })
     }
     if (isPublicSaleStart()) {
       const tx = await salerContract.value.publicSale({ value: price })
-      const nftData = await getNFTInfo(nftAddress, tx)
+      const nftData = await getNFTInfo(_nftAddress, tx)
       Object.assign(modalData, { ...nftData })
     }
 
@@ -117,6 +118,7 @@ watch(
     const _salerContract = useSalerContract(ethereum, selected.contract)
     if (!_salerContract.value) return
     salerContract.value = _salerContract.value
+    nftAddress.value = selected.nftContract
   },
   { immediate: true }
 )

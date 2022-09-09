@@ -66,6 +66,8 @@ export type NFTItemEdition = {
   value: string
   /** 版本对应的 AmbrusStudioSaler 合约地址 */
   contract: string
+  /** AmbrusStudioSaler 合约操作的 NFT 真实地址 */
+  nftContract: string
   /** 版本颜色配置 */
   style: NFTItemEditionStyle
 }

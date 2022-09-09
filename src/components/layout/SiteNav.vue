@@ -30,7 +30,7 @@ const handleGamesNavClick = () => {
       <NavItem>Home</NavItem>
     </ExternalLink>
     <div :class="{ 'router-link-active': gamesOpen }">
-      <NavItem @onNavClick="handleGamesNavClick">
+      <NavItem @onNavClick="handleGamesNavClick" soon>
         E4C: Games
         <IconArrowDown class="ml-8px transition-all" :class="{ 'rotate-180': gamesOpen }" />
       </NavItem>

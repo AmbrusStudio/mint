@@ -24,6 +24,8 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
     'DEFAULT_ADMIN_ROLE()': FunctionFragment
     'WITHDRAWER_ROLE()': FunctionFragment
     'boughtCount(address)': FunctionFragment
+    'configMaxSaleCountPerAddress(uint16)': FunctionFragment
+    'configPrice(uint256)': FunctionFragment
     'configSale(uint256,uint256)': FunctionFragment
     'count()': FunctionFragment
     'getRoleAdmin(bytes32)': FunctionFragment
@@ -32,6 +34,7 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
     'grantWithdrawer(address)': FunctionFragment
     'hasRole(bytes32,address)': FunctionFragment
     'isWhitelistAddress(address,bytes32[])': FunctionFragment
+    'maxSaleCountPerAddress()': FunctionFragment
     'merkleRoot()': FunctionFragment
     'nft()': FunctionFragment
     'price()': FunctionFragment
@@ -54,6 +57,8 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
       | 'DEFAULT_ADMIN_ROLE'
       | 'WITHDRAWER_ROLE'
       | 'boughtCount'
+      | 'configMaxSaleCountPerAddress'
+      | 'configPrice'
       | 'configSale'
       | 'count'
       | 'getRoleAdmin'
@@ -62,6 +67,7 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
       | 'grantWithdrawer'
       | 'hasRole'
       | 'isWhitelistAddress'
+      | 'maxSaleCountPerAddress'
       | 'merkleRoot'
       | 'nft'
       | 'price'
@@ -83,6 +89,14 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
   encodeFunctionData(functionFragment: 'WITHDRAWER_ROLE', values?: undefined): string
   encodeFunctionData(functionFragment: 'boughtCount', values: [PromiseOrValue<string>]): string
   encodeFunctionData(
+    functionFragment: 'configMaxSaleCountPerAddress',
+    values: [PromiseOrValue<BigNumberish>]
+  ): string
+  encodeFunctionData(
+    functionFragment: 'configPrice',
+    values: [PromiseOrValue<BigNumberish>]
+  ): string
+  encodeFunctionData(
     functionFragment: 'configSale',
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string
@@ -102,6 +116,7 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
     functionFragment: 'isWhitelistAddress',
     values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>[]]
   ): string
+  encodeFunctionData(functionFragment: 'maxSaleCountPerAddress', values?: undefined): string
   encodeFunctionData(functionFragment: 'merkleRoot', values?: undefined): string
   encodeFunctionData(functionFragment: 'nft', values?: undefined): string
   encodeFunctionData(functionFragment: 'price', values?: undefined): string
@@ -133,6 +148,8 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: 'DEFAULT_ADMIN_ROLE', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'WITHDRAWER_ROLE', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'boughtCount', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'configMaxSaleCountPerAddress', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'configPrice', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'configSale', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'count', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'getRoleAdmin', data: BytesLike): Result
@@ -141,6 +158,7 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: 'grantWithdrawer', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'hasRole', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'isWhitelistAddress', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'maxSaleCountPerAddress', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'merkleRoot', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'nft', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'price', data: BytesLike): Result
@@ -229,6 +247,16 @@ export interface AmbrusStudioSaler extends BaseContract {
 
     boughtCount(arg0: PromiseOrValue<string>, overrides?: CallOverrides): Promise<[number]>
 
+    configMaxSaleCountPerAddress(
+      _maxSaleCountPerAddress: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>
+
+    configPrice(
+      _price: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>
+
     configSale(
       _saleStart: PromiseOrValue<BigNumberish>,
       _whitelistSaleDuration: PromiseOrValue<BigNumberish>,
@@ -266,6 +294,8 @@ export interface AmbrusStudioSaler extends BaseContract {
       _signature: PromiseOrValue<BytesLike>[],
       overrides?: CallOverrides
     ): Promise<[boolean]>
+
+    maxSaleCountPerAddress(overrides?: CallOverrides): Promise<[number]>
 
     merkleRoot(overrides?: CallOverrides): Promise<[string]>
 
@@ -331,6 +361,16 @@ export interface AmbrusStudioSaler extends BaseContract {
 
   boughtCount(arg0: PromiseOrValue<string>, overrides?: CallOverrides): Promise<number>
 
+  configMaxSaleCountPerAddress(
+    _maxSaleCountPerAddress: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>
+
+  configPrice(
+    _price: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>
+
   configSale(
     _saleStart: PromiseOrValue<BigNumberish>,
     _whitelistSaleDuration: PromiseOrValue<BigNumberish>,
@@ -368,6 +408,8 @@ export interface AmbrusStudioSaler extends BaseContract {
     _signature: PromiseOrValue<BytesLike>[],
     overrides?: CallOverrides
   ): Promise<boolean>
+
+  maxSaleCountPerAddress(overrides?: CallOverrides): Promise<number>
 
   merkleRoot(overrides?: CallOverrides): Promise<string>
 
@@ -431,6 +473,13 @@ export interface AmbrusStudioSaler extends BaseContract {
 
     boughtCount(arg0: PromiseOrValue<string>, overrides?: CallOverrides): Promise<number>
 
+    configMaxSaleCountPerAddress(
+      _maxSaleCountPerAddress: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>
+
+    configPrice(_price: PromiseOrValue<BigNumberish>, overrides?: CallOverrides): Promise<void>
+
     configSale(
       _saleStart: PromiseOrValue<BigNumberish>,
       _whitelistSaleDuration: PromiseOrValue<BigNumberish>,
@@ -462,6 +511,8 @@ export interface AmbrusStudioSaler extends BaseContract {
       _signature: PromiseOrValue<BytesLike>[],
       overrides?: CallOverrides
     ): Promise<boolean>
+
+    maxSaleCountPerAddress(overrides?: CallOverrides): Promise<number>
 
     merkleRoot(overrides?: CallOverrides): Promise<string>
 
@@ -547,6 +598,16 @@ export interface AmbrusStudioSaler extends BaseContract {
 
     boughtCount(arg0: PromiseOrValue<string>, overrides?: CallOverrides): Promise<BigNumber>
 
+    configMaxSaleCountPerAddress(
+      _maxSaleCountPerAddress: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>
+
+    configPrice(
+      _price: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>
+
     configSale(
       _saleStart: PromiseOrValue<BigNumberish>,
       _whitelistSaleDuration: PromiseOrValue<BigNumberish>,
@@ -584,6 +645,8 @@ export interface AmbrusStudioSaler extends BaseContract {
       _signature: PromiseOrValue<BytesLike>[],
       overrides?: CallOverrides
     ): Promise<BigNumber>
+
+    maxSaleCountPerAddress(overrides?: CallOverrides): Promise<BigNumber>
 
     merkleRoot(overrides?: CallOverrides): Promise<BigNumber>
 
@@ -649,6 +712,16 @@ export interface AmbrusStudioSaler extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>
 
+    configMaxSaleCountPerAddress(
+      _maxSaleCountPerAddress: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>
+
+    configPrice(
+      _price: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>
+
     configSale(
       _saleStart: PromiseOrValue<BigNumberish>,
       _whitelistSaleDuration: PromiseOrValue<BigNumberish>,
@@ -689,6 +762,8 @@ export interface AmbrusStudioSaler extends BaseContract {
       _signature: PromiseOrValue<BytesLike>[],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>
+
+    maxSaleCountPerAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
     merkleRoot(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
