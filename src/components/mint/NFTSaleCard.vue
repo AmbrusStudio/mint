@@ -172,12 +172,11 @@ watch(
       >
         Connect Wallet
       </button>
-      <p class="text-sm font-bold text-left text-white mt-6">
-        <span class="">Our NFTs will also be available on </span>
-        <a href="#" target="_blank" rel="noopener" class="text-[#ff4125]">xxx</a>,
-        <a href="#" target="_blank" rel="noopener" class="text-[#ff4125]">xxx</a>&nbsp;&
-        <a href="#" target="_blank" rel="noopener" class="text-[#ff4125]">xxx</a>
-      </p>
+      <HTMLView
+        v-if="!!info.note"
+        class="text-white font-bold text-14px leading-20px mt-24px"
+        :src="info.note"
+      />
     </form>
   </div>
 </template>

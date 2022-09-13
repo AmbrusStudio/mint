@@ -10,21 +10,23 @@ export type NFTItemInfo = {
   type: string
   /** NFT 名字 */
   name: string
-  /** NFT 介绍，Markdown */
+  /** NFT 介绍，HTML */
   content: string
+  /** Mint 按钮下方的提示文字，HTML */
+  note?: string
 }
 
 export type NFTItemDisclaimer = {
   /** 商品信息图片列表 */
   images: string | string[]
-  /** 免责声明正文，Markdown */
+  /** 免责声明正文，HTML */
   content?: string
 }
 
 export type NFTItemIntro = {
   /** 商品介绍段落标题 */
   title: string
-  /** 商品介绍正文，Markdown */
+  /** 商品介绍正文，HTML */
   content: string
 }
 
@@ -33,7 +35,7 @@ export type NFTPropertyMode = 'mode-3' | 'mode-6' | 'mode-9'
 export type NFTPropertyData = {
   /** 属性名称 */
   key: string
-  /** 属性值，纯字符串，不支持 Markdown */
+  /** 属性值，纯字符串 */
   value: string
 }
 
