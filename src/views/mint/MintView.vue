@@ -70,6 +70,7 @@ watchEffect(async () => {
       :open="modalOpen"
       :onModalClose="handleModalClose"
       :images="modalData.images"
+      :video="modalData.video"
       :name="modalData.name"
       :address="modalData.address"
       :transaction="modalData.transaction"

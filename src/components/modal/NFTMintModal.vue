@@ -8,18 +8,20 @@ import BaseModal from './BaseModal.vue'
 import NFTMintModalTrait from './NFTMintModalTrait.vue'
 
 export type NFTModalData = {
-  images: string | string[]
   name: string
   address: string
   transaction: string
+  images: string | string[]
+  video?: string
 }
 
 interface Props {
   open: boolean
-  images: string | string[]
   name: string
   address: string
   transaction: string
+  images: string | string[]
+  video?: string
   onModalClose: () => void
 }
 
@@ -53,12 +55,29 @@ const transactionLink = computed(() =>
         />
       </div>
       <div class="flex flex-col xl:flex-row xl:flex-nowrap xl:justify-between bg-white/80">
+        <video
+          v-if="video"
+          class="box-border w-full h-auto xl:w-600px xl:h-600px border-4px border-white/90 select-none"
+          id="background-video"
+          autoplay
+          loop
+          muted
+          disablepictureinpicture
+          disableRemotePlayback
+          preload="auto"
+          oncontextmenu="return false;"
+          :poster="image"
+        >
+          <source :src="video" type="video/mp4" />
+        </video>
         <img
-          class="box-border w-full h-auto xl:w-600px xl:h-600px border-4px border-white/90"
+          v-else
+          class="box-border w-full h-auto xl:w-600px xl:h-600px border-4px border-white/90 select-none"
           :src="image"
           :srcset="imageSet"
           alt="NFT Image"
           loading="lazy"
+          oncontextmenu="return false;"
         />
         <div class="flex flex-col flex-1 gap-12px xl:gap-24px p-24px xl:p-36px backdrop-blur-20px">
           <NFTMintModalTrait title="NFT ID">{{ name }}</NFTMintModalTrait>

@@ -8,6 +8,7 @@ import { useReadonlyEthereum, useSalerContract, useSalerData, useWallet } from '
 import type { NFTItemEdition, NFTItemInfo } from '@/types'
 import { alertErrorMessage, formatDatetime } from '@/utils'
 
+import BlindboxCover from '../../assets/images/cover/cover-blindbox.png'
 import HTMLView from '../html/HTMLView.vue'
 import type { NFTModalData } from '../modal/NFTMintModal.vue'
 import NFTCurrency from '../nft/NFTCurrency.vue'
@@ -57,7 +58,8 @@ const getNFTInfo = async (address: string, tx: ContractTransaction): Promise<NFT
   // 摆烂了，Vue ref 的 get 有问题，Event filter 又臭又长
   const ethereum = useReadonlyEthereum()
   const contract = ERC721__factory.connect(address, ethereum)
-  const images = 'https://i.imgur.com/V0xOBYB.png'
+  const images = BlindboxCover
+  const video = 'https://cdn.ambrus.studio/NFTs/Blindbox.mp4'
   let name = await contract.name() // AmbrusStudioRanger
   const transaction = tx.hash
   const receipt = await tx.wait()
@@ -75,7 +77,7 @@ const getNFTInfo = async (address: string, tx: ContractTransaction): Promise<NFT
       name += ` #${tokenId.toNumber()}`
     }
   }
-  return { images, name, address, transaction }
+  return { images, video, name, address, transaction }
 }
 const handleMintClick = async () => {
   if (!salerContract.value) return
@@ -116,9 +118,10 @@ watch(
     const selected = props.editions.find((e) => e.value === value)
     if (!selected) return
     const _salerContract = useSalerContract(ethereum, selected.contract)
-    if (!_salerContract.value) return
-    salerContract.value = _salerContract.value
-    nftAddress.value = selected.nftContract
+    if (_salerContract.value) {
+      salerContract.value = _salerContract.value
+      nftAddress.value = selected.nftContract
+    }
   },
   { immediate: true }
 )
