@@ -38,6 +38,7 @@ watchEffect(async () => {
             :to="getMainSiteLink(game.url)"
             :name="game.name"
             :active="game.url === gameInfoActive?.url"
+            :soon="game.soon"
             @mouseover="handleButtonHover(game)"
           />
         </div>
@@ -48,6 +49,7 @@ watchEffect(async () => {
             :to="getMainSiteLink(game.url)"
             :title="game.name"
             :img="game.img"
+            :soon="game.soon"
           />
         </div>
       </div>
@@ -60,6 +62,7 @@ watchEffect(async () => {
             :to="getMainSiteLink(exp.url)"
             :name="exp.name"
             :active="exp.url === gameInfoActive?.url"
+            :soon="exp.soon"
             @mouseover="handleButtonHover(exp)"
           />
         </div>
@@ -69,6 +72,7 @@ watchEffect(async () => {
           :to="getMainSiteLink(gameInfoActive?.url)"
           :title="gameInfoActive?.name"
           :img="gameInfoActive?.img"
+          :soon="gameInfoActive?.soon"
         />
       </div>
     </nav>

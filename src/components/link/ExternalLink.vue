@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 
 interface Props {
-  to: string
+  to?: string
   blank?: boolean
 }
 
@@ -12,7 +12,10 @@ const rel = computed(() => (props.blank ? 'noopener' : undefined))
 </script>
 
 <template>
-  <a :href="to" :target="target" :rel="rel">
+  <a v-if="to" :href="to" :target="target" :rel="rel">
     <slot />
   </a>
+  <span v-else>
+    <slot />
+  </span>
 </template>

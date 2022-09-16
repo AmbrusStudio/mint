@@ -22,7 +22,7 @@ export async function getHeaderLinks(): Promise<HeaderLink[]> {
   return headers
 }
 
-export type HeaderGameItem = BlockInfoMaterial & { name: string }
+export type HeaderGameItem = BlockInfoMaterial & { name: string; soon?: boolean }
 
 export type HeaderGameInfo = { games: HeaderGameItem[]; exp: HeaderGameItem[] }
 
@@ -35,7 +35,7 @@ function isGamesData(game: BlockInfoGame): boolean {
 
 function getBlockInfoGameItem(info: BlockInfo): HeaderGameItem {
   const material = getBlockInfoMaterial(info)
-  return { ...material, name: info.name }
+  return { ...material, name: info.name, soon: info.name?.toLowerCase()?.includes('soon') }
 }
 
 export async function getHeaderGameInfo(): Promise<HeaderGameInfo> {
