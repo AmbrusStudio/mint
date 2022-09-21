@@ -14,6 +14,9 @@ export const mint: NFTItem = {
   },
   disclaimer: {
     images: [
+      'https://ambrus.s3.amazonaws.com/1663749034842_0.94_Gold_A.png',
+      'https://ambrus.s3.amazonaws.com/1663749034863_0.51_Gold_B.png',
+      'https://ambrus.s3.amazonaws.com/1663749034868_0.09_Gold_C.png',
       'https://ambrus.s3.amazonaws.com/1659503426906_0.55_1.jpg',
       'https://ambrus.s3.amazonaws.com/1659503426929_0.47_2.jpg',
       'https://ambrus.s3.amazonaws.com/1659503426933_0.29_3.jpg'
