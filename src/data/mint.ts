@@ -10,8 +10,7 @@ export const mint: NFTItem = {
     type: 'E4C Rangers NFT Series 1',
     name: 'Rin: Heir of Musashi',
     content:
-      "<p>Rin is the first Ranger coming to E4C Verse. She'll also make an appearance in our upcoming game, E4C Final Salvation.</p><p>She was born in 2063 as a human and re-born in 2079 as a combat mecha. Because her family celebrated the existence of samurai ancestors, she carries the razor-sharp katana sword and scaled samurai armor. Rin has become an infamous spectral force among criminal forces throughout the central areas of Japanese Honshu island.</p>",
-    note: `<p>Our NFTs will also be available on <a href="#" target="_blank" rel="noopener">xxx</a>, <a href="#" target="_blank" rel="noopener">xxx</a> & <a href="#" target="_blank" rel="noopener">xxx</a></p>`
+      "<p>Rin is the first Ranger coming to E4C Verse. She'll also make an appearance in our upcoming game, E4C Final Salvation.</p><p>She was born in 2063 as a human and re-born in 2079 as a combat mecha. Because her family celebrated the existence of samurai ancestors, she carries the razor-sharp katana sword and scaled samurai armor. Rin has become an infamous spectral force among criminal forces throughout the central areas of Japanese Honshu island.</p>"
   },
   disclaimer: {
     images: [
@@ -36,9 +35,14 @@ export const mint: NFTItem = {
   ],
   introduction: [
     {
-      title: 'NFT Sale',
+      title: 'Gold edition',
       content:
-        '<p>Ultimate Edition(15) - English auction & Open-bid 2nd price <br/>Gold Edition(450) - Fixed price at 0.6 ETH</p>'
+        '<p>Amount: 450<br>Mint price: 0.49ETH<br><strong>Permit Mint</strong>: 9.30 8pm SGT ~ 10.1 8pm SGT; 24h; 15%-off<br><strong>Gamefi3.0 Summit Flash Sale (limited supply)</strong>: 10.1 10am SGT ~ 10.1 3pm SGT; 5h; 5%-off<br><strong>Whitelist Mint</strong>: 10.1 8pm SGT ~ 10.2 8pm SGT; 24h; 10%-off<br><strong>Public Mint (if any remaining)</strong>: starts from 10.2 8pm SGT; full price; on <a href="#">Rarible.com</a></p>'
+    },
+    {
+      title: 'Rangers edition',
+      content:
+        '<p>Amount: 646<br>Mint price: 0.19ETH<br><strong>Permit Mint</strong>: 10.3 8pm SGT ~ 10.4 8pm SGT; 24h; 15%-off<br><strong>Whitelist Mint</strong>: 10.4 8pm SGT ~ 10.5 8pm SGT; 24h; 10%-off<br><strong>Public Mint (if any remaining)</strong>: starts from 10.5 8pm SGT; full price; on <a href="#">Rarible.com</a></p>'
     },
     {
       title: 'NFT Utilities',
