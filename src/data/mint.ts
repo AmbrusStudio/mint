@@ -10,7 +10,7 @@ export const mint: NFTItem = {
     type: 'E4C Rangers NFT Series 1',
     name: 'Rin: Heir of Musashi',
     content:
-      "<p>Rin is the first Ranger coming to E4C Verse. She'll also make an appearance in our upcoming game, E4C Final Salvation.</p><p>She was born in 2063 as a human and re-born in 2079 as a combat mecha. Because her family celebrated the existence of samurai ancestors, she carries the razor-sharp katana sword and scaled samurai armor. Rin has become an infamous spectral force among criminal forces throughout the central areas of Japanese Honshu island.</p>"
+      '<p>Rin is the first Ranger coming to E4C Verse. She is a combat mecha, who carries the razor-sharp katana sword and scaled samurai armor. She is also an infamous spectral force among criminal forces. <a href="https://www.ambrus.studio/worldview/ranger/6">Learn more about Rin</a>.</p>'
   },
   disclaimer: {
     images: [
