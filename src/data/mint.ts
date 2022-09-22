@@ -3,9 +3,9 @@ import type { NFTItem } from '@/types'
 export const mint: NFTItem = {
   information: {
     images: [
-      'https://ambrus.s3.amazonaws.com/1659502593244_0.08_banner_480w_480w.jpg',
-      'https://ambrus.s3.amazonaws.com/1659502593218_0.20_banner_960w_960w.jpg',
-      'https://ambrus.s3.amazonaws.com/1659502593241_0.88_banner_1440w_1440w.jpg'
+      'https://ambrus.s3.amazonaws.com/1663813999463_0.34_banner-480w.jpg',
+      'https://ambrus.s3.amazonaws.com/1663813999466_0.16_banner-960w.jpg',
+      'https://ambrus.s3.amazonaws.com/1663813761798_0.33_banner.jpg'
     ],
     type: 'E4C Rangers NFT Series 1',
     name: 'Rin: Heir of Musashi',
