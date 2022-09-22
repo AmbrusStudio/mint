@@ -5,11 +5,12 @@ import { computed, ref, watch } from 'vue'
 import { getWhitelistSignature } from '@/api'
 import { type AmbrusStudioSaler, ERC721__factory } from '@/contracts'
 import { useReadonlyEthereum, useSalerContract, useSalerData, useWallet } from '@/hooks'
-import type { MintEdition, MintInfo } from '@/types'
-import { alertErrorMessage, formatDatetime } from '@/utils'
+import type { MintEdition, MintInfo, MintPublicSale } from '@/types'
+import { alertErrorMessage, formatDatetime, isHistorical } from '@/utils'
 
 import BlindboxCover from '../../assets/images/cover/cover-blindbox.png'
 import HTMLView from '../html/HTMLView.vue'
+import ExternalLink from '../link/ExternalLink.vue'
 import type { NFTModalData } from '../modal/NFTMintModal.vue'
 import NFTCurrency from '../nft/NFTCurrency.vue'
 import NFTEditionRadio from './NFTEditionRadio.vue'
@@ -17,6 +18,7 @@ import NFTEditionRadio from './NFTEditionRadio.vue'
 interface Props {
   className?: string
   info: MintInfo
+  publicSale: MintPublicSale
   editions: MintEdition[]
 }
 interface Emits {
@@ -26,6 +28,10 @@ interface Emits {
 const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 const { account, ethereum, connect, isConnected } = useWallet()
+
+const publicSaleStart = computed(
+  () => props.publicSale?.start && isHistorical(props.publicSale.start)
+)
 
 const salerContract = ref<AmbrusStudioSaler>()
 const { price, amount, total, startTime, isWhitelistSaleStart, isPublicSaleStart } =
@@ -129,12 +135,12 @@ watch(
 
 <template>
   <div class="p-24px xl:p-36px bg-black/80 shadow-nft-sale backdrop-blur-20px" :class="[className]">
-    <div class="flex flex-col gap-4px mb-24px xl:mb-36px">
+    <section class="flex flex-col gap-4px mb-24px xl:mb-36px">
       <h4 class="uppercase text-rust font-semibold text-14px leading-18px">{{ info.type }}</h4>
       <h3 class="text-white font-semibold text-20px leading-24px">{{ info.name }}</h3>
       <HTMLView class="text-white font-medium text-14px leading-24px" :src="info.content" />
-    </div>
-    <form class="flex flex-col" action="#">
+    </section>
+    <form class="flex flex-col" action="#" v-if="!publicSaleStart">
       <div class="flex flex-col gap-12px mb-24px xl:mb-36px" v-if="editions.length">
         <NFTEditionRadio
           v-for="edi in editions"
@@ -178,5 +184,12 @@ watch(
         :src="info.note"
       />
     </form>
+    <ExternalLink
+      class="block w-full py-16px xl:py-22px bg-rust text-white font-semibold text-16px xl:text-24px leading-20px xl:leading-28px text-center uppercase hover:bg-white hover:text-rust"
+      :to="publicSale.link"
+      v-if="publicSaleStart"
+    >
+      {{ publicSale.text }}
+    </ExternalLink>
   </div>
 </template>

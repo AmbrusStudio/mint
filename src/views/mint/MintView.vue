@@ -14,7 +14,7 @@ import type { Mint } from '@/types'
 const initData: Mint = {
   information: { images: [], type: '', name: '', content: '' },
   disclaimer: { images: [], content: '' },
-  publicSale: { start: 0, text: '', link: '' },
+  publicSale: { text: '', link: '' },
   editions: [],
   introduction: [],
   properties: []
@@ -55,6 +55,7 @@ watchEffect(async () => {
       <div class="grid grid-cols-1 xl:gap-y-36px xl:w-540px xl:-mt-480px xl:ml-56px">
         <NFTSaleCard
           :info="nftData.information"
+          :publicSale="nftData.publicSale"
           :editions="nftData.editions"
           @onMintComplete="handleModalOpen"
         />

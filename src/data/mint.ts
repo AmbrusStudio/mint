@@ -26,7 +26,7 @@ export const mint: Mint = {
     content: ''
   },
   publicSale: {
-    start: 1664935200, // Wednesday, October 5, 2022 10:00:00 AM GMT+08:00
+    start: 1664935200, // Wednesday, October 5, 2022 10:00:00 AM GMT+08:00，不填时间不会展示 Public Sale
     text: 'Mint on Rarable.com',
     link: 'https://rarible.com/'
   },

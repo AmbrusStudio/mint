@@ -49,7 +49,7 @@ export type MintEdition = {
 
 export type MintPublicSale = {
   /** 公开销售时间，Epotch 秒 */
-  start: number
+  start?: number
   /** 公开销售的按钮文案 */
   text: string
   /** 公开销售的跳转链接 */
