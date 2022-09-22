@@ -29,4 +29,7 @@ const html = computed(() => cleanupHTML(props.src))
 .html-view ul {
   @apply list-disc pl-20px;
 }
+.html-view strong {
+  @apply font-bold;
+}
 </style>

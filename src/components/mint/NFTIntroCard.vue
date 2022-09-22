@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { MintIntro } from '@/types'
 
-import HTMLView from '../html/HTMLView.vue'
+import NFTIntroItem from './NFTIntroItem.vue'
 
 interface Props {
   className?: string
@@ -12,12 +12,7 @@ defineProps<Props>()
 </script>
 
 <template>
-  <div class="flex flex-col gap-24px xl:gap-36px p-12px xl:p-36px bg-black/50" :class="[className]">
-    <div v-for="(intro, index) in intros" :key="index" class="block">
-      <h4 class="mt-12px xl:mt-0 mb-12px uppercase text-rust font-bold text-14px leading-18px">
-        {{ intro.title }}
-      </h4>
-      <HTMLView class="text-white font-normal text-14px leading-24px" :src="intro.content" />
-    </div>
+  <div class="flex flex-col gap-24px p-12px xl:px-24px xl:py-36px bg-black/50" :class="[className]">
+    <NFTIntroItem v-for="(intro, index) in intros" :key="index" :intro="intro" />
   </div>
 </template>
