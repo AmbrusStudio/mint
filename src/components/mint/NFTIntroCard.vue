@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { NFTItemIntro } from '@/types'
+import type { MintIntro } from '@/types'
 
 import HTMLView from '../html/HTMLView.vue'
 
 interface Props {
   className?: string
-  intros: NFTItemIntro[]
+  intros: MintIntro[]
 }
 
 defineProps<Props>()

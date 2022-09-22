@@ -1,7 +1,8 @@
-import type { NFTItem } from '@/types'
+import type { Mint } from '@/types'
 
-export const mint: NFTItem = {
+export const mint: Mint = {
   information: {
+    // 只支持文件名含 @ 符号的图片，如 banner_@1x.jpg banner_@2x.jpg banner_@3x.jpg
     images: [
       'https://ambrus.s3.amazonaws.com/1663814307049_0.50_banner_480h.jpg',
       'https://ambrus.s3.amazonaws.com/1663814307039_0.64_banner_960h.jpg',
@@ -11,7 +12,7 @@ export const mint: NFTItem = {
     name: 'Rin: Heir of Musashi',
     content:
       '<p>Rin is the first Ranger coming to E4C Verse. She is a combat mecha, who carries the razor-sharp katana sword and scaled samurai armor. She is also an infamous spectral force among criminal forces. <a href="https://www.ambrus.studio/worldview/ranger/6">Learn more about Rin</a></p>',
-    note: '<p>For public mint, visit <a href="#" target="_blank" rel="noopener">Rarible.com</a></p>'
+    note: '<p>For public mint, visit <a href="https://rarible.com/" target="_blank" rel="noopener">Rarible.com</a></p>'
   },
   disclaimer: {
     images: [
@@ -24,11 +25,16 @@ export const mint: NFTItem = {
     ],
     content: ''
   },
-  // editions: [], // Show 'Coming soon'
+  publicSale: {
+    start: 1664935200, // Wednesday, October 5, 2022 10:00:00 AM GMT+08:00
+    text: 'Mint on Rarable.com',
+    link: 'https://rarible.com/'
+  },
+  // editions: [], // 删除所有版本展示 Coming soon
   editions: [
     {
       name: 'Gold Edition',
-      value: 'legendary',
+      value: 'gold',
       contract: '0xc2D4e1a46b48EB3208bdcf4887f85E02682B7752',
       nftContract: '0x19Dd9D7899Cb03c3a0e12911121ADaED7a4648B8',
       style: {
@@ -38,6 +44,7 @@ export const mint: NFTItem = {
     }
   ],
   introduction: [
+    // 完全展示部分
     {
       title: 'Gold edition',
       content:
@@ -48,18 +55,22 @@ export const mint: NFTItem = {
       content:
         '<p>Amount: 646<br>Mint price: 0.19ETH<br><strong>Permit Mint</strong>: 10.3 8pm SGT ~ 10.4 8pm SGT; 24h; 15%-off<br><strong>Whitelist Mint</strong>: 10.4 8pm SGT ~ 10.5 8pm SGT; 24h; 10%-off<br><strong>Public Mint (if any remaining)</strong>: starts from 10.5 8pm SGT; full price; on <a href="#">Rarible.com</a></p>'
     },
+    // 折叠部分需要 foldable 为 true
     {
       title: 'NFT Utilities',
+      foldable: true,
       content:
         '<p>What you get with Gold Edition:</p><ul><li>5% in-game IP dividend ownership of the corresponding champions+skins(shared among holders).Airdrop of the corresponding champion in games.</li><li>Gold Loot Box containing airdrops of in-game champions and skins.</li><li>10% discount on in-game purchases.</li><li>Complementary gifts to 1 friend.</li></ul>'
     },
     {
       title: 'NFT Staking System',
+      foldable: true,
       content:
         '<p>For Gold Edition holders, we offer you a chance to upgrade your NFT to Gold+ and earn more benefits by:</p><ul><li>Staking E4C Rangers NFT for at least 90 days.</li><li>Completing specific community missions and claiming the badge.</li></ul>'
     },
     {
       title: 'Utilities of the Gold+ Edition',
+      foldable: true,
       content:
         '<ul><li>5% in-game IP dividend ownership shared among holders and 3% additional IP dividend ownership of the corresponding character (shared among holders of Ultimate and Gold+ Edition).</li><li>E4C token airdrop.</li><li>Airdrop of the corresponding ranger in games.</li><li>Gold+ Loot Box airdrop of rangers and skins.</li><li>15% discount on in-game purchases.</li><li>Complementary gifts to 3 friends.</li></ul><p><br/>In addition, holders who stake will also be granted 1 NFT airdrop from the next release.</p>'
     }

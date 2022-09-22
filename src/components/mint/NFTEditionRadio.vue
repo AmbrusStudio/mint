@@ -3,7 +3,7 @@ import { useVModel } from '@vueuse/core'
 import { computed, reactive } from 'vue'
 
 import { useReadonlySalerData, useWallet } from '@/hooks'
-import type { NFTItemEditionStyle } from '@/types'
+import type { MintEditionStyle } from '@/types'
 
 import NFTCurrency from '../nft/NFTCurrency.vue'
 
@@ -15,7 +15,7 @@ interface Props {
   value: string
   /** 版本对应的 AmbrusStudioSaler 合约地址 */
   contract: string
-  style: NFTItemEditionStyle
+  style: MintEditionStyle
   modelValue: string
 }
 interface Emits {

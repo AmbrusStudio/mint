@@ -8,17 +8,18 @@ import NFTSaleCard from '@components/mint/NFTSaleCard.vue'
 import NFTMintModal, { type NFTModalData } from '@components/modal/NFTMintModal.vue'
 import { ref, watchEffect } from 'vue'
 
-import { getNFTItemInfo } from '@/api'
-import type { NFTItem } from '@/types'
+import { getMintInfo } from '@/api'
+import type { Mint } from '@/types'
 
-const initData: NFTItem = {
+const initData: Mint = {
   information: { images: [], type: '', name: '', content: '' },
   disclaimer: { images: [], content: '' },
+  publicSale: { start: 0, text: '', link: '' },
   editions: [],
   introduction: [],
   properties: []
 }
-const nftData = ref<NFTItem>(initData)
+const nftData = ref<Mint>(initData)
 const modalOpen = ref(false)
 const modalData = ref<NFTModalData>({
   name: '',
@@ -36,7 +37,7 @@ const handleModalClose = () => {
 }
 
 watchEffect(async () => {
-  nftData.value = await getNFTItemInfo()
+  nftData.value = await getMintInfo()
 })
 </script>
 

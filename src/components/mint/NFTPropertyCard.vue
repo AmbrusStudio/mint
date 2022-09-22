@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { NFTItemProperty } from '@/types'
+import type { MintProperty } from '@/types'
 
 import NFTPropertyGroup from './NFTPropertyGroup.vue'
 
 interface Props {
   className?: string
-  properties?: NFTItemProperty[]
+  properties?: MintProperty[]
 }
 
 defineProps<Props>()

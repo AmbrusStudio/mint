@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue'
 
-import type { NFTPropertyData as PropertyData, NFTPropertyMode } from '@/types'
+import type { MintPropertyData as PropertyData, MintPropertyMode } from '@/types'
 import { arrayGroupByCount } from '@/utils'
 
 import NFTPropertyData from './NFTPropertyData.vue'
 
 interface Props {
-  mode: NFTPropertyMode
+  mode: MintPropertyMode
   title: string
   data: PropertyData[]
 }

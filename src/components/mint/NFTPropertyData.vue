@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { NFTPropertyData } from '@/types'
+import type { MintPropertyData } from '@/types'
 
 interface Props {
-  data: NFTPropertyData
+  data: MintPropertyData
 }
 
 defineProps<Props>()

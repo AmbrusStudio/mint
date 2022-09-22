@@ -1,9 +1,9 @@
 import { mint } from '@/data'
-import type { NFTItem } from '@/types'
+import type { Mint } from '@/types'
 
 import { serveRequest } from '../axios'
 
-export async function getNFTItemInfo(): Promise<NFTItem> {
+export async function getMintInfo(): Promise<Mint> {
   return mint
 }
 

@@ -5,7 +5,7 @@ import { computed, ref, watch } from 'vue'
 import { getWhitelistSignature } from '@/api'
 import { type AmbrusStudioSaler, ERC721__factory } from '@/contracts'
 import { useReadonlyEthereum, useSalerContract, useSalerData, useWallet } from '@/hooks'
-import type { NFTItemEdition, NFTItemInfo } from '@/types'
+import type { MintEdition, MintInfo } from '@/types'
 import { alertErrorMessage, formatDatetime } from '@/utils'
 
 import BlindboxCover from '../../assets/images/cover/cover-blindbox.png'
@@ -16,8 +16,8 @@ import NFTEditionRadio from './NFTEditionRadio.vue'
 
 interface Props {
   className?: string
-  info: NFTItemInfo
-  editions: NFTItemEdition[]
+  info: MintInfo
+  editions: MintEdition[]
 }
 interface Emits {
   (e: 'onMintComplete', data?: NFTModalData): void
