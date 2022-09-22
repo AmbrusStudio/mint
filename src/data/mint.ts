@@ -10,7 +10,8 @@ export const mint: NFTItem = {
     type: 'E4C Rangers NFT Series 1',
     name: 'Rin: Heir of Musashi',
     content:
-      '<p>Rin is the first Ranger coming to E4C Verse. She is a combat mecha, who carries the razor-sharp katana sword and scaled samurai armor. She is also an infamous spectral force among criminal forces. <a href="https://www.ambrus.studio/worldview/ranger/6">Learn more about Rin</a>.</p>'
+      '<p>Rin is the first Ranger coming to E4C Verse. She is a combat mecha, who carries the razor-sharp katana sword and scaled samurai armor. She is also an infamous spectral force among criminal forces. <a href="https://www.ambrus.studio/worldview/ranger/6">Learn more about Rin</a></p>',
+    note: '<p>Permit and Whitelist Mint only. For public mint, visit <a href="#" target="_blank" rel="noopener">Rarable.com</a></p>'
   },
   disclaimer: {
     images: [
