@@ -30,19 +30,19 @@ export const mint: Mint = {
     text: 'Mint on Rarable.com',
     link: 'https://rarible.com/'
   },
-  // editions: [], // 删除所有版本展示 Coming soon
-  editions: [
-    {
-      name: 'Gold Edition',
-      value: 'gold',
-      contract: '0xc2D4e1a46b48EB3208bdcf4887f85E02682B7752',
-      nftContract: '0x19Dd9D7899Cb03c3a0e12911121ADaED7a4648B8',
-      style: {
-        background: 'linear-gradient(90deg, #E4AA15 0%, #F0C75D 100%)',
-        boxShadow: '0px 0px 8px 1px #FFB800, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
-      }
-    }
-  ],
+  editions: [], // 删除所有版本展示 Coming soon
+  // editions: [
+  //   {
+  //     name: 'Gold Edition',
+  //     value: 'gold',
+  //     contract: '0xc2D4e1a46b48EB3208bdcf4887f85E02682B7752',
+  //     nftContract: '0x19Dd9D7899Cb03c3a0e12911121ADaED7a4648B8',
+  //     style: {
+  //       background: 'linear-gradient(90deg, #E4AA15 0%, #F0C75D 100%)',
+  //       boxShadow: '0px 0px 8px 1px #FFB800, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
+  //     }
+  //   }
+  // ],
   introduction: [
     // 完全展示部分
     {
