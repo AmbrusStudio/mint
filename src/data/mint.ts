@@ -8,7 +8,7 @@ export const mint: Mint = {
       'https://ambrus.s3.amazonaws.com/1663814307039_0.64_banner_960h.jpg',
       'https://ambrus.s3.amazonaws.com/1663814307044_0.49_banner.jpg'
     ],
-    type: 'E4C Rangers NFT Series 1',
+    type: 'E4C Rangers Genesis Series 1',
     name: 'Rin: Heir of Musashi',
     content:
       '<p>Rin is the first Ranger coming to E4C Verse. She is a combat mecha, who carries the razor-sharp katana sword and scaled samurai armor. She is also an infamous spectral force among criminal forces. <a href="https://www.ambrus.studio/worldview/ranger/6">Learn more about Rin</a></p>',
