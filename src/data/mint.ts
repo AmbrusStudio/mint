@@ -4,14 +4,14 @@ export const mint: Mint = {
   information: {
     // 只支持文件名含 @ 符号的图片，如 banner_@1x.jpg banner_@2x.jpg banner_@3x.jpg
     images: [
-      'https://ambrus.s3.amazonaws.com/1663814307049_0.50_banner_480h.jpg',
-      'https://ambrus.s3.amazonaws.com/1663814307039_0.64_banner_960h.jpg',
-      'https://ambrus.s3.amazonaws.com/1663814307044_0.49_banner.jpg'
+      'https://ambrus.s3.amazonaws.com/1663925833649_0.49_banner_480h.jpg',
+      'https://ambrus.s3.amazonaws.com/1663925833647_0.20_banner_960h.jpg',
+      'https://ambrus.s3.amazonaws.com/1663925833627_0.41_banner-1.jpg'
     ],
     type: 'E4C Rangers Genesis Series 1',
     name: 'Rin: Heir of Musashi',
     content:
-      '<p>Rin is the first Ranger coming to E4C Verse. She is a combat mecha, who carries the razor-sharp katana sword and scaled samurai armor. She is also an infamous spectral force among criminal forces. <a href="https://www.ambrus.studio/worldview/ranger/6">Learn more about Rin</a></p>',
+      '<p>Rin is the first Ranger coming to <a href="https://www.ambrus.studio/worldview" target="_blank" rel="noopener">E4C Verse</a>. She is a combat mecha, who carries the razor-sharp katana sword and scaled samurai armor. She is also an infamous spectral force among criminal forces. <a href="https://www.ambrus.studio/worldview/ranger/6">Learn more about Rin</a></p>',
     note: '<p>For public mint, visit <a href="https://rarible.com/" target="_blank" rel="noopener">Rarible.com</a></p>'
   },
   disclaimer: {
