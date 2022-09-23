@@ -1,10 +1,14 @@
-import { mint } from '@/data'
+import { flashMint, mint } from '@/data'
 import type { Mint } from '@/types'
 
 import { serveRequest } from '../axios'
 
 export async function getMintInfo(): Promise<Mint> {
-  return mint
+  return Promise.resolve(mint)
+}
+
+export async function getFlashMintInfo(): Promise<Mint> {
+  return Promise.resolve(flashMint)
 }
 
 export async function getWhitelistSignature(address: string): Promise<string[]> {

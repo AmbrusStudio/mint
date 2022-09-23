@@ -41,6 +41,16 @@ export const mint: Mint = {
   //       background: 'linear-gradient(90deg, #E4AA15 0%, #F0C75D 100%)',
   //       boxShadow: '0px 0px 8px 1px #FFB800, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
   //     }
+  //   },
+  //   {
+  //     name: 'Rangers Edition',
+  //     value: 'rangers',
+  //     contract: '0xc2D4e1a46b48EB3208bdcf4887f85E02682B7752', // TODO: 等后端改合约
+  //     nftContract: '0x19Dd9D7899Cb03c3a0e12911121ADaED7a4648B8', // TODO: 等后端改合约
+  //     style: {
+  //       background: 'linear-gradient(90deg, #399E98 0%, #88C4C0 100%)',
+  //       boxShadow: '0px 0px 8px 1px #88C3C0, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
+  //     }
   //   }
   // ],
   introduction: [
@@ -85,6 +95,23 @@ export const mint: Mint = {
       foldable: true,
       content:
         '<ul><li>5% in-game IP dividend ownership* of the corresponding champions&skins</li><li>Exclusive airdrop of the corresponding champion in game E4C: Final Salvation</li><li>Gold Loot Box containing in-game champions and skins</li><li>10% discount on in-game purchases</li><li>Complementary gifts to 1 friend</li></ul>'
+    }
+  ]
+}
+
+export const flashMint: Mint = {
+  ...mint, // 文案和 Mint 一致
+  editions: [
+    // Flash sale 只有 Gold 版本
+    {
+      name: 'Gold Edition',
+      value: 'gold',
+      contract: '0xc2D4e1a46b48EB3208bdcf4887f85E02682B7752',
+      nftContract: '0x19Dd9D7899Cb03c3a0e12911121ADaED7a4648B8',
+      style: {
+        background: 'linear-gradient(90deg, #E4AA15 0%, #F0C75D 100%)',
+        boxShadow: '0px 0px 8px 1px #FFB800, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
+      }
     }
   ]
 }
