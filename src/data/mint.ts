@@ -48,31 +48,43 @@ export const mint: Mint = {
     {
       title: 'Gold edition',
       content:
-        '<p>Amount: 450<br>Mint price: 0.49ETH<br><strong>Permit Mint</strong>: 9.30 8pm SGT ~ 10.1 8pm SGT; 24h; 15%-off<br><strong>Gamefi3.0 Summit Flash Sale (limited supply)</strong>: 10.1 10am SGT ~ 10.1 3pm SGT; 5h; 5%-off<br><strong>Whitelist Mint</strong>: 10.1 8pm SGT ~ 10.2 8pm SGT; 24h; 10%-off<br><strong>Public Mint (if any remaining)</strong>: starts from 10.2 8pm SGT; full price; on <a href="#">Rarible.com</a></p>'
+        '<p>Amount: 450<br>Mint price: 0.49ETH<br><strong>Permit Mint</strong>: Sep 30, 10AM SGT, 48 Hours<br><strong>Summit Flash Sale</strong>: Oct 1st, 10AM SGT<br><strong>Whitelist Mint</strong>: Oct 1st, 10AM SGT, 24 Hours</p>'
     },
     {
       title: 'Rangers edition',
       content:
-        '<p>Amount: 646<br>Mint price: 0.19ETH<br><strong>Permit Mint</strong>: 10.3 8pm SGT ~ 10.4 8pm SGT; 24h; 15%-off<br><strong>Whitelist Mint</strong>: 10.4 8pm SGT ~ 10.5 8pm SGT; 24h; 10%-off<br><strong>Public Mint (if any remaining)</strong>: starts from 10.5 8pm SGT; full price; on <a href="#">Rarible.com</a></p>'
+        '<p>Amount: 646<br>Mint price: 0.19ETH<br><strong>Permit Mint</strong>: Oct 6th, 10AM SGT, 48 Hours<br><strong>Whitelist Mint</strong>: Oct 7th, 10AM SGT, 24 Hours</p>'
     },
     // 折叠部分需要 foldable 为 true
     {
-      title: 'NFT Utilities',
-      foldable: true,
+      title: 'NFT Staking',
+      foldable: false,
       content:
-        '<p>What you get with Gold Edition:</p><ul><li>5% in-game IP dividend ownership of the corresponding champions+skins(shared among holders).Airdrop of the corresponding champion in games.</li><li>Gold Loot Box containing airdrops of in-game champions and skins.</li><li>10% discount on in-game purchases.</li><li>Complementary gifts to 1 friend.</li></ul>'
+        '<p>For Gold/Rangers Edition holders, we offer you a chance to upgrade your NFT to Gold+/Rangers+ and earn more benefits by:</p><ul><li>Staking E4C Rangers NFT for at least 35 days.</li><li>Acquiring 1 special community badge.</li></ul>'
     },
     {
-      title: 'NFT Staking System',
+      title: 'Gold Edition Utilities',
       foldable: true,
       content:
-        '<p>For Gold Edition holders, we offer you a chance to upgrade your NFT to Gold+ and earn more benefits by:</p><ul><li>Staking E4C Rangers NFT for at least 90 days.</li><li>Completing specific community missions and claiming the badge.</li></ul>'
+        '<ul><li>5% in-game IP dividend ownership* of the corresponding champions&skins</li><li>Exclusive airdrop of the corresponding champion in game E4C: Final Salvation</li><li>Gold Loot Box containing in-game champions and skins</li><li>10% discount on in-game purchases</li><li>Complementary gifts to 1 friend</li></ul>'
     },
     {
-      title: 'Utilities of the Gold+ Edition',
+      title: 'Gold+ Edition Utilities',
       foldable: true,
       content:
-        '<ul><li>5% in-game IP dividend ownership shared among holders and 3% additional IP dividend ownership of the corresponding character (shared among holders of Ultimate and Gold+ Edition).</li><li>E4C token airdrop.</li><li>Airdrop of the corresponding ranger in games.</li><li>Gold+ Loot Box airdrop of rangers and skins.</li><li>15% discount on in-game purchases.</li><li>Complementary gifts to 3 friends.</li></ul><p><br/>In addition, holders who stake will also be granted 1 NFT airdrop from the next release.</p>'
+        '<ul><li>3% additional in-game IP dividend ownership* of the corresponding champions&skins</li><li>Exclusive airdrop of the corresponding champion in game E4C: Final Salvation</li><li>E4C token airdrop</li><li>Gold+ Loot Box containing in-game champions and skins</li><li>15% discount on in-game purchases</li><li>Complementary gifts to 3 friends</li></ul>'
+    },
+    {
+      title: 'Rangers Edition Utilities',
+      foldable: true,
+      content:
+        '<ul><li>5% in-game IP dividend ownership* of the corresponding champions&skins</li><li>Exclusive airdrop of the corresponding champion in game E4C: Final Salvation</li></ul>'
+    },
+    {
+      title: 'Rangers+ Edition Utilities',
+      foldable: true,
+      content:
+        '<ul><li>5% in-game IP dividend ownership* of the corresponding champions&skins</li><li>Exclusive airdrop of the corresponding champion in game E4C: Final Salvation</li><li>Gold Loot Box containing in-game champions and skins</li><li>10% discount on in-game purchases</li><li>Complementary gifts to 1 friend</li></ul>'
     }
   ]
 }
