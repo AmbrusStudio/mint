@@ -5,10 +5,11 @@ import NFTDisclaimer from '@components/mint/NFTDisclaimer.vue'
 import NFTIntroCard from '@components/mint/NFTIntroCard.vue'
 import NFTPropertyCard from '@components/mint/NFTPropertyCard.vue'
 import NFTSaleCard from '@components/mint/NFTSaleCard.vue'
-import NFTMintModal, { type NFTModalData } from '@components/modal/NFTMintModal.vue'
+import NFTMintModal from '@components/modal/NFTMintModal.vue'
 import { ref, watchEffect } from 'vue'
 
 import { getMintInfo } from '@/api'
+import { useNFTModal } from '@/hooks'
 import type { Mint } from '@/types'
 
 const initData: Mint = {
@@ -19,21 +20,13 @@ const initData: Mint = {
   introduction: [],
   properties: []
 }
+
+const { modalOpen, modalData, closeNFTModal } = useNFTModal()
+
 const nftData = ref<Mint>(initData)
-const modalOpen = ref(false)
-const modalData = ref<NFTModalData>({
-  name: '',
-  images: '',
-  address: '',
-  transaction: ''
-})
-const handleModalOpen = (data?: NFTModalData) => {
-  if (!data) return
-  modalData.value = { ...data }
-  modalOpen.value = true
-}
+
 const handleModalClose = () => {
-  modalOpen.value = false
+  closeNFTModal()
 }
 
 watchEffect(async () => {
@@ -57,7 +50,6 @@ watchEffect(async () => {
           :info="nftData.information"
           :publicSale="nftData.publicSale"
           :editions="nftData.editions"
-          @onMintComplete="handleModalOpen"
         />
         <NFTDisclaimer
           className="xl:hidden"
