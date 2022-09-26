@@ -16,20 +16,20 @@ interface Props {
   /** 版本对应的 AmbrusStudioSaler 合约地址 */
   contract: string
   style: MintEditionStyle
-  modelValue: string
+  edition: string
 }
 interface Emits {
-  (event: 'update:modelValue', value: string): void
+  (event: 'update:edition', value: string): void
 }
 
 const props = defineProps<Props>()
 const emits = defineEmits<Emits>()
-const radioModel = useVModel(props, 'modelValue', emits)
+const editionModel = useVModel(props, 'edition', emits)
 const { isConnected } = useWallet()
 const { price, amount } = useReadonlySalerData(props.contract)
 const disabled = computed(() => !isConnected() || !amount.value)
 const tooltip = computed(() => (!isConnected() ? 'Please connect wallet' : props.name))
-const selected = computed(() => props.value === radioModel.value)
+const selected = computed(() => props.value === editionModel.value)
 const labelClass = reactive({ 'cursor-not-allowed': disabled })
 const labelStyle = computed(() => ({
   background: props.style.background,
@@ -43,11 +43,11 @@ const labelStyle = computed(() => ({
     <input
       class="-z-1 absolute inset-0 opacity-0"
       type="radio"
-      name="edition"
+      name="nft-edition"
       :id="id"
       :value="value"
       :disabled="disabled"
-      v-model="radioModel"
+      v-model="editionModel"
     />
     <div
       class="flex flex-row flex-nowrap justify-between items-center px-24px py-20px border-1px border-transparent"

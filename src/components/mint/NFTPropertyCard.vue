@@ -12,7 +12,7 @@ defineProps<Props>()
 </script>
 
 <template>
-  <div
+  <section
     class="flex flex-col gap-36px xl:gap-48px p-12px xl:p-36px bg-black/50"
     :class="[className]"
     v-if="properties"
@@ -24,5 +24,5 @@ defineProps<Props>()
       :data="data.data"
       :key="`prop-${index}`"
     />
-  </div>
+  </section>
 </template>

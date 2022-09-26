@@ -20,7 +20,7 @@ const imageSet = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-row flex-nowarp items-center" :class="[className]">
+  <section class="flex flex-row flex-nowarp items-center" :class="[className]">
     <img
       class="w-full h-auto xl:w-auto xl:h-480px select-none"
       :src="image"
@@ -28,5 +28,5 @@ const imageSet = computed(() => {
       :srcset="imageSet"
       loading="lazy"
     />
-  </div>
+  </section>
 </template>

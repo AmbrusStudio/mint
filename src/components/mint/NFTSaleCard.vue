@@ -5,12 +5,14 @@ import { getWhitelistSignature } from '@/api'
 import type { AmbrusStudioSaler } from '@/contracts'
 import { useNFTModal, useSalerContract, useSalerData, useWallet } from '@/hooks'
 import type { MintEdition, MintInfo, MintPublicSale } from '@/types'
-import { alertErrorMessage, formatDatetime, isHistorical } from '@/utils'
+import { alertErrorMessage, isHistorical } from '@/utils'
 
 import HTMLView from '../html/HTMLView.vue'
 import ExternalLink from '../link/ExternalLink.vue'
-import NFTCurrency from '../nft/NFTCurrency.vue'
+import NFTEditionInfo from './NFTEditionInfo.vue'
 import NFTEditionRadio from './NFTEditionRadio.vue'
+import NFTInformation from './NFTInformation.vue'
+import NFTSaleButton from './NFTSaleButton.vue'
 
 interface Props {
   className?: string
@@ -29,13 +31,12 @@ const publicSaleStart = computed(
 )
 
 const salerContract = ref<AmbrusStudioSaler>()
-const { price, amount, total, startTime, isWhitelistSaleStart, isPublicSaleStart } =
+const { price, amount, startTime, isWhitelistSaleStart, isPublicSaleStart } =
   useSalerData(salerContract)
 const edition = ref<string>('')
 const isMinting = ref(false)
 const nftAddress = ref<string>('')
 const connected = computed(() => isConnected())
-const selectedDate = computed(() => formatDatetime(startTime.value))
 const saleStart = computed(() => isWhitelistSaleStart() || isPublicSaleStart())
 const disabled = computed(
   () =>
@@ -101,11 +102,7 @@ watch(
 
 <template>
   <div class="p-24px xl:p-36px bg-black/80 shadow-nft-sale backdrop-blur-20px" :class="[className]">
-    <section class="flex flex-col gap-4px mb-24px xl:mb-36px">
-      <h4 class="uppercase text-rust font-semibold text-14px leading-18px">{{ info.type }}</h4>
-      <h3 class="text-white font-semibold text-20px leading-24px">{{ info.name }}</h3>
-      <HTMLView class="text-white font-medium text-14px leading-24px" :src="info.content" />
-    </section>
+    <NFTInformation :info="info" />
     <form class="flex flex-col" action="#" v-if="!publicSaleStart">
       <div class="flex flex-col gap-12px mb-24px xl:mb-36px" v-if="editions.length">
         <NFTEditionRadio
@@ -116,34 +113,26 @@ watch(
           :value="edi.value"
           :contract="edi.contract"
           :style="edi.style"
-          v-model="edition"
+          v-model:edition="edition"
         />
       </div>
-      <div class="flex flex-col gap-2px mb-12px text-grey-medium" v-if="!disabled">
-        <p class="font-semibold text-12px leading-16px uppercase">PRICE</p>
-        <NFTCurrency className="font-semibold text-32px leading-40px text-white" :price="price" />
-        <div
-          class="flex flex-row flex-nowrap justify-between items-center font-normal text-14px leading-18px"
-        >
-          <p>Available through {{ selectedDate }}</p>
-          <p>{{ amount }} / {{ total }} Left</p>
-        </div>
-      </div>
-      <button
-        class="w-full py-16px xl:py-22px bg-rust text-white font-semibold text-16px xl:text-24px leading-20px xl:leading-28px text-center uppercase hover:bg-white hover:text-rust disabled:bg-grey-medium disabled:text-white disabled:hover:text-white"
-        :disabled="disabled || isMinting"
+      <NFTEditionInfo
+        v-if="!disabled"
+        timeType="start"
+        :start="startTime"
+        :end="startTime"
+        :price="price"
+      />
+      <NFTSaleButton
         @click.stop.prevent="handleMintClick"
+        :disabled="disabled || isMinting"
         v-if="!props.editions.length || connected"
       >
         {{ buttonText }}
-      </button>
-      <button
-        class="w-full py-16px xl:py-22px bg-rust text-white font-semibold text-16px xl:text-24px leading-20px xl:leading-28px text-center uppercase hover:bg-white hover:text-rust disabled:bg-grey-medium disabled:text-white disabled:hover:text-white"
-        @click.stop.prevent="handleWalletConnect"
-        v-else
-      >
+      </NFTSaleButton>
+      <NFTSaleButton @click.stop.prevent="handleWalletConnect" v-else>
         Connect Wallet
-      </button>
+      </NFTSaleButton>
       <HTMLView
         v-if="!!info.note"
         class="text-white font-bold text-14px leading-20px mt-24px"

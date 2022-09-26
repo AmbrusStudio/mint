@@ -24,7 +24,7 @@ const swiperModules = [Autoplay, Pagination]
 </script>
 
 <template>
-  <div class="flex-col w-full xl:w-652px" :class="[className]">
+  <section class="flex-col w-full xl:w-652px" :class="[className]">
     <Swiper
       class="disclaimer-swiper"
       :loop="true"
@@ -41,7 +41,7 @@ const swiperModules = [Autoplay, Pagination]
       <h4 class="mb-4px font-semibold uppercase">Disclaimer</h4>
       <HTMLView class="font-normal" :src="content" />
     </div>
-  </div>
+  </section>
 </template>
 
 <style>
