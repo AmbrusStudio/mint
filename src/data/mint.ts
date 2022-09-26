@@ -115,3 +115,13 @@ export const flashMint: Mint = {
     }
   ]
 }
+
+// 不要更改这里
+export const initialMint: Mint = {
+  information: { images: [], type: '', name: '', content: '' },
+  disclaimer: { images: [], content: '' },
+  publicSale: { text: '', link: '' },
+  editions: [],
+  introduction: [],
+  properties: []
+}

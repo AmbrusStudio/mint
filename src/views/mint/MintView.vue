@@ -2,29 +2,82 @@
 import PageMain from '@components/layout/PageMain.vue'
 import NFTBanner from '@components/mint/NFTBanner.vue'
 import NFTDisclaimer from '@components/mint/NFTDisclaimer.vue'
+import NFTEditionInfo from '@components/mint/NFTEditionInfo.vue'
+import NFTEditionRadio from '@components/mint/NFTEditionRadio.vue'
 import NFTIntroCard from '@components/mint/NFTIntroCard.vue'
 import NFTPropertyCard from '@components/mint/NFTPropertyCard.vue'
+import NFTSaleButton from '@components/mint/NFTSaleButton.vue'
 import NFTSaleCard from '@components/mint/NFTSaleCard.vue'
 import NFTMintModal from '@components/modal/NFTMintModal.vue'
-import { ref, watchEffect } from 'vue'
+import { computed, ref, watch, watchEffect } from 'vue'
 
-import { getMintInfo } from '@/api'
-import { useNFTModal } from '@/hooks'
+import { getMintInfo, getWhitelistSignature } from '@/api'
+import type { AmbrusStudioSaler } from '@/contracts'
+import { initialMint } from '@/data'
+import { useNFTModal, useSalerContract, useSalerData, useWallet } from '@/hooks'
 import type { Mint } from '@/types'
+import { alertErrorMessage } from '@/utils'
 
-const initData: Mint = {
-  information: { images: [], type: '', name: '', content: '' },
-  disclaimer: { images: [], content: '' },
-  publicSale: { text: '', link: '' },
-  editions: [],
-  introduction: [],
-  properties: []
+const { account, ethereum, connect, isConnected } = useWallet()
+const { modalOpen, modalData, openNFTModal, closeNFTModal } = useNFTModal()
+
+const nftData = ref<Mint>(initialMint)
+const edition = ref<string>('')
+const salerContract = ref<AmbrusStudioSaler>()
+const nftAddress = ref<string>('')
+const isMinting = ref(false)
+
+const connected = computed(() => isConnected())
+const saleStart = computed(() => isWhitelistSaleStart() || isPublicSaleStart())
+const disabled = computed(
+  () =>
+    !(
+      nftData.value.editions.length &&
+      edition.value &&
+      salerContract.value &&
+      amount.value &&
+      saleStart.value
+    )
+)
+const buttonText = computed(() => {
+  if (!nftData.value.editions.length) return 'Coming Soon'
+  if (!(edition.value && salerContract.value)) return 'Choose an Edition'
+  if (!amount.value) return 'Sold Out'
+  if (isWhitelistSaleStart()) return 'Whitelist Mint'
+  if (isPublicSaleStart()) return 'Mint Now'
+  return 'Coming Soon'
+})
+
+const { price, amount, startTime, isWhitelistSaleStart, isPublicSaleStart } =
+  useSalerData(salerContract)
+
+const handleMintClick = async () => {
+  if (!salerContract.value) return
+  try {
+    isMinting.value = true
+
+    const price = await salerContract.value.price()
+    const _nftAddress = nftAddress.value
+
+    if (isWhitelistSaleStart()) {
+      if (!account.value) return
+      const signature = await getWhitelistSignature(account.value)
+      const tx = await salerContract.value.whitelistSale(signature, { value: price })
+      await openNFTModal(_nftAddress, tx)
+    }
+    if (isPublicSaleStart()) {
+      const tx = await salerContract.value.publicSale({ value: price })
+      await openNFTModal(_nftAddress, tx)
+    }
+  } catch (error) {
+    alertErrorMessage('Mint faild', error)
+  } finally {
+    isMinting.value = false
+  }
 }
-
-const { modalOpen, modalData, closeNFTModal } = useNFTModal()
-
-const nftData = ref<Mint>(initData)
-
+const handleWalletConnect = () => {
+  connect()
+}
 const handleModalClose = () => {
   closeNFTModal()
 }
@@ -32,6 +85,19 @@ const handleModalClose = () => {
 watchEffect(async () => {
   nftData.value = await getMintInfo()
 })
+watch(
+  edition,
+  async (value: string) => {
+    const selected = nftData.value.editions.find((e) => e.value === value)
+    if (!selected) return
+    const _salerContract = useSalerContract(ethereum, selected.contract)
+    if (_salerContract.value) {
+      salerContract.value = _salerContract.value
+      nftAddress.value = selected.nftContract
+    }
+  },
+  { immediate: true }
+)
 </script>
 
 <template>
@@ -50,7 +116,42 @@ watchEffect(async () => {
           :info="nftData.information"
           :publicSale="nftData.publicSale"
           :editions="nftData.editions"
-        />
+        >
+          <form class="flex flex-col" action="#">
+            <section
+              class="flex flex-col gap-12px mb-24px xl:mb-36px"
+              v-if="nftData.editions.length"
+            >
+              <NFTEditionRadio
+                v-for="edi in nftData.editions"
+                :key="`edition-radio-${edi.value}`"
+                :id="`edition-radio-${edi.value}`"
+                :name="edi.name"
+                :value="edi.value"
+                :contract="edi.contract"
+                :style="edi.style"
+                v-model:edition="edition"
+              />
+            </section>
+            <NFTEditionInfo
+              v-if="!disabled"
+              timeType="start"
+              :start="startTime"
+              :end="startTime"
+              :price="price"
+            />
+            <NFTSaleButton
+              @click.stop.prevent="handleMintClick"
+              :disabled="disabled || isMinting"
+              v-if="!nftData.editions.length || connected"
+            >
+              {{ buttonText }}
+            </NFTSaleButton>
+            <NFTSaleButton @click.stop.prevent="handleWalletConnect" v-else>
+              Connect Wallet
+            </NFTSaleButton>
+          </form>
+        </NFTSaleCard>
         <NFTDisclaimer
           className="xl:hidden"
           :images="nftData.disclaimer.images"
