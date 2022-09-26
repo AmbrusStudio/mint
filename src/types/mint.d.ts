@@ -56,6 +56,13 @@ export type MintPublicSale = {
   link: string
 }
 
+export type MintFlashSale = {
+  /** 闪购开始时间，Epotch 秒 */
+  start?: number
+  /** 闪购结束时间，Epotch 秒 */
+  end?: number
+}
+
 export type MintIntro = {
   /** 商品介绍段落标题 */
   title: string
@@ -95,4 +102,9 @@ export type Mint = {
   introduction: MintIntro[]
   /** 属性介绍（第二部分） */
   properties?: MintProperty[]
+}
+
+export type FlashMint = Mint & {
+  /** 闪购销售时间 */
+  flashSale: MintFlashSale
 }

@@ -1,4 +1,4 @@
-import type { Mint } from '@/types'
+import type { FlashMint, Mint } from '@/types'
 
 export const mint: Mint = {
   information: {
@@ -99,8 +99,12 @@ export const mint: Mint = {
   ]
 }
 
-export const flashMint: Mint = {
+export const flashMint: FlashMint = {
   ...mint, // 文案和 Mint 一致
+  flashSale: {
+    start: 1664589600, // Saturday, October 1, 2022 10:00:00 AM GMT+08:00，不填不会跳转普通 Mint
+    end: 1664607600 // Saturday, October 1, 2022 3:00:00 PM GMT+08:00，不填不会跳转普通 Mint
+  },
   editions: [
     // Flash sale 只有 Gold 版本
     {

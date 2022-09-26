@@ -2,7 +2,7 @@ import { ethers } from 'ethers'
 import { type Ref, isRef, reactive, toRefs, unref, watch } from 'vue'
 
 import { type AmbrusStudioSaler, AmbrusStudioSaler__factory } from '@/contracts'
-import { isBeforeEnding, isHistorical } from '@/utils'
+import { isFuture, isHistorical } from '@/utils'
 
 import { useReadonlyEthereum } from './useEthereum'
 
@@ -52,7 +52,7 @@ function getSalerHelpers(salerData: SalerData): SalerHelpers {
 
   const isWhitelistSaleStart = (): boolean => {
     const ending = salerData.startTime + salerData.whitelistSaleDuration
-    return isSaleStart() && isBeforeEnding(ending)
+    return isSaleStart() && isFuture(ending)
   }
 
   const isPublicSaleStart = (): boolean => {

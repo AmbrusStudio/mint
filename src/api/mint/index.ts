@@ -1,5 +1,5 @@
 import { flashMint, mint } from '@/data'
-import type { Mint } from '@/types'
+import type { FlashMint, Mint } from '@/types'
 
 import { serveRequest } from '../axios'
 
@@ -7,7 +7,7 @@ export async function getMintInfo(): Promise<Mint> {
   return Promise.resolve(mint)
 }
 
-export async function getFlashMintInfo(): Promise<Mint> {
+export async function getFlashMintInfo(): Promise<FlashMint> {
   return Promise.resolve(flashMint)
 }
 
