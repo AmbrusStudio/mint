@@ -1,35 +1,55 @@
 import type { BaseProvider as InjectedConnectorProvider } from '@metamask/providers'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import { BigNumber, ethers } from 'ethers'
+import type { ToRefs } from 'vue'
 import { getCurrentInstance, reactive, toRefs } from 'vue'
 import Web3Modal from 'web3modal'
 
 import { web3ModalOptions } from '@/configs'
-import type { UseWallet } from '@/types'
 import { getDefaultChainInfo } from '@/utils'
 
 type WalletState = {
-  account: string | null
+  account: string | undefined
   balance: BigNumber
   chainId: number | undefined
   network: ethers.providers.Network | undefined
-  provider?: InjectedConnectorProvider | WalletConnectProvider
+  provider: InjectedConnectorProvider | WalletConnectProvider | undefined
   ethereum: ethers.providers.Web3Provider
 }
 
 const defaultProvider = ethers.getDefaultProvider() as ethers.providers.Web3Provider
 
 const INITIAL_STATE: WalletState = {
-  account: null,
+  account: undefined,
   balance: BigNumber.from(0),
   chainId: undefined,
   network: undefined,
+  provider: undefined,
   ethereum: defaultProvider
 }
 
 const walletState = reactive({ ...INITIAL_STATE })
 const configuredNetwork = getDefaultChainInfo()
 const web3Modal = new Web3Modal(web3ModalOptions)
+
+export type AccountType = 'contract' | 'normal'
+
+export type Status = 'connected' | 'disconnected' | 'connecting' | 'error'
+
+export type UseWallet = ToRefs<
+  Pick<WalletState, 'account' | 'balance' | 'chainId' | 'ethereum'>
+> & {
+  // connector: string | null
+  // connectors: object
+  // error: Error | null
+  // networkName: string | null
+  // status: Status
+  // type: AccountType | null
+  connect: () => Promise<void>
+  reset: () => void
+  getBlockNumber: () => Promise<number>
+  isConnected: () => boolean
+}
 
 export function useWallet(): UseWallet {
   const instance = getCurrentInstance()

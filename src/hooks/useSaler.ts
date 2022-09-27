@@ -1,112 +1,180 @@
 import { ethers } from 'ethers'
-import { type Ref, isRef, reactive, toRefs, unref, watch } from 'vue'
+import type { ComputedRef, Ref, ToRefs } from 'vue'
+import { computed, isRef, reactive, toRefs, unref, watch } from 'vue'
 
 import { type AmbrusStudioSaler, AmbrusStudioSaler__factory } from '@/contracts'
 import { isFuture, isHistorical } from '@/utils'
 
 import { useReadonlyEthereum } from './useEthereum'
 
-type SalerData = {
+type SaleType = 'permit' | 'whitelist' | 'flash' | 'public'
+
+type SaleTime = {
+  start: number
+  end: number
+}
+
+type AllSaleTime = Record<SaleType, SaleTime>
+
+type SalerData = AllSaleTime & {
   price: string
+  sold: number
   amount: number
   total: number
-  startTime: number
-  whitelistSaleDuration: number
 }
 
 const INITIAL_SALER_DATA: SalerData = {
   price: '0',
+  sold: 0,
   amount: 0,
   total: 0,
-  startTime: 0,
-  whitelistSaleDuration: 0
+  permit: { start: 0, end: 0 },
+  whitelist: { start: 0, end: 0 },
+  flash: { start: 0, end: 0 },
+  public: { start: 0, end: 0 }
 }
 
 async function getContractData(contract: AmbrusStudioSaler): Promise<SalerData> {
   const _price = await contract.price()
   const _total = await contract.count()
   const _soldCount = await contract.soldCount()
-  const _startTime = await contract.saleStart()
-  const _whitelistSaleDuration = await contract.whitelistSaleDuration()
 
   const price = ethers.utils.formatEther(_price)
+  const sold = _soldCount.toNumber()
   const amount = _total.sub(_soldCount).toNumber()
   const total = _total.toNumber()
-  const startTime = _startTime.toNumber()
-  const whitelistSaleDuration = _whitelistSaleDuration.toNumber()
 
-  return { price, amount, total, startTime, whitelistSaleDuration }
+  const permitSaleStart = 1664281800
+  const permitSaleEnd = 1664292600
+  const whitelistSaleStart = 1664281800
+  const whitelistSaleEnd = 1664292600
+  const flashSaleStart = 1664281800
+  const flashSaleEnd = 1664292600
+  const publicSaleStart = 1664292600 // 19:30
+
+  const permit: SaleTime = { start: permitSaleStart, end: permitSaleEnd }
+  const whitelist: SaleTime = { start: whitelistSaleStart, end: whitelistSaleEnd }
+  const flash: SaleTime = { start: flashSaleStart, end: flashSaleEnd }
+  const _public: SaleTime = { start: publicSaleStart, end: 0 }
+
+  return {
+    price,
+    sold,
+    amount,
+    total,
+    permit,
+    whitelist,
+    flash,
+    public: _public
+  }
 }
 
 type SalerHelpers = {
-  isSaleStart: () => boolean
-  isWhitelistSaleStart: () => boolean
-  isPublicSaleStart: () => boolean
+  isSaleStart: (type: SaleType) => ComputedRef<boolean>
+  isSaleEnd: (type: SaleType) => ComputedRef<boolean>
 }
 
 function getSalerHelpers(salerData: SalerData): SalerHelpers {
-  const isSaleStart = (): boolean => {
-    if (!(salerData.startTime > 0)) return false
-    return isHistorical(salerData.startTime)
+  function isSaleStart(type: SaleType) {
+    return computed(() => {
+      const time = salerData[type]
+      if (!time || !time?.start) return false
+      return isHistorical(time.start)
+    })
   }
 
-  const isWhitelistSaleStart = (): boolean => {
-    const ending = salerData.startTime + salerData.whitelistSaleDuration
-    return isSaleStart() && isFuture(ending)
+  function isSaleEnd(type: SaleType) {
+    return computed(() => {
+      const time = salerData[type]
+      if (!time || !time?.end) return false
+      return !isFuture(time.end)
+    })
   }
 
-  const isPublicSaleStart = (): boolean => {
-    const ending = salerData.startTime + salerData.whitelistSaleDuration
-    return isSaleStart() && isHistorical(ending)
-  }
-
-  return { isSaleStart, isWhitelistSaleStart, isPublicSaleStart }
+  return { isSaleStart, isSaleEnd }
 }
 
-type SalerDataRef = {
-  price: Ref<string>
-  amount: Ref<number>
-  total: Ref<number>
-  startTime: Ref<number>
-  whitelistSaleDuration: Ref<number>
-}
+type SalerDataWithHelpers = ToRefs<SalerData> & SalerHelpers
 
-type SalerDataWithHelpers = SalerDataRef & SalerHelpers
+export function useSalerData(
+  contract: Ref<AmbrusStudioSaler | undefined> | AmbrusStudioSaler | undefined
+): SalerDataWithHelpers {
+  const salerData = reactive<SalerData>({ ...INITIAL_SALER_DATA })
 
-export function useSalerData(contract: Ref<AmbrusStudioSaler | undefined>): SalerDataWithHelpers {
-  const salerData = reactive<SalerData>(INITIAL_SALER_DATA)
-
-  async function getSalerData() {
-    const _contract = unref(contract) as AmbrusStudioSaler | undefined
-    if (!_contract) return
-    const data = await getContractData(_contract)
-    Object.assign(salerData, data)
-  }
-
-  if (isRef(contract)) {
-    watch(contract, getSalerData, { immediate: true })
-  } else {
-    getSalerData()
-  }
-
-  const helpers = getSalerHelpers(salerData)
-
-  return { ...toRefs(salerData), ...helpers }
-}
-
-export function useReadonlySalerData(address: string): SalerDataRef {
-  const ethereum = useReadonlyEthereum()
-  const salerData = reactive<SalerData>(INITIAL_SALER_DATA)
-
-  async function getSalerData() {
-    const contract = AmbrusStudioSaler__factory.connect(address, ethereum)
+  async function getSalerData(contract: AmbrusStudioSaler | undefined) {
+    if (!contract) return
     const data = await getContractData(contract)
     Object.assign(salerData, data)
   }
 
-  watch(() => address, getSalerData, { immediate: true })
+  if (isRef(contract)) {
+    watch(
+      contract,
+      (contract) => {
+        const _contract = unref(contract)
+        getSalerData(_contract)
+      },
+      { immediate: true }
+    )
+  } else {
+    watch(
+      () => contract,
+      (contract) => getSalerData(contract),
+      { immediate: true }
+    )
+  }
 
   const helpers = getSalerHelpers(salerData)
 
   return { ...toRefs(salerData), ...helpers }
+}
+
+export function useReadonlySalerData(address: Ref<string> | string): SalerDataWithHelpers {
+  const ethereum = useReadonlyEthereum()
+  const salerData = reactive<SalerData>({ ...INITIAL_SALER_DATA })
+
+  async function getSalerData(address: string) {
+    console.log('useReadonlySalerData::getSalerData', address)
+    if (!address) return
+    const _address = ethers.utils.getAddress(address)
+    const contract = AmbrusStudioSaler__factory.connect(_address, ethereum)
+    const data = await getContractData(contract)
+    Object.assign(salerData, data)
+  }
+
+  if (isRef(address)) {
+    watch(address, (address) => getSalerData(address), { immediate: true })
+  } else {
+    watch(
+      () => address,
+      (address) => getSalerData(address),
+      { immediate: true }
+    )
+  }
+
+  const helpers = getSalerHelpers(salerData)
+
+  return { ...toRefs(salerData), ...helpers }
+}
+
+type ComputedSaleData = {
+  coming: ComputedRef<boolean>
+  closed: ComputedRef<boolean>
+}
+
+export function useComputedSalerData(address: string): ComputedSaleData {
+  const { isSaleStart, isSaleEnd } = useReadonlySalerData(address)
+
+  const permitStart = isSaleStart('permit')
+  const whitelistStart = isSaleStart('whitelist')
+  const flashStart = isSaleStart('flash')
+
+  const permitEnd = isSaleEnd('permit')
+  const whitelistEnd = isSaleEnd('whitelist')
+  const flashEnd = isSaleEnd('flash')
+
+  const coming = computed(() => !permitStart.value && !whitelistStart.value && !flashStart.value)
+  const closed = computed(() => permitEnd.value && whitelistEnd.value && flashEnd.value)
+
+  return { coming, closed }
 }
