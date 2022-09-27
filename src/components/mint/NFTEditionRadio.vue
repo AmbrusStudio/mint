@@ -2,21 +2,15 @@
 import { useVModel } from '@vueuse/core'
 import { computed, reactive } from 'vue'
 
-import { useReadonlySalerData, useWallet } from '@/hooks'
-import type { MintEditionStyle } from '@/types'
+import { useComputedSalerData, useReadonlySalerData } from '@/hooks'
+import type { MintEdition } from '@/types'
 
 import NFTCurrency from '../nft/NFTCurrency.vue'
 
 interface Props {
-  id: string
-  /** Radio 的选项名 */
-  name: string
-  /** Radio 的选项值 */
-  value: string
-  /** 版本对应的 AmbrusStudioSaler 合约地址 */
-  contract: string
-  style: MintEditionStyle
+  data: MintEdition
   edition: string
+  price?: string
 }
 interface Emits {
   (event: 'update:edition', value: string): void
@@ -24,28 +18,46 @@ interface Emits {
 
 const props = defineProps<Props>()
 const emits = defineEmits<Emits>()
+
 const editionModel = useVModel(props, 'edition', emits)
-const { isConnected } = useWallet()
-const { price, amount } = useReadonlySalerData(props.contract)
-const disabled = computed(() => !isConnected() || !amount.value)
-const tooltip = computed(() => (!isConnected() ? 'Please connect wallet' : props.name))
-const selected = computed(() => props.value === editionModel.value)
+const { basePrice, amount, isSaleStart, isSaleEnd } = useReadonlySalerData(props.data.contract)
+const { coming, closed } = useComputedSalerData(props.data.contract)
+
+const external = computed(() => !!props.data?.publicSale)
+const publicStart = isSaleStart('public')
+const publicEnd = isSaleEnd('public')
+const canPublic = computed(() => publicStart.value && !publicEnd.value)
+
+const disabled = computed(() => {
+  if (coming.value) return true
+  if (external.value && canPublic.value) return false
+  if (publicEnd.value || !amount.value) return true
+  if (closed.value) return false
+  return true
+})
+const selected = computed(() => props.data.value === editionModel.value)
+const price = computed(() => props.price || basePrice.value)
+
 const labelClass = reactive({ 'cursor-not-allowed': disabled })
 const labelStyle = computed(() => ({
-  background: props.style.background,
-  boxShadow: selected.value ? props.style.boxShadow : undefined,
+  background: props.data.style.background,
+  boxShadow: selected.value ? props.data.style.boxShadow : undefined,
   borderColor: selected.value ? '#fff' : undefined
 }))
 </script>
 
 <template>
-  <label class="relative text-16px leading-20px cursor-pointer" :for="id" :title="tooltip">
+  <label
+    class="relative text-16px leading-20px cursor-pointer"
+    :for="`edition-radio-${data.value}`"
+    :title="data.name"
+  >
     <input
       class="-z-1 absolute inset-0 opacity-0"
       type="radio"
       name="nft-edition"
-      :id="id"
-      :value="value"
+      :id="`edition-radio-${data.value}`"
+      :value="data.value"
       :disabled="disabled"
       v-model="editionModel"
     />
@@ -54,8 +66,13 @@ const labelStyle = computed(() => ({
       :class="labelClass"
       :style="labelStyle"
     >
-      <span class="text-white font-semibold">{{ name }}</span>
-      <span class="text-grey-medium font-medium" v-if="!amount">Sold Out</span>
+      <span class="text-white font-semibold">{{ data.name }}</span>
+      <span class="text-white font-medium" v-if="coming">Coming Soon</span>
+      <span class="text-white font-medium" v-else-if="external && canPublic">Public Mint</span>
+      <span class="text-white font-medium" v-else-if="external && closed && !publicEnd">
+        Mint Closed
+      </span>
+      <span class="text-white font-medium" v-else-if="publicEnd || !amount">Sold Out</span>
       <NFTCurrency className="text-white font-medium" :price="price" v-else />
     </div>
   </label>
