@@ -1,0 +1,715 @@
+import type { Provider, TransactionRequest } from '@ethersproject/providers'
+import type { BigNumberish, Overrides } from 'ethers'
+import { Contract, ContractFactory, Signer, utils } from 'ethers'
+
+import type { PromiseOrValue } from '../../common'
+import type {
+  AmbrusStudioSaler,
+  AmbrusStudioSalerInterface
+} from '../../contracts/AmbrusStudioSaler'
+
+const _abi = [
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '_nft',
+        type: 'address'
+      },
+      {
+        internalType: 'uint16',
+        name: '_count',
+        type: 'uint16'
+      }
+    ],
+    stateMutability: 'nonpayable',
+    type: 'constructor'
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'bytes32',
+        name: 'role',
+        type: 'bytes32'
+      },
+      {
+        indexed: true,
+        internalType: 'bytes32',
+        name: 'previousAdminRole',
+        type: 'bytes32'
+      },
+      {
+        indexed: true,
+        internalType: 'bytes32',
+        name: 'newAdminRole',
+        type: 'bytes32'
+      }
+    ],
+    name: 'RoleAdminChanged',
+    type: 'event'
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'bytes32',
+        name: 'role',
+        type: 'bytes32'
+      },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
+      },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'sender',
+        type: 'address'
+      }
+    ],
+    name: 'RoleGranted',
+    type: 'event'
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'bytes32',
+        name: 'role',
+        type: 'bytes32'
+      },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
+      },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'sender',
+        type: 'address'
+      }
+    ],
+    name: 'RoleRevoked',
+    type: 'event'
+  },
+  {
+    inputs: [],
+    name: 'DEFAULT_ADMIN_ROLE',
+    outputs: [
+      {
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'WITHDRAWER_ROLE',
+    outputs: [
+      {
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'basePrice',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'count',
+    outputs: [
+      {
+        internalType: 'uint16',
+        name: '',
+        type: 'uint16'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'flashSale',
+    outputs: [],
+    stateMutability: 'payable',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'flashSaleConfig',
+    outputs: [
+      {
+        internalType: 'uint32',
+        name: 'start',
+        type: 'uint32'
+      },
+      {
+        internalType: 'uint32',
+        name: 'end',
+        type: 'uint32'
+      },
+      {
+        internalType: 'uint8',
+        name: 'discount',
+        type: 'uint8'
+      },
+      {
+        internalType: 'uint16',
+        name: 'count',
+        type: 'uint16'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'flashSaleCount',
+    outputs: [
+      {
+        internalType: 'uint16',
+        name: '',
+        type: 'uint16'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'flashSalePrice',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: 'role',
+        type: 'bytes32'
+      }
+    ],
+    name: 'getRoleAdmin',
+    outputs: [
+      {
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: 'role',
+        type: 'bytes32'
+      },
+      {
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
+      }
+    ],
+    name: 'grantRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: 'role',
+        type: 'bytes32'
+      },
+      {
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
+      }
+    ],
+    name: 'hasRole',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
+      },
+      {
+        internalType: 'bytes32',
+        name: 'merkleRoot',
+        type: 'bytes32'
+      },
+      {
+        internalType: 'bytes32[]',
+        name: 'signature',
+        type: 'bytes32[]'
+      }
+    ],
+    name: 'isAccountAllowed',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool'
+      }
+    ],
+    stateMutability: 'pure',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'nft',
+    outputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32[]',
+        name: 'signature',
+        type: 'bytes32[]'
+      }
+    ],
+    name: 'permitSale',
+    outputs: [],
+    stateMutability: 'payable',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'permitSaleConfig',
+    outputs: [
+      {
+        internalType: 'uint32',
+        name: 'start',
+        type: 'uint32'
+      },
+      {
+        internalType: 'uint32',
+        name: 'end',
+        type: 'uint32'
+      },
+      {
+        internalType: 'uint8',
+        name: 'discount',
+        type: 'uint8'
+      },
+      {
+        internalType: 'bytes32',
+        name: 'merkleRoot',
+        type: 'bytes32'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'permitSalePrice',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'publicSaleStart',
+    outputs: [
+      {
+        internalType: 'uint32',
+        name: '',
+        type: 'uint32'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: 'role',
+        type: 'bytes32'
+      },
+      {
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
+      }
+    ],
+    name: 'renounceRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: 'role',
+        type: 'bytes32'
+      },
+      {
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
+      }
+    ],
+    name: 'revokeRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: '_basePrice',
+        type: 'uint256'
+      }
+    ],
+    name: 'setBasePrice',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint16',
+        name: '_count',
+        type: 'uint16'
+      }
+    ],
+    name: 'setFlashSaleCount',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint8',
+        name: 'discount',
+        type: 'uint8'
+      }
+    ],
+    name: 'setFlashSaleDiscount',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint32',
+        name: 'start',
+        type: 'uint32'
+      },
+      {
+        internalType: 'uint32',
+        name: 'duration',
+        type: 'uint32'
+      }
+    ],
+    name: 'setFlashSaleTime',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint8',
+        name: 'discount',
+        type: 'uint8'
+      }
+    ],
+    name: 'setPermitSaleDiscount',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: 'merkleRoot',
+        type: 'bytes32'
+      }
+    ],
+    name: 'setPermitSaleMerkleRoot',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint32',
+        name: 'start',
+        type: 'uint32'
+      },
+      {
+        internalType: 'uint32',
+        name: 'duration',
+        type: 'uint32'
+      }
+    ],
+    name: 'setPermitSaleTime',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint8',
+        name: 'discount',
+        type: 'uint8'
+      }
+    ],
+    name: 'setWhitelistSaleDiscount',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: 'merkleRoot',
+        type: 'bytes32'
+      }
+    ],
+    name: 'setWhitelistSaleMerkleRoot',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint32',
+        name: 'start',
+        type: 'uint32'
+      },
+      {
+        internalType: 'uint32',
+        name: 'duration',
+        type: 'uint32'
+      }
+    ],
+    name: 'setWhitelistSaleTime',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'soldCount',
+    outputs: [
+      {
+        internalType: 'uint16',
+        name: '',
+        type: 'uint16'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes4',
+        name: 'interfaceId',
+        type: 'bytes4'
+      }
+    ],
+    name: 'supportsInterface',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32[]',
+        name: 'signature',
+        type: 'bytes32[]'
+      }
+    ],
+    name: 'whitelistSale',
+    outputs: [],
+    stateMutability: 'payable',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'whitelistSaleConfig',
+    outputs: [
+      {
+        internalType: 'uint32',
+        name: 'start',
+        type: 'uint32'
+      },
+      {
+        internalType: 'uint32',
+        name: 'end',
+        type: 'uint32'
+      },
+      {
+        internalType: 'uint8',
+        name: 'discount',
+        type: 'uint8'
+      },
+      {
+        internalType: 'bytes32',
+        name: 'merkleRoot',
+        type: 'bytes32'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'whitelistSalePrice',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'withdraw',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    stateMutability: 'payable',
+    type: 'receive'
+  }
+]
+
+const _bytecode =
+  '0x60806040523480156200001157600080fd5b5060405162001ba738038062001ba7833981016040819052620000349162000113565b6001805461ffff8316600160a01b026001600160b01b03199091166001600160a01b038516171790556200006a60003362000072565b505062000163565b6000828152602081815260408083206001600160a01b038516845290915290205460ff166200010f576000828152602081815260408083206001600160a01b03851684529091529020805460ff19166001179055620000ce3390565b6001600160a01b0316816001600160a01b0316837f2f8788117e7eff1d82e926ec794901d17c78024a50270940304540a733656f0d60405160405180910390a45b5050565b600080604083850312156200012757600080fd5b82516001600160a01b03811681146200013f57600080fd5b602084015190925061ffff811681146200015857600080fd5b809150509250929050565b611a3480620001736000396000f3fe6080604052600436106102385760003560e01c806385f438c111610138578063bba0ed57116100b0578063d40c81c61161007f578063de4b326211610064578063de4b326214610745578063f29ff18014610765578063fd481a251461078557600080fd5b8063d40c81c6146106a9578063d547741f1461072557600080fd5b8063bba0ed571461062f578063c117325014610669578063c7876ea41461067e578063d3f7084c1461069457600080fd5b8063a5a0adc611610107578063ac43f514116100ec578063ac43f514146105e9578063b09f80f314610609578063ba0987b71461061c57600080fd5b8063a5a0adc6146105a9578063ab050bec146105c957600080fd5b806385f438c11461050757806391d148541461053b5780639ddf07941461057f578063a217fddf1461059457600080fd5b806335077edf116101cb57806347ccca021161019a5780635797db751161017f5780635797db751461045d578063656cf9181461047d5780636bbf7b5f146104e757600080fd5b806347ccca02146104005780634c4f84801461043857600080fd5b806335077edf1461038857806336568abe146103a857806339f9c82c146103c85780633ccfd60b146103eb57600080fd5b8063248a9ca311610207578063248a9ca3146102d85780632f2ff15d14610316578063303a06dc146103365780633360caa01461035657600080fd5b806301ffc9a71461024457806306661abd14610279578063138b2b56146102ae57806320ad5825146102d057600080fd5b3661023f57005b600080fd5b34801561025057600080fd5b5061026461025f36600461173e565b6107a5565b60405190151581526020015b60405180910390f35b34801561028557600080fd5b5060015461029b90600160a01b900461ffff1681565b60405161ffff9091168152602001610270565b3480156102ba57600080fd5b506102ce6102c9366004611780565b61083e565b005b6102ce610878565b3480156102e457600080fd5b506103086102f33660046116f9565b60009081526020819052604090206001015490565b604051908152602001610270565b34801561032257600080fd5b506102ce610331366004611712565b610a6c565b34801561034257600080fd5b506102ce6103513660046117a4565b610a96565b34801561036257600080fd5b506008546103739063ffffffff1681565b60405163ffffffff9091168152602001610270565b34801561039457600080fd5b506102ce6103a33660046117a4565b610aec565b3480156103b457600080fd5b506102ce6103c3366004611712565b610b42565b3480156103d457600080fd5b5060085461029b90640100000000900461ffff1681565b3480156103f757600080fd5b506102ce610bce565b34801561040c57600080fd5b50600154610420906001600160a01b031681565b6040516001600160a01b039091168152602001610270565b34801561044457600080fd5b5060085461029b906601000000000000900461ffff1681565b34801561046957600080fd5b506102ce6104783660046116f9565b610c24565b34801561048957600080fd5b506005546006546104b79163ffffffff80821692640100000000830490911691600160401b900460ff169084565b6040805163ffffffff958616815294909316602085015260ff909116918301919091526060820152608001610270565b3480156104f357600080fd5b506102ce6105023660046116f9565b610c35565b34801561051357600080fd5b506103087f10dac8c06a04bec0b551627dad28bc00d6516b0caacd1c7b345fcdb5211334e481565b34801561054757600080fd5b50610264610556366004611712565b6000918252602082815260408084206001600160a01b0393909316845291905290205460ff1690565b34801561058b57600080fd5b50610308610c46565b3480156105a057600080fd5b50610308600081565b3480156105b557600080fd5b506102ce6105c43660046117a4565b610c82565b3480156105d557600080fd5b506102ce6105e43660046117ce565b610cd8565b3480156105f557600080fd5b5061026461060436600461165d565b610d09565b6102ce6106173660046116b7565b610d96565b6102ce61062a3660046116b7565b610ddf565b34801561063b57600080fd5b506003546004546104b79163ffffffff80821692640100000000830490911691600160401b900460ff169084565b34801561067557600080fd5b50610308610e28565b34801561068a57600080fd5b5061030860025481565b3480156106a057600080fd5b50610308610e48565b3480156106b557600080fd5b506007546106f19063ffffffff80821691640100000000810490911690600160401b810460ff16906901000000000000000000900461ffff1684565b6040805163ffffffff958616815294909316602085015260ff9091169183019190915261ffff166060820152608001610270565b34801561073157600080fd5b506102ce610740366004611712565b610e68565b34801561075157600080fd5b506102ce6107603660046116f9565b610e8d565b34801561077157600080fd5b506102ce6107803660046117ce565b610e9e565b34801561079157600080fd5b506102ce6107a03660046117ce565b610ecf565b60007fffffffff0000000000000000000000000000000000000000000000000000000082167f7965db0b00000000000000000000000000000000000000000000000000000000148061083857507f01ffc9a7000000000000000000000000000000000000000000000000000000007fffffffff000000000000000000000000000000000000000000000000000000008316145b92915050565b600061084981610f00565b506007805461ffff9092166901000000000000000000026affff00000000000000000019909216919091179055565b60075463ffffffff164210156108d55760405162461bcd60e51b815260206004820152601460248201527f466c6173682073616c65206e6f7420737461727400000000000000000000000060448201526064015b60405180910390fd5b600754640100000000900463ffffffff1642106109345760405162461bcd60e51b815260206004820152601460248201527f466c6173682073616c652068617320656e64656400000000000000000000000060448201526064016108cc565b600754600854690100000000000000000090910461ffff908116660100000000000090920416106109a75760405162461bcd60e51b815260206004820152601460248201527f466c6173682073616c652068617320656e64656400000000000000000000000060448201526064016108cc565b6007546002546064916109c591600160401b90910460ff1690611924565b6109cf9190611902565b6002546109dc9190611943565b3414610a2a5760405162461bcd60e51b815260206004820152601d60248201527f53656e742076616c7565206e6f7420657175616c20746f20707269636500000060448201526064016108cc565b600854610a46906601000000000000900461ffff1660016118a5565b600860066101000a81548161ffff021916908361ffff160217905550610a6a610f0d565b565b600082815260208190526040902060010154610a8781610f00565b610a91838361103c565b505050565b6000610aa181610f00565b6007805463ffffffff191663ffffffff8516179055610ac082846118e3565b6007805463ffffffff929092166401000000000267ffffffff0000000019909216919091179055505050565b6000610af781610f00565b6005805463ffffffff191663ffffffff8516179055610b1682846118e3565b6005805463ffffffff929092166401000000000267ffffffff0000000019909216919091179055505050565b6001600160a01b0381163314610bc05760405162461bcd60e51b815260206004820152602f60248201527f416363657373436f6e74726f6c3a2063616e206f6e6c792072656e6f756e636560448201527f20726f6c657320666f722073656c66000000000000000000000000000000000060648201526084016108cc565b610bca82826110da565b5050565b7f10dac8c06a04bec0b551627dad28bc00d6516b0caacd1c7b345fcdb5211334e4610bf881610f00565b60405133904780156108fc02916000818181858888f19350505050158015610bca573d6000803e3d6000fd5b6000610c2f81610f00565b50600655565b6000610c4081610f00565b50600455565b600354600254600091606491610c6691600160401b900460ff1690611924565b610c709190611902565b600254610c7d9190611943565b905090565b6000610c8d81610f00565b6003805463ffffffff191663ffffffff8516179055610cac82846118e3565b6003805463ffffffff929092166401000000000267ffffffff0000000019909216919091179055505050565b6000610ce381610f00565b506003805460ff909216600160401b0268ff000000000000000019909216919091179055565b600083610d1857506000610d8e565b610d8b838380806020026020016040519081016040528093929190818152602001838360200280828437600092019190915250506040516bffffffffffffffffffffffff1960608b901b166020820152889250603401905060405160208183030381529060405280519060200120611159565b90505b949350505050565b6040805160808101825260035463ffffffff80821683526401000000008204166020830152600160401b900460ff16918101919091526004546060820152610bca90838361116f565b6040805160808101825260055463ffffffff80821683526401000000008204166020830152600160401b900460ff16918101919091526006546060820152610bca90838361116f565b600554600254600091606491610c6691600160401b900460ff1690611924565b600754600254600091606491610c6691600160401b900460ff1690611924565b600082815260208190526040902060010154610e8381610f00565b610a9183836110da565b6000610e9881610f00565b50600255565b6000610ea981610f00565b506005805460ff909216600160401b0268ff000000000000000019909216919091179055565b6000610eda81610f00565b506007805460ff909216600160401b0268ff000000000000000019909216919091179055565b610f0a81336112ff565b50565b600154600854600160a01b90910461ffff9081166401000000009092041610610f785760405162461bcd60e51b815260206004820152600860248201527f536f6c64206f757400000000000000000000000000000000000000000000000060448201526064016108cc565b600180546040517f19ee6e3f000000000000000000000000000000000000000000000000000000008152336004820152602481019290925260606044830152600060648301526001600160a01b0316906319ee6e3f90608401600060405180830381600087803b158015610feb57600080fd5b505af1158015610fff573d6000803e3d6000fd5b505060085461101e9250640100000000900461ffff16905060016118a5565b600860046101000a81548161ffff021916908361ffff160217905550565b6000828152602081815260408083206001600160a01b038516845290915290205460ff16610bca576000828152602081815260408083206001600160a01b03851684529091529020805460ff191660011790556110963390565b6001600160a01b0316816001600160a01b0316837f2f8788117e7eff1d82e926ec794901d17c78024a50270940304540a733656f0d60405160405180910390a45050565b6000828152602081815260408083206001600160a01b038516845290915290205460ff1615610bca576000828152602081815260408083206001600160a01b0385168085529252808320805460ff1916905551339285917ff6391f5c32d9c69d2a47ea670b442974b53935d1edc7fd64eb21e047a839171b9190a45050565b600082611166858461137d565b14949350505050565b825163ffffffff164210156111c65760405162461bcd60e51b815260206004820152600e60248201527f53616c65206e6f7420737461727400000000000000000000000000000000000060448201526064016108cc565b826020015163ffffffff16421061121f5760405162461bcd60e51b815260206004820152600e60248201527f53616c652068617320656e64656400000000000000000000000000000000000060448201526064016108cc565b61122f3384606001518484610d09565b61127b5760405162461bcd60e51b815260206004820152601960248201527f596f75277265206e6f7420616c6c6f77656420746f206275790000000000000060448201526064016108cc565b6064836040015160ff166002546112929190611924565b61129c9190611902565b6002546112a99190611943565b34146112f75760405162461bcd60e51b815260206004820152601d60248201527f53656e742076616c7565206e6f7420657175616c20746f20707269636500000060448201526064016108cc565b610a91610f0d565b6000828152602081815260408083206001600160a01b038516845290915290205460ff16610bca5761133b816001600160a01b031660146113ca565b6113468360206113ca565b6040516020016113579291906117f1565b60408051601f198184030181529082905262461bcd60e51b82526108cc91600401611872565b600081815b84518110156113c2576113ae828683815181106113a1576113a16119d2565b60200260200101516115b2565b9150806113ba816119a1565b915050611382565b509392505050565b606060006113d9836002611924565b6113e49060026118cb565b67ffffffffffffffff8111156113fc576113fc6119e8565b6040519080825280601f01601f191660200182016040528015611426576020820181803683370190505b5090507f30000000000000000000000000000000000000000000000000000000000000008160008151811061145d5761145d6119d2565b60200101906001600160f81b031916908160001a9053507f7800000000000000000000000000000000000000000000000000000000000000816001815181106114a8576114a86119d2565b60200101906001600160f81b031916908160001a90535060006114cc846002611924565b6114d79060016118cb565b90505b600181111561155c577f303132333435363738396162636465660000000000000000000000000000000085600f1660108110611518576115186119d2565b1a60f81b82828151811061152e5761152e6119d2565b60200101906001600160f81b031916908160001a90535060049490941c936115558161198a565b90506114da565b5083156115ab5760405162461bcd60e51b815260206004820181905260248201527f537472696e67733a20686578206c656e67746820696e73756666696369656e7460448201526064016108cc565b9392505050565b60008183106115ce5760008281526020849052604090206115ab565b60008381526020839052604090206115ab565b80356001600160a01b03811681146115f857600080fd5b919050565b60008083601f84011261160f57600080fd5b50813567ffffffffffffffff81111561162757600080fd5b6020830191508360208260051b850101111561164257600080fd5b9250929050565b803563ffffffff811681146115f857600080fd5b6000806000806060858703121561167357600080fd5b61167c856115e1565b935060208501359250604085013567ffffffffffffffff81111561169f57600080fd5b6116ab878288016115fd565b95989497509550505050565b600080602083850312156116ca57600080fd5b823567ffffffffffffffff8111156116e157600080fd5b6116ed858286016115fd565b90969095509350505050565b60006020828403121561170b57600080fd5b5035919050565b6000806040838503121561172557600080fd5b82359150611735602084016115e1565b90509250929050565b60006020828403121561175057600080fd5b81357fffffffff00000000000000000000000000000000000000000000000000000000811681146115ab57600080fd5b60006020828403121561179257600080fd5b813561ffff811681146115ab57600080fd5b600080604083850312156117b757600080fd5b6117c083611649565b915061173560208401611649565b6000602082840312156117e057600080fd5b813560ff811681146115ab57600080fd5b7f416363657373436f6e74726f6c3a206163636f756e742000000000000000000081526000835161182981601785016020880161195a565b7f206973206d697373696e6720726f6c6520000000000000000000000000000000601791840191820152835161186681602884016020880161195a565b01602801949350505050565b602081526000825180602084015261189181604085016020870161195a565b601f01601f19169190910160400192915050565b600061ffff8083168185168083038211156118c2576118c26119bc565b01949350505050565b600082198211156118de576118de6119bc565b500190565b600063ffffffff8083168185168083038211156118c2576118c26119bc565b60008261191f57634e487b7160e01b600052601260045260246000fd5b500490565b600081600019048311821515161561193e5761193e6119bc565b500290565b600082821015611955576119556119bc565b500390565b60005b8381101561197557818101518382015260200161195d565b83811115611984576000848401525b50505050565b600081611999576119996119bc565b506000190190565b60006000198214156119b5576119b56119bc565b5060010190565b634e487b7160e01b600052601160045260246000fd5b634e487b7160e01b600052603260045260246000fd5b634e487b7160e01b600052604160045260246000fdfea2646970667358221220e0b217dd40c762d0be3aba363101613b3d4a4ba3948f4b417538e45fb6c21c1764736f6c63430008060033'
+
+type AmbrusStudioSalerConstructorParams =
+  | [signer?: Signer]
+  | ConstructorParameters<typeof ContractFactory>
+
+const isSuperArgs = (
+  xs: AmbrusStudioSalerConstructorParams
+): xs is ConstructorParameters<typeof ContractFactory> => xs.length > 1
+
+export class AmbrusStudioSaler__factory extends ContractFactory {
+  constructor(...args: AmbrusStudioSalerConstructorParams) {
+    if (isSuperArgs(args)) {
+      super(...args)
+    } else {
+      super(_abi, _bytecode, args[0])
+    }
+  }
+
+  override deploy(
+    _nft: PromiseOrValue<string>,
+    _count: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<AmbrusStudioSaler> {
+    return super.deploy(_nft, _count, overrides || {}) as Promise<AmbrusStudioSaler>
+  }
+  override getDeployTransaction(
+    _nft: PromiseOrValue<string>,
+    _count: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): TransactionRequest {
+    return super.getDeployTransaction(_nft, _count, overrides || {})
+  }
+  override attach(address: string): AmbrusStudioSaler {
+    return super.attach(address) as AmbrusStudioSaler
+  }
+  override connect(signer: Signer): AmbrusStudioSaler__factory {
+    return super.connect(signer) as AmbrusStudioSaler__factory
+  }
+
+  static readonly bytecode = _bytecode
+  static readonly abi = _abi
+  static createInterface(): AmbrusStudioSalerInterface {
+    return new utils.Interface(_abi) as AmbrusStudioSalerInterface
+  }
+  static connect(address: string, signerOrProvider: Signer | Provider): AmbrusStudioSaler {
+    return new Contract(address, _abi, signerOrProvider) as AmbrusStudioSaler
+  }
+}

@@ -1,4 +1,4 @@
-export type { AmbrusStudioSaler } from './AmbrusStudioSaler'
-export type { ERC721 } from './ERC721'
-export { AmbrusStudioSaler__factory } from './factories/AmbrusStudioSaler__factory'
-export { ERC721__factory } from './factories/ERC721__factory'
+export type { ERC721 } from './@openzeppelin/contracts/token/ERC721/ERC721'
+export type { AmbrusStudioSaler } from './contracts/AmbrusStudioSaler'
+export { ERC721__factory } from './factories/@openzeppelin/contracts/token/ERC721/ERC721__factory'
+export { AmbrusStudioSaler__factory } from './factories/contracts/AmbrusStudioSaler__factory'
