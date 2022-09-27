@@ -25,34 +25,38 @@ export const mint: Mint = {
     ],
     content: ''
   },
-  publicSale: {
-    start: 1664935200, // Wednesday, October 5, 2022 10:00:00 AM GMT+08:00，不填时间不会展示 Public Sale
-    text: 'Mint on Rarable.com',
-    link: 'https://rarible.com/'
-  },
-  editions: [], // 删除所有版本展示 Coming soon
-  // editions: [
-  //   {
-  //     name: 'Gold Edition',
-  //     value: 'gold',
-  //     contract: '0xc2D4e1a46b48EB3208bdcf4887f85E02682B7752',
-  //     nftContract: '0x19Dd9D7899Cb03c3a0e12911121ADaED7a4648B8',
-  //     style: {
-  //       background: 'linear-gradient(90deg, #E4AA15 0%, #F0C75D 100%)',
-  //       boxShadow: '0px 0px 8px 1px #FFB800, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
-  //     }
-  //   },
-  //   {
-  //     name: 'Rangers Edition',
-  //     value: 'rangers',
-  //     contract: '0xc2D4e1a46b48EB3208bdcf4887f85E02682B7752', // TODO: 等后端改合约
-  //     nftContract: '0x19Dd9D7899Cb03c3a0e12911121ADaED7a4648B8', // TODO: 等后端改合约
-  //     style: {
-  //       background: 'linear-gradient(90deg, #399E98 0%, #88C4C0 100%)',
-  //       boxShadow: '0px 0px 8px 1px #88C3C0, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
-  //     }
-  //   }
-  // ],
+  // editions: [], // 删除所有版本展示 Coming soon
+  editions: [
+    {
+      name: 'Gold Edition',
+      value: 'gold',
+      contract: '0xc2D4e1a46b48EB3208bdcf4887f85E02682B7752',
+      nftContract: '0x19Dd9D7899Cb03c3a0e12911121ADaED7a4648B8',
+      style: {
+        background: 'linear-gradient(90deg, #E4AA15 0%, #F0C75D 100%)',
+        boxShadow: '0px 0px 8px 1px #FFB800, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
+      },
+      // 页面外公开销售信息
+      publicSale: {
+        text: {
+          pending: 'Public Mint: Sep 28th, 1:30PM SGT',
+          started: 'Public Mint on Rarible.com'
+        },
+        link: 'https://rarible.com/'
+      }
+    },
+    {
+      name: 'Rangers Edition',
+      value: 'rangers',
+      contract: '0xc2D4e1a46b48EB3208bdcf4887f85E02682B7752', // TODO: 等后端改合约
+      nftContract: '0x19Dd9D7899Cb03c3a0e12911121ADaED7a4648B8', // TODO: 等后端改合约
+      style: {
+        background: 'linear-gradient(90deg, #399E98 0%, #88C4C0 100%)',
+        boxShadow: '0px 0px 8px 1px #88C3C0, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
+      }
+      // 页面内进行公开销售，不要填 publicSale 字段
+    }
+  ],
   introduction: [
     // 完全展示部分
     {
@@ -102,8 +106,9 @@ export const mint: Mint = {
 export const flashMint: FlashMint = {
   ...mint, // 文案和 Mint 一致
   flashSale: {
-    start: 1664589600, // Saturday, October 1, 2022 10:00:00 AM GMT+08:00，不填不会跳转普通 Mint
-    end: 1664607600 // Saturday, October 1, 2022 3:00:00 PM GMT+08:00，不填不会跳转普通 Mint
+    // start 和 end 都要填，不到 start 时间和过了 end 时间会跳转普通 Mint
+    start: 1664337600, // Wednesday, September 28, 2022 12:00:00 PM GMT+08:00
+    end: 1664341200 // Wednesday, September 28, 2022 1:00:00 PM GMT+08:00
   },
   editions: [
     // Flash sale 只有 Gold 版本
@@ -124,7 +129,6 @@ export const flashMint: FlashMint = {
 export const initialMint: Mint = {
   information: { images: [], type: '', name: '', content: '' },
   disclaimer: { images: [], content: '' },
-  publicSale: { text: '', link: '' },
   editions: [],
   introduction: [],
   properties: []

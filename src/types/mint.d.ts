@@ -34,6 +34,20 @@ export type MintEditionStyle = {
   boxShadow: string
 }
 
+export type MintPublicSaleText = {
+  /** 等待销售的按钮文案 */
+  pending: string
+  /** 公开销售的按钮文案 */
+  started: string
+}
+
+export type MintPublicSale = {
+  /** 公开销售的按钮文案 */
+  text: MintPublicSaleText
+  /** 公开销售的跳转链接 */
+  link: string
+}
+
 export type MintEdition = {
   /** 版本名称 */
   name: string
@@ -45,15 +59,8 @@ export type MintEdition = {
   nftContract: string
   /** 版本颜色配置 */
   style: MintEditionStyle
-}
-
-export type MintPublicSale = {
-  /** 公开销售时间，Epotch 秒 */
-  start?: number
-  /** 公开销售的按钮文案 */
-  text: string
-  /** 公开销售的跳转链接 */
-  link: string
+  /** 外部公开销售配置 */
+  publicSale?: MintPublicSale
 }
 
 export type MintFlashSale = {
@@ -96,8 +103,6 @@ export type Mint = {
   disclaimer: MintDisclaimer
   /** 类型 */
   editions: MintEdition[]
-  /** 公开销售时间 */
-  publicSale: MintPublicSale
   /** 介绍（第一部分） */
   introduction: MintIntro[]
   /** 属性介绍（第二部分） */
@@ -105,6 +110,6 @@ export type Mint = {
 }
 
 export type FlashMint = Mint & {
-  /** 闪购销售时间 */
+  /** 闪购销售配置 */
   flashSale: MintFlashSale
 }
