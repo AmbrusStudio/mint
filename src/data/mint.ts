@@ -30,8 +30,7 @@ export const mint: Mint = {
     {
       name: 'Gold Edition',
       value: 'gold',
-      contract: '0xc2D4e1a46b48EB3208bdcf4887f85E02682B7752',
-      nftContract: '0x19Dd9D7899Cb03c3a0e12911121ADaED7a4648B8',
+      contract: '0x987493B651F91D01F5Bc8f59E9f701765E31C5b4',
       style: {
         background: 'linear-gradient(90deg, #E4AA15 0%, #F0C75D 100%)',
         boxShadow: '0px 0px 8px 1px #FFB800, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
@@ -44,18 +43,17 @@ export const mint: Mint = {
         },
         link: 'https://rarible.com/'
       }
-    },
-    {
-      name: 'Rangers Edition',
-      value: 'rangers',
-      contract: '0xc2D4e1a46b48EB3208bdcf4887f85E02682B7752', // TODO: 等后端改合约
-      nftContract: '0x19Dd9D7899Cb03c3a0e12911121ADaED7a4648B8', // TODO: 等后端改合约
-      style: {
-        background: 'linear-gradient(90deg, #399E98 0%, #88C4C0 100%)',
-        boxShadow: '0px 0px 8px 1px #88C3C0, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
-      }
-      // 页面内进行公开销售，不要填 publicSale 字段
     }
+    // {
+    //   name: 'Rangers Edition',
+    //   value: 'rangers',
+    //   contract: '0xc2D4e1a46b48EB3208bdcf4887f85E02682B7752', // TODO: 等后端改合约
+    //   style: {
+    //     background: 'linear-gradient(90deg, #399E98 0%, #88C4C0 100%)',
+    //     boxShadow: '0px 0px 8px 1px #88C3C0, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
+    //   }
+    //   // 页面内进行公开销售，不要填 publicSale 字段
+    // }
   ],
   introduction: [
     // 完全展示部分
@@ -121,8 +119,7 @@ export const flashMint: FlashMint = {
     {
       name: 'Gold Edition',
       value: 'gold',
-      contract: '0xc2D4e1a46b48EB3208bdcf4887f85E02682B7752',
-      nftContract: '0x19Dd9D7899Cb03c3a0e12911121ADaED7a4648B8',
+      contract: '0x987493B651F91D01F5Bc8f59E9f701765E31C5b4',
       style: {
         background: 'linear-gradient(90deg, #E4AA15 0%, #F0C75D 100%)',
         boxShadow: '0px 0px 8px 1px #FFB800, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'

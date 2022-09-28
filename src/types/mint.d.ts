@@ -56,7 +56,7 @@ export type MintEdition = {
   /** 版本对应的 AmbrusStudioSaler 合约地址 */
   contract: string
   /** AmbrusStudioSaler 合约操作的 NFT 真实地址 */
-  nftContract: string
+  // nftContract: string
   /** 版本颜色配置 */
   style: MintEditionStyle
   /** 外部公开销售配置 */

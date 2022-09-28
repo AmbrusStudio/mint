@@ -36,17 +36,6 @@ const INITIAL_SALER_DATA: SalerData = {
   public: { start: 0, end: 0, discount: 100, price: '0' }
 }
 
-// const mockSalerData: SalerData = {
-//   basePrice: '0.49',
-//   sold: 15,
-//   amount: 450 - 15,
-//   total: 450,
-//   permit: { start: 1664308800, end: 1664309400, discount: 10, price: '0.441' },
-//   whitelist: { start: 1664308800, end: 1664310600, discount: 10, price: '0.4165' },
-//   flash: { start: 1664315100, end: 1664316000, discount: 10, price: '0.441' },
-//   public: { start: 1664310600, end: 1664317800, discount: 100, price: '0.49' }
-// }
-
 async function getContractData(contract: AmbrusStudioSaler): Promise<SalerData> {
   const _basePrice = await contract.basePrice()
   const total = await contract.count()

@@ -1,7 +1,7 @@
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import Axios, { AxiosError } from 'axios'
 
-class Request {
+class BlockBackendRequest {
   public readonly client: AxiosInstance
 
   constructor(private readonly baseURL: string) {
@@ -49,12 +49,28 @@ class Request {
   }
 }
 
+class MintBackendRequest {
+  public readonly client: AxiosInstance
+
+  constructor(private readonly baseURL: string) {
+    if (!baseURL) throw new TypeError('baseURL is required.')
+    this.client = Axios.create({
+      baseURL: this.baseURL,
+      headers: { 'Content-Type': 'application/json' }
+    })
+  }
+}
+
 function getAPIBaseUrl(): string {
   const baseUrl: string | undefined = import.meta.env.VITE_BACKEND_API_URL
   if (!baseUrl) throw new TypeError('VITE_BACKEND_API_URL not set')
   return new URL('/', baseUrl).href
 }
 
-const request = new Request(getAPIBaseUrl())
+const blockRequest = new BlockBackendRequest(getAPIBaseUrl())
 
-export const serveRequest = request.client
+const _mintRequest = new MintBackendRequest(getAPIBaseUrl())
+
+export const serveRequest = blockRequest.client
+
+export const mintRequest = _mintRequest.client
