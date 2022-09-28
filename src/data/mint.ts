@@ -99,6 +99,12 @@ export const mint: Mint = {
       foldable: true,
       content:
         '<ul><li>5% in-game IP dividend ownership* of the corresponding champions&skins</li><li>Exclusive airdrop of the corresponding champion in game E4C: Final Salvation</li><li>Gold Loot Box containing in-game champions and skins</li><li>10% discount on in-game purchases</li><li>Complementary gifts to 1 friend</li></ul>'
+    },
+    {
+      title: '',
+      foldable: false,
+      content:
+        '*The ownership is shared among holders and will be redeemed in 10 years after the game launch'
     }
   ]
 }
