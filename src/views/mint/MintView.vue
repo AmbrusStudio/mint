@@ -11,11 +11,17 @@ import NFTSaleCard from '@components/mint/NFTSaleCard.vue'
 import NFTMintModal from '@components/modal/NFTMintModal.vue'
 import { computed, ref, watch, watchEffect } from 'vue'
 
-import { getMintInfo, getWhitelistSignature } from '@/api'
-import type { AmbrusStudioSaler } from '@/contracts'
+import { getMintInfo, getSignature } from '@/api'
+import ExternalLink from '@/components/link/ExternalLink.vue'
 import { initialMint } from '@/data'
-import { useNFTModal, useSalerContract, useSalerData, useWallet } from '@/hooks'
-import type { Mint } from '@/types'
+import {
+  useComputedSalerData,
+  useNFTModal,
+  useReadonlySalerData,
+  useSalerContract,
+  useWallet
+} from '@/hooks'
+import type { Mint, MintEdition } from '@/types'
 import { alertErrorMessage } from '@/utils'
 
 const { account, ethereum, connect, isConnected } = useWallet()
@@ -23,51 +29,85 @@ const { modalOpen, modalData, openNFTModal, closeNFTModal } = useNFTModal()
 
 const nftData = ref<Mint>(initialMint)
 const edition = ref<string>('')
-const salerContract = ref<AmbrusStudioSaler>()
-const nftAddress = ref<string>('')
+const selected = ref<MintEdition>()
+const salerAddress = ref<string>('')
+const permitSig = ref<string[]>()
+const whitelistSig = ref<string[]>()
 const isMinting = ref(false)
 
-const connected = computed(() => isConnected())
-const saleStart = computed(() => isWhitelistSaleStart() || isPublicSaleStart())
-const disabled = computed(
-  () =>
-    !(
-      nftData.value.editions.length &&
-      edition.value &&
-      salerContract.value &&
-      amount.value &&
-      saleStart.value
-    )
-)
-const buttonText = computed(() => {
-  if (!nftData.value.editions.length) return 'Coming Soon'
-  if (!(edition.value && salerContract.value)) return 'Choose an Edition'
-  if (!amount.value) return 'Sold Out'
-  if (isWhitelistSaleStart()) return 'Whitelist Mint'
-  if (isPublicSaleStart()) return 'Mint Now'
-  return 'Coming Soon'
-})
+const salerContract = useSalerContract(ethereum, salerAddress)
+const { basePrice, amount, sold, total, isSaleStart, isSaleEnd, getSaleData } =
+  useReadonlySalerData(salerAddress)
+const { coming, closed } = useComputedSalerData(salerAddress)
 
-const { price, amount, startTime, isWhitelistSaleStart, isPublicSaleStart } =
-  useSalerData(salerContract)
+const publicStart = isSaleStart('public')
+const publicEnd = isSaleEnd('public')
+const canPublic = computed(() => publicStart.value && !publicEnd.value)
+const editions = computed(() => !!nftData.value.editions.length)
+const external = computed(() => !!selected.value?.publicSale)
+
+const connected = computed(() => isConnected())
+const permitStart = isSaleStart('permit')
+const permitEnd = isSaleEnd('permit')
+const canPermit = computed(
+  () =>
+    permitStart.value &&
+    !permitEnd.value &&
+    Array.isArray(permitSig.value) &&
+    permitSig.value.length > 0
+)
+const whitelistStart = isSaleStart('whitelist')
+const whitelistEnd = isSaleEnd('whitelist')
+const canWhitelist = computed(
+  () =>
+    whitelistStart.value &&
+    !whitelistEnd.value &&
+    Array.isArray(whitelistSig.value) &&
+    whitelistSig.value.length > 0
+)
+
+const permitData = getSaleData('permit')
+const whitelistData = getSaleData('whitelist')
+const publicData = getSaleData('public')
+
+const showInfo = computed(
+  () =>
+    editions.value &&
+    edition.value &&
+    salerAddress.value &&
+    (canPermit.value || canWhitelist.value || canPublic.value)
+)
+
+// buttonText 和下面 NFTSaleButton 的展示逻辑没有完全搞清楚
+const buttonText = computed(() => {
+  if (!(edition.value && salerContract.value)) return 'Choose an Edition'
+  if (publicEnd.value || !amount.value) return 'Sold Out'
+  if (canPublic.value) return 'Mint Now'
+  if (!permitEnd.value && !canPermit.value) return 'No Permint Mint Access'
+  if (!whitelistEnd.value && !canWhitelist.value) return 'No Whitelist Mint Access'
+  return 'Sold Out'
+})
 
 const handleMintClick = async () => {
   if (!salerContract.value) return
   try {
     isMinting.value = true
 
-    const price = await salerContract.value.price()
-    const _nftAddress = nftAddress.value
+    const nftAddress = await salerContract.value.nft()
 
-    if (isWhitelistSaleStart()) {
-      if (!account.value) return
-      const signature = await getWhitelistSignature(account.value)
-      const tx = await salerContract.value.whitelistSale(signature, { value: price })
-      await openNFTModal(_nftAddress, tx)
-    }
-    if (isPublicSaleStart()) {
-      const tx = await salerContract.value.publicSale({ value: price })
-      await openNFTModal(_nftAddress, tx)
+    if (canPermit.value && permitSig.value) {
+      const price = await salerContract.value.permitSalePrice()
+      const tx = await salerContract.value.permitSale(permitSig.value, { value: price })
+      await openNFTModal(nftAddress, tx)
+    } else if (canWhitelist.value && whitelistSig.value) {
+      const price = await salerContract.value.whitelistSalePrice()
+      const tx = await salerContract.value.whitelistSale(whitelistSig.value, { value: price })
+      await openNFTModal(nftAddress, tx)
+    } else if (canPublic.value) {
+      // const price = await salerContract.value.basePrice()
+      // const nftAddress = await salerContract.value.nft()
+      // const tx = await salerContract.value.publicSale({ value: price })
+      // await openNFTModal(nftAddress, tx)
     }
   } catch (error) {
     alertErrorMessage('Mint faild', error)
@@ -83,21 +123,31 @@ const handleModalClose = () => {
 }
 
 watchEffect(async () => {
-  nftData.value = await getMintInfo()
+  const data = await getMintInfo()
+  nftData.value = data
+  if (Array.isArray(data.editions)) {
+    edition.value = data.editions[0].value
+  }
 })
-watch(
-  edition,
-  async (value: string) => {
-    const selected = nftData.value.editions.find((e) => e.value === value)
-    if (!selected) return
-    const _salerContract = useSalerContract(ethereum, selected.contract)
-    if (_salerContract.value) {
-      salerContract.value = _salerContract.value
-      nftAddress.value = selected.nftContract
-    }
-  },
-  { immediate: true }
-)
+
+watchEffect(async () => {
+  if (account.value && edition.value) {
+    const _permitSig = await getSignature(account.value, 'permit', edition.value)
+    permitSig.value = _permitSig
+    const _whitelistSig = await getSignature(account.value, 'whitelist', edition.value)
+    whitelistSig.value = _whitelistSig
+  }
+})
+
+const selectEdition = (edition: string): void => {
+  if (!edition) return
+  const _selected = nftData.value.editions.find((e) => e.value === edition)
+  if (!_selected) return
+  selected.value = _selected
+  salerAddress.value = _selected.contract
+}
+
+watch([edition, account], ([edition]) => selectEdition(edition), { immediate: true })
 </script>
 
 <template>
@@ -112,11 +162,7 @@ watch(
         :content="nftData.disclaimer.content"
       />
       <div class="grid grid-cols-1 xl:gap-y-36px xl:w-540px xl:-mt-480px xl:ml-56px">
-        <NFTSaleCard
-          :info="nftData.information"
-          :publicSale="nftData.publicSale"
-          :editions="nftData.editions"
-        >
+        <NFTSaleCard :info="nftData.information" :editions="nftData.editions">
           <form class="flex flex-col" action="#">
             <section
               class="flex flex-col gap-12px mb-24px xl:mb-36px"
@@ -125,31 +171,87 @@ watch(
               <NFTEditionRadio
                 v-for="edi in nftData.editions"
                 :key="`edition-radio-${edi.value}`"
-                :id="`edition-radio-${edi.value}`"
-                :name="edi.name"
-                :value="edi.value"
-                :contract="edi.contract"
-                :style="edi.style"
+                :data="edi"
                 v-model:edition="edition"
               />
             </section>
-            <NFTEditionInfo
-              v-if="!disabled"
-              timeType="start"
-              :start="startTime"
-              :end="startTime"
-              :price="price"
-            />
-            <NFTSaleButton
-              @click.stop.prevent="handleMintClick"
-              :disabled="disabled || isMinting"
-              v-if="!nftData.editions.length || connected"
-            >
-              {{ buttonText }}
-            </NFTSaleButton>
-            <NFTSaleButton @click.stop.prevent="handleWalletConnect" v-else>
-              Connect Wallet
-            </NFTSaleButton>
+
+            <section v-if="!external && showInfo && connected">
+              <NFTEditionInfo
+                v-if="canPermit"
+                timeType="start"
+                :start="permitData.start"
+                :end="permitData.end"
+                :price="permitData.price"
+                :basePrice="basePrice"
+                :discount="permitData.discount"
+                :sold="sold"
+                :total="total"
+              />
+              <NFTEditionInfo
+                v-else-if="canWhitelist"
+                timeType="start"
+                :start="whitelistData.start"
+                :end="whitelistData.end"
+                :price="whitelistData.price"
+                :basePrice="basePrice"
+                :discount="whitelistData.discount"
+                :sold="sold"
+                :total="total"
+              />
+              <NFTEditionInfo
+                v-else-if="canPublic"
+                timeType="unlimited"
+                :start="publicData.start"
+                :end="publicData.end"
+                :price="publicData.price"
+                :basePrice="basePrice"
+                :discount="publicData.discount"
+                :sold="sold"
+                :total="total"
+              />
+            </section>
+
+            <section class="flex flex-col">
+              <NFTSaleButton disabled v-if="!editions || coming">Coming Soon</NFTSaleButton>
+              <NFTSaleButton disabled v-else-if="external && closed && !publicStart && !publicEnd">
+                {{ selected?.publicSale?.text.pending }}
+              </NFTSaleButton>
+              <ExternalLink
+                class="block w-full py-16px xl:py-22px bg-rust text-white font-semibold text-16px xl:text-24px leading-20px xl:leading-28px text-center uppercase hover:bg-white hover:text-rust"
+                :to="selected?.publicSale?.link"
+                v-else-if="external && closed && canPublic"
+              >
+                {{ selected?.publicSale?.text.started }}
+              </ExternalLink>
+              <NFTSaleButton
+                @click.stop.prevent="handleMintClick"
+                :disabled="isMinting"
+                v-else-if="!external && closed && canPublic && connected"
+              >
+                Mint Now
+              </NFTSaleButton>
+              <NFTSaleButton
+                @click.stop.prevent="handleMintClick"
+                :disabled="isMinting"
+                v-else-if="canPermit && connected"
+              >
+                Permit Mint
+              </NFTSaleButton>
+              <NFTSaleButton
+                @click.stop.prevent="handleMintClick"
+                :disabled="isMinting"
+                v-else-if="canWhitelist && connected"
+              >
+                Whitelist Mint
+              </NFTSaleButton>
+              <NFTSaleButton disabled v-else-if="connected">
+                {{ buttonText }}
+              </NFTSaleButton>
+              <NFTSaleButton @click.stop.prevent="handleWalletConnect" v-else>
+                Connect Wallet
+              </NFTSaleButton>
+            </section>
           </form>
         </NFTSaleCard>
         <NFTDisclaimer

@@ -9,56 +9,90 @@ import { useReadonlyEthereum } from './useEthereum'
 
 type SaleType = 'permit' | 'whitelist' | 'flash' | 'public'
 
-type SaleTime = {
+type SaleData = {
   start: number
   end: number
+  discount: number
+  price: string
 }
 
-type AllSaleTime = Record<SaleType, SaleTime>
+type AllSaleTime = Record<SaleType, SaleData>
 
 type SalerData = AllSaleTime & {
-  price: string
+  basePrice: string
   sold: number
   amount: number
   total: number
 }
 
 const INITIAL_SALER_DATA: SalerData = {
-  price: '0',
+  basePrice: '0',
   sold: 0,
   amount: 0,
   total: 0,
-  permit: { start: 0, end: 0 },
-  whitelist: { start: 0, end: 0 },
-  flash: { start: 0, end: 0 },
-  public: { start: 0, end: 0 }
+  permit: { start: 0, end: 0, discount: 100, price: '0' },
+  whitelist: { start: 0, end: 0, discount: 100, price: '0' },
+  flash: { start: 0, end: 0, discount: 100, price: '0' },
+  public: { start: 0, end: 0, discount: 100, price: '0' }
 }
 
+// const mockSalerData: SalerData = {
+//   basePrice: '0.49',
+//   sold: 15,
+//   amount: 450 - 15,
+//   total: 450,
+//   permit: { start: 1664308800, end: 1664309400, discount: 10, price: '0.441' },
+//   whitelist: { start: 1664308800, end: 1664310600, discount: 10, price: '0.4165' },
+//   flash: { start: 1664315100, end: 1664316000, discount: 10, price: '0.441' },
+//   public: { start: 1664310600, end: 1664317800, discount: 100, price: '0.49' }
+// }
+
 async function getContractData(contract: AmbrusStudioSaler): Promise<SalerData> {
-  const _price = await contract.price()
-  const _total = await contract.count()
-  const _soldCount = await contract.soldCount()
+  const _basePrice = await contract.basePrice()
+  const total = await contract.count()
+  const sold = await contract.soldCount()
 
-  const price = ethers.utils.formatEther(_price)
-  const sold = _soldCount.toNumber()
-  const amount = _total.sub(_soldCount).toNumber()
-  const total = _total.toNumber()
+  const permitSaleConfig = await contract.permitSaleConfig()
+  const whitelistSaleConfig = await contract.whitelistSaleConfig()
+  const flashSaleConfig = await contract.flashSaleConfig()
 
-  const permitSaleStart = 1664281800
-  const permitSaleEnd = 1664292600
-  const whitelistSaleStart = 1664281800
-  const whitelistSaleEnd = 1664292600
-  const flashSaleStart = 1664281800
-  const flashSaleEnd = 1664292600
-  const publicSaleStart = 1664292600 // 19:30
+  const permitSalePrice = await contract.permitSalePrice()
+  const whitelistSalePrice = await contract.whitelistSalePrice()
+  const flashSalePrice = await contract.flashSalePrice()
 
-  const permit: SaleTime = { start: permitSaleStart, end: permitSaleEnd }
-  const whitelist: SaleTime = { start: whitelistSaleStart, end: whitelistSaleEnd }
-  const flash: SaleTime = { start: flashSaleStart, end: flashSaleEnd }
-  const _public: SaleTime = { start: publicSaleStart, end: 0 }
+  const publicSaleStart = await contract.publicSaleStart()
+  const publicSaleEnd = await contract.publicSaleEnd()
+
+  const basePrice = ethers.utils.formatEther(_basePrice)
+  const amount = total - sold
+
+  const permit: SaleData = {
+    start: permitSaleConfig.start,
+    end: permitSaleConfig.end,
+    discount: permitSaleConfig.discount,
+    price: ethers.utils.formatEther(permitSalePrice)
+  }
+  const whitelist: SaleData = {
+    start: whitelistSaleConfig.start,
+    end: whitelistSaleConfig.end,
+    discount: whitelistSaleConfig.discount,
+    price: ethers.utils.formatEther(whitelistSalePrice)
+  }
+  const flash: SaleData = {
+    start: flashSaleConfig.start,
+    end: flashSaleConfig.end,
+    discount: flashSaleConfig.discount,
+    price: ethers.utils.formatEther(flashSalePrice)
+  }
+  const _public: SaleData = {
+    start: publicSaleStart,
+    end: publicSaleEnd,
+    discount: 100,
+    price: basePrice
+  }
 
   return {
-    price,
+    basePrice,
     sold,
     amount,
     total,
@@ -72,6 +106,7 @@ async function getContractData(contract: AmbrusStudioSaler): Promise<SalerData> 
 type SalerHelpers = {
   isSaleStart: (type: SaleType) => ComputedRef<boolean>
   isSaleEnd: (type: SaleType) => ComputedRef<boolean>
+  getSaleData: (type: SaleType) => ComputedRef<SaleData>
 }
 
 function getSalerHelpers(salerData: SalerData): SalerHelpers {
@@ -91,7 +126,11 @@ function getSalerHelpers(salerData: SalerData): SalerHelpers {
     })
   }
 
-  return { isSaleStart, isSaleEnd }
+  function getSaleData(type: SaleType) {
+    return computed(() => salerData[type])
+  }
+
+  return { isSaleStart, isSaleEnd, getSaleData }
 }
 
 type SalerDataWithHelpers = ToRefs<SalerData> & SalerHelpers
@@ -134,7 +173,6 @@ export function useReadonlySalerData(address: Ref<string> | string): SalerDataWi
   const salerData = reactive<SalerData>({ ...INITIAL_SALER_DATA })
 
   async function getSalerData(address: string) {
-    console.log('useReadonlySalerData::getSalerData', address)
     if (!address) return
     const _address = ethers.utils.getAddress(address)
     const contract = AmbrusStudioSaler__factory.connect(_address, ethereum)
@@ -162,7 +200,7 @@ type ComputedSaleData = {
   closed: ComputedRef<boolean>
 }
 
-export function useComputedSalerData(address: string): ComputedSaleData {
+export function useComputedSalerData(address: Ref<string> | string): ComputedSaleData {
   const { isSaleStart, isSaleEnd } = useReadonlySalerData(address)
 
   const permitStart = isSaleStart('permit')

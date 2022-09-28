@@ -11,23 +11,31 @@ import NFTSaleCard from '@components/mint/NFTSaleCard.vue'
 import NFTMintModal from '@components/modal/NFTMintModal.vue'
 import { computed, ref, watch, watchEffect } from 'vue'
 
-import { getFlashMintInfo, getWhitelistSignature } from '@/api'
-import type { AmbrusStudioSaler } from '@/contracts'
+import { getFlashMintInfo } from '@/api'
 import { initialMint } from '@/data'
-import { useNFTModal, useSalerContract, useSalerData, useWallet } from '@/hooks'
-import type { Mint } from '@/types'
+import { useNFTModal, useReadonlySalerData, useSalerContract, useWallet } from '@/hooks'
+import type { Mint, MintEdition } from '@/types'
 import { alertErrorMessage } from '@/utils'
 
-const { account, ethereum, connect } = useWallet()
+const { ethereum, connect, isConnected } = useWallet()
 const { modalOpen, modalData, openNFTModal, closeNFTModal } = useNFTModal()
 
 const nftData = ref<Mint>(initialMint)
 const edition = ref<string>('')
-const salerContract = ref<AmbrusStudioSaler>()
-const nftAddress = ref<string>('')
+const selected = ref<MintEdition>()
+const salerAddress = ref<string>('')
 const isMinting = ref(false)
 
-const saleStart = computed(() => isWhitelistSaleStart() || isPublicSaleStart())
+const salerContract = useSalerContract(ethereum, salerAddress)
+const { amount, isSaleStart, isSaleEnd, getSaleData } = useReadonlySalerData(salerAddress)
+
+const flashStart = isSaleStart('flash')
+const flashEnd = isSaleEnd('flash')
+const flashData = getSaleData('flash')
+
+const canFlash = computed(() => flashStart.value && !flashEnd.value)
+
+const connected = computed(() => isConnected())
 const disabled = computed(
   () =>
     !(
@@ -35,38 +43,26 @@ const disabled = computed(
       edition.value &&
       salerContract.value &&
       amount.value &&
-      saleStart.value
+      connected.value
     )
 )
 const buttonText = computed(() => {
   if (!nftData.value.editions.length) return 'Coming Soon'
   if (!(edition.value && salerContract.value)) return 'Choose an Edition'
   if (!amount.value) return 'Sold Out'
-  if (isWhitelistSaleStart()) return 'Whitelist Mint'
-  if (isPublicSaleStart()) return 'Mint Now'
+  if (canFlash.value) return 'Mint Now'
   return 'Coming Soon'
 })
-
-const { price, amount, startTime, isWhitelistSaleStart, isPublicSaleStart } =
-  useSalerData(salerContract)
 
 const handleMintClick = async () => {
   if (!salerContract.value) return
   try {
     isMinting.value = true
-
-    const price = await salerContract.value.price()
-    const _nftAddress = nftAddress.value
-
-    if (isWhitelistSaleStart()) {
-      if (!account.value) return
-      const signature = await getWhitelistSignature(account.value)
-      const tx = await salerContract.value.whitelistSale(signature, { value: price })
-      await openNFTModal(_nftAddress, tx)
-    }
-    if (isPublicSaleStart()) {
-      const tx = await salerContract.value.publicSale({ value: price })
-      await openNFTModal(_nftAddress, tx)
+    if (canFlash.value) {
+      const price = await salerContract.value.flashSalePrice()
+      const nftAddress = await salerContract.value.nft()
+      const tx = await salerContract.value.flashSale({ value: price })
+      await openNFTModal(nftAddress, tx)
     }
   } catch (error) {
     alertErrorMessage('Mint faild', error)
@@ -82,26 +78,20 @@ const handleModalClose = () => {
 }
 
 watchEffect(async () => {
-  nftData.value = await getFlashMintInfo()
-})
-
-watch(account, () => {
-  if (Array.isArray(nftData.value.editions) && nftData.value.editions.length) {
-    const selected = nftData.value.editions[0]
-    edition.value = selected.value
+  const data = await getFlashMintInfo()
+  nftData.value = data
+  if (Array.isArray(data.editions)) {
+    edition.value = data.editions[0].value
   }
 })
 
 watch(
   edition,
   (value: string) => {
-    const selected = nftData.value.editions.find((e) => e.value === value)
-    if (!selected) return
-    const _salerContract = useSalerContract(ethereum, selected.contract)
-    if (_salerContract.value) {
-      salerContract.value = _salerContract.value
-      nftAddress.value = selected.nftContract
-    }
+    const _selected = nftData.value.editions.find((e) => e.value === value)
+    if (!_selected) return
+    selected.value = _selected
+    salerAddress.value = _selected.contract
   },
   { immediate: true }
 )
@@ -119,11 +109,7 @@ watch(
         :content="nftData.disclaimer.content"
       />
       <div class="grid grid-cols-1 xl:gap-y-36px xl:w-540px xl:-mt-480px xl:ml-56px">
-        <NFTSaleCard
-          :info="nftData.information"
-          :publicSale="nftData.publicSale"
-          :editions="nftData.editions"
-        >
+        <NFTSaleCard :info="nftData.information" :editions="nftData.editions">
           <form class="flex flex-col" action="#">
             <section
               class="flex flex-col gap-12px mb-24px xl:mb-36px"
@@ -132,25 +118,22 @@ watch(
               <NFTEditionRadio
                 v-for="edi in nftData.editions"
                 :key="`edition-radio-${edi.value}`"
-                :id="`edition-radio-${edi.value}`"
-                :name="edi.name"
-                :value="edi.value"
-                :contract="edi.contract"
-                :style="edi.style"
+                :data="edi"
+                :price="flashData.price"
                 v-model:edition="edition"
               />
             </section>
             <NFTEditionInfo
-              v-if="!disabled"
+              v-if="canFlash"
               timeType="end"
-              :start="startTime"
-              :end="startTime"
-              :price="price"
+              :start="flashData.start"
+              :end="flashData.end"
+              :price="flashData.price"
             />
             <NFTSaleButton
               @click.stop.prevent="handleMintClick"
               :disabled="disabled || isMinting"
-              v-if="!nftData.editions.length || account"
+              v-if="connected"
             >
               {{ buttonText }}
             </NFTSaleButton>
