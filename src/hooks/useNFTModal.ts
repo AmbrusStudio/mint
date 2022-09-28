@@ -3,7 +3,7 @@ import { type Ref, ref } from 'vue'
 
 import BlindboxCover from '@/assets/images/cover/cover-blindbox.png'
 import type { NFTModalData } from '@/components/modal/NFTMintModal.vue'
-import { ERC721__factory } from '@/contracts'
+import { E4CRanger__factory } from '@/contracts'
 import { useReadonlyEthereum } from '@/hooks'
 
 type NFTModalDataRef = {
@@ -30,8 +30,8 @@ const open = ref(false)
 
 async function getNFTInfo(address: string, tx: ContractTransaction): Promise<NFTModalData> {
   const ethereum = useReadonlyEthereum()
-  // Vue ref 的 get 有问题，使用 ERC721 Factory
-  const contract = ERC721__factory.connect(address, ethereum)
+  // Vue ref 的 get 有问题，使用 E4CRanger Factory
+  const contract = E4CRanger__factory.connect(address, ethereum)
   const images = BlindboxCover
   const video = 'https://cdn.ambrus.studio/NFTs/Blindbox.mp4'
   let name = await contract.name() // AmbrusStudioRanger
