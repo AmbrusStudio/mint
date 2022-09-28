@@ -11,14 +11,17 @@ export async function getFlashMintInfo(): Promise<FlashMint> {
   return Promise.resolve(flashMint)
 }
 
+type GetSignature = {
+  data: string[]
+}
 export async function getSignature(
   address: string,
   saleKind: 'permit' | 'whitelist',
   edition: string //'gold' | 'rangers'
 ): Promise<string[]> {
   console.debug('getSignature', address, saleKind, edition)
-  const { data: proof } = await mintRequest.get<string[]>('/nft-minting/hasRole', {
+  const { data: proof } = await mintRequest.get<GetSignature>('/nft-minting/hasRole', {
     params: { address, saleKind, edition }
   })
-  return proof
+  return proof.data
 }
