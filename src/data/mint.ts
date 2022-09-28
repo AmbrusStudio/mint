@@ -104,7 +104,7 @@ export const mint: Mint = {
       title: '* Note',
       foldable: false,
       content:
-        'The ownership is shared among holders and will be redeemed in 10 years after the game launch'
+        '<p>The ownership is shared among holders and will be redeemed in 10 years after the game launch</p>'
     }
   ]
 }
