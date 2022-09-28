@@ -40,6 +40,7 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
     'permitSale(bytes32[])': FunctionFragment
     'permitSaleConfig()': FunctionFragment
     'permitSalePrice()': FunctionFragment
+    'publicSaleEnd()': FunctionFragment
     'publicSaleStart()': FunctionFragment
     'renounceRole(bytes32,address)': FunctionFragment
     'revokeRole(bytes32,address)': FunctionFragment
@@ -50,6 +51,7 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
     'setPermitSaleDiscount(uint8)': FunctionFragment
     'setPermitSaleMerkleRoot(bytes32)': FunctionFragment
     'setPermitSaleTime(uint32,uint32)': FunctionFragment
+    'setPublicSaleTime(uint32,uint32)': FunctionFragment
     'setWhitelistSaleDiscount(uint8)': FunctionFragment
     'setWhitelistSaleMerkleRoot(bytes32)': FunctionFragment
     'setWhitelistSaleTime(uint32,uint32)': FunctionFragment
@@ -79,6 +81,7 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
       | 'permitSale'
       | 'permitSaleConfig'
       | 'permitSalePrice'
+      | 'publicSaleEnd'
       | 'publicSaleStart'
       | 'renounceRole'
       | 'revokeRole'
@@ -89,6 +92,7 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
       | 'setPermitSaleDiscount'
       | 'setPermitSaleMerkleRoot'
       | 'setPermitSaleTime'
+      | 'setPublicSaleTime'
       | 'setWhitelistSaleDiscount'
       | 'setWhitelistSaleMerkleRoot'
       | 'setWhitelistSaleTime'
@@ -125,6 +129,7 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
   encodeFunctionData(functionFragment: 'permitSale', values: [PromiseOrValue<BytesLike>[]]): string
   encodeFunctionData(functionFragment: 'permitSaleConfig', values?: undefined): string
   encodeFunctionData(functionFragment: 'permitSalePrice', values?: undefined): string
+  encodeFunctionData(functionFragment: 'publicSaleEnd', values?: undefined): string
   encodeFunctionData(functionFragment: 'publicSaleStart', values?: undefined): string
   encodeFunctionData(
     functionFragment: 'renounceRole',
@@ -160,6 +165,10 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
   ): string
   encodeFunctionData(
     functionFragment: 'setPermitSaleTime',
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
+  ): string
+  encodeFunctionData(
+    functionFragment: 'setPublicSaleTime',
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string
   encodeFunctionData(
@@ -203,6 +212,7 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: 'permitSale', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'permitSaleConfig', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'permitSalePrice', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'publicSaleEnd', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'publicSaleStart', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'renounceRole', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'revokeRole', data: BytesLike): Result
@@ -213,6 +223,7 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: 'setPermitSaleDiscount', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'setPermitSaleMerkleRoot', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'setPermitSaleTime', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'setPublicSaleTime', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'setWhitelistSaleDiscount', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'setWhitelistSaleMerkleRoot', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'setWhitelistSaleTime', data: BytesLike): Result
@@ -353,6 +364,8 @@ export interface AmbrusStudioSaler extends BaseContract {
 
     permitSalePrice(overrides?: CallOverrides): Promise<[BigNumber]>
 
+    publicSaleEnd(overrides?: CallOverrides): Promise<[number]>
+
     publicSaleStart(overrides?: CallOverrides): Promise<[number]>
 
     renounceRole(
@@ -384,7 +397,7 @@ export interface AmbrusStudioSaler extends BaseContract {
 
     setFlashSaleTime(
       start: PromiseOrValue<BigNumberish>,
-      duration: PromiseOrValue<BigNumberish>,
+      end: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>
 
@@ -400,7 +413,13 @@ export interface AmbrusStudioSaler extends BaseContract {
 
     setPermitSaleTime(
       start: PromiseOrValue<BigNumberish>,
-      duration: PromiseOrValue<BigNumberish>,
+      end: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>
+
+    setPublicSaleTime(
+      start: PromiseOrValue<BigNumberish>,
+      end: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>
 
@@ -416,7 +435,7 @@ export interface AmbrusStudioSaler extends BaseContract {
 
     setWhitelistSaleTime(
       start: PromiseOrValue<BigNumberish>,
-      duration: PromiseOrValue<BigNumberish>,
+      end: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>
 
@@ -512,6 +531,8 @@ export interface AmbrusStudioSaler extends BaseContract {
 
   permitSalePrice(overrides?: CallOverrides): Promise<BigNumber>
 
+  publicSaleEnd(overrides?: CallOverrides): Promise<number>
+
   publicSaleStart(overrides?: CallOverrides): Promise<number>
 
   renounceRole(
@@ -543,7 +564,7 @@ export interface AmbrusStudioSaler extends BaseContract {
 
   setFlashSaleTime(
     start: PromiseOrValue<BigNumberish>,
-    duration: PromiseOrValue<BigNumberish>,
+    end: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>
 
@@ -559,7 +580,13 @@ export interface AmbrusStudioSaler extends BaseContract {
 
   setPermitSaleTime(
     start: PromiseOrValue<BigNumberish>,
-    duration: PromiseOrValue<BigNumberish>,
+    end: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>
+
+  setPublicSaleTime(
+    start: PromiseOrValue<BigNumberish>,
+    end: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>
 
@@ -575,7 +602,7 @@ export interface AmbrusStudioSaler extends BaseContract {
 
   setWhitelistSaleTime(
     start: PromiseOrValue<BigNumberish>,
-    duration: PromiseOrValue<BigNumberish>,
+    end: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>
 
@@ -664,6 +691,8 @@ export interface AmbrusStudioSaler extends BaseContract {
 
     permitSalePrice(overrides?: CallOverrides): Promise<BigNumber>
 
+    publicSaleEnd(overrides?: CallOverrides): Promise<number>
+
     publicSaleStart(overrides?: CallOverrides): Promise<number>
 
     renounceRole(
@@ -692,7 +721,7 @@ export interface AmbrusStudioSaler extends BaseContract {
 
     setFlashSaleTime(
       start: PromiseOrValue<BigNumberish>,
-      duration: PromiseOrValue<BigNumberish>,
+      end: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>
 
@@ -708,7 +737,13 @@ export interface AmbrusStudioSaler extends BaseContract {
 
     setPermitSaleTime(
       start: PromiseOrValue<BigNumberish>,
-      duration: PromiseOrValue<BigNumberish>,
+      end: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>
+
+    setPublicSaleTime(
+      start: PromiseOrValue<BigNumberish>,
+      end: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>
 
@@ -724,7 +759,7 @@ export interface AmbrusStudioSaler extends BaseContract {
 
     setWhitelistSaleTime(
       start: PromiseOrValue<BigNumberish>,
-      duration: PromiseOrValue<BigNumberish>,
+      end: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>
 
@@ -835,6 +870,8 @@ export interface AmbrusStudioSaler extends BaseContract {
 
     permitSalePrice(overrides?: CallOverrides): Promise<BigNumber>
 
+    publicSaleEnd(overrides?: CallOverrides): Promise<BigNumber>
+
     publicSaleStart(overrides?: CallOverrides): Promise<BigNumber>
 
     renounceRole(
@@ -866,7 +903,7 @@ export interface AmbrusStudioSaler extends BaseContract {
 
     setFlashSaleTime(
       start: PromiseOrValue<BigNumberish>,
-      duration: PromiseOrValue<BigNumberish>,
+      end: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>
 
@@ -882,7 +919,13 @@ export interface AmbrusStudioSaler extends BaseContract {
 
     setPermitSaleTime(
       start: PromiseOrValue<BigNumberish>,
-      duration: PromiseOrValue<BigNumberish>,
+      end: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>
+
+    setPublicSaleTime(
+      start: PromiseOrValue<BigNumberish>,
+      end: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>
 
@@ -898,7 +941,7 @@ export interface AmbrusStudioSaler extends BaseContract {
 
     setWhitelistSaleTime(
       start: PromiseOrValue<BigNumberish>,
-      duration: PromiseOrValue<BigNumberish>,
+      end: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>
 
@@ -975,6 +1018,8 @@ export interface AmbrusStudioSaler extends BaseContract {
 
     permitSalePrice(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
+    publicSaleEnd(overrides?: CallOverrides): Promise<PopulatedTransaction>
+
     publicSaleStart(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
     renounceRole(
@@ -1006,7 +1051,7 @@ export interface AmbrusStudioSaler extends BaseContract {
 
     setFlashSaleTime(
       start: PromiseOrValue<BigNumberish>,
-      duration: PromiseOrValue<BigNumberish>,
+      end: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>
 
@@ -1022,7 +1067,13 @@ export interface AmbrusStudioSaler extends BaseContract {
 
     setPermitSaleTime(
       start: PromiseOrValue<BigNumberish>,
-      duration: PromiseOrValue<BigNumberish>,
+      end: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>
+
+    setPublicSaleTime(
+      start: PromiseOrValue<BigNumberish>,
+      end: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>
 
@@ -1038,7 +1089,7 @@ export interface AmbrusStudioSaler extends BaseContract {
 
     setWhitelistSaleTime(
       start: PromiseOrValue<BigNumberish>,
-      duration: PromiseOrValue<BigNumberish>,
+      end: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>
 
