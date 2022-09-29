@@ -111,8 +111,8 @@ export const flashMint: FlashMint = {
   ...mint, // 文案和 Mint 一致
   flashSale: {
     // start 和 end 都要填，不到 start 时间和过了 end 时间会跳转普通 Mint
-    start: 1664589600, // Saturday, October 1, 2022 10:00:00 AM GMT+08:00
-    end: 1664607600 // Saturday, October 1, 2022 3:00:00 PM GMT+08:00
+    start: 1664593200, // Saturday, October 1, 2022 11:00:00 AM GMT+08:00
+    end: 1664611200 // Saturday, October 1, 2022 4:00:00 PM GMT+08:00
   },
   editions: [
     // Flash sale 只有 Gold 版本
