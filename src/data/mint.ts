@@ -117,8 +117,8 @@ export const flashMint: FlashMint = {
   ...mint, // 文案和 Mint 一致
   flashSale: {
     // start 和 end 都要填，不到 start 时间和过了 end 时间会跳转普通 Mint
-    start: 1664445600, // Thursday, September 29, 2022 6:00:00 PM GMT+08:00
-    end: 1664467200 // Friday, September 30, 2022 12:00:00 AM GMT+08:00
+    start: 1664450400, // Thursday, September 29, 2022 7:20:00 PM GMT+08:00
+    end: 1664451000 // Thursday, September 29, 2022 7:30:00 PM GMT+08:00
   },
   editions: [
     // Flash sale 只有 Gold 版本
