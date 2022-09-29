@@ -54,3 +54,9 @@ export function getEtherscanKey(): string | undefined {
   if (!etherscan) throw new TypeError('VITE_ETHERSCAN_API_KEY not set')
   return etherscan
 }
+
+export function getAlchemyKey(): string | undefined {
+  const alchemy = import.meta.env.VITE_ALCHEMY_API_KEY
+  if (!alchemy) throw new TypeError('VITE_ALCHEMY_API_KEY not set')
+  return alchemy
+}
