@@ -71,11 +71,7 @@ const whitelistData = getSaleData('whitelist')
 const publicData = getSaleData('public')
 
 const showInfo = computed(
-  () =>
-    editions.value &&
-    edition.value &&
-    salerAddress.value &&
-    (canPermit.value || canWhitelist.value || canPublic.value)
+  () => canPermit.value || canWhitelist.value || (canPublic.value && !external.value)
 )
 
 // buttonText 和下面 NFTSaleButton 的展示逻辑没有完全搞清楚
@@ -175,7 +171,7 @@ watch([edition, account], ([edition]) => selectEdition(edition), { immediate: tr
               />
             </section>
 
-            <section v-if="!external && showInfo && connected">
+            <section v-if="showInfo && connected">
               <NFTEditionInfo
                 v-if="canPermit"
                 timeType="start"
