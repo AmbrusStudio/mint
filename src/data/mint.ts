@@ -30,7 +30,7 @@ export const mint: Mint = {
     {
       name: 'Gold Edition',
       value: 'gold',
-      contract: '0x37255455d1895babf6f4a86d0d4f173478f7ff7c',
+      contract: '0x0292d003f4DB50647805C2D88C55b0D920b20475',
       style: {
         background: 'linear-gradient(90deg, #E4AA15 0%, #F0C75D 100%)',
         boxShadow: '0px 0px 8px 1px #FFB800, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
@@ -119,7 +119,7 @@ export const flashMint: FlashMint = {
     {
       name: 'Gold Edition',
       value: 'gold',
-      contract: '0x37255455d1895babf6f4a86d0d4f173478f7ff7c',
+      contract: '0x0292d003f4DB50647805C2D88C55b0D920b20475 ',
       style: {
         background: 'linear-gradient(90deg, #E4AA15 0%, #F0C75D 100%)',
         boxShadow: '0px 0px 8px 1px #FFB800, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
