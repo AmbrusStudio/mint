@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 
 export function formatDatetime(seconds: number, format?: string): string {
-  if (!format) format = 'ha, DDD'
+  if (!format) format = 't, DDD'
   return DateTime.fromSeconds(seconds).toFormat(format)
 }
 

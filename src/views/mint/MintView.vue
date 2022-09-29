@@ -22,7 +22,7 @@ import {
   useWallet
 } from '@/hooks'
 import type { Mint, MintEdition } from '@/types'
-import { alertErrorMessage } from '@/utils'
+import { alertErrorMessage, formatDatetime } from '@/utils'
 
 const { account, ethereum, connect, isConnected } = useWallet()
 const { modalOpen, modalData, openNFTModal, closeNFTModal } = useNFTModal()
@@ -69,6 +69,10 @@ const canWhitelist = computed(
 const permitData = getSaleData('permit')
 const whitelistData = getSaleData('whitelist')
 const publicData = getSaleData('public')
+
+const publicDateTime = computed(() =>
+  formatDatetime(publicData.value.start, 'MMM d, t ZZZZ').replace('GMT+8', 'SGT')
+)
 
 const showInfo = computed(
   () => canPermit.value || canWhitelist.value || (canPublic.value && !external.value)
@@ -210,14 +214,14 @@ watch([edition, account], ([edition]) => selectEdition(edition), { immediate: tr
             <section class="flex flex-col">
               <NFTSaleButton disabled v-if="!editions || coming">Coming Soon</NFTSaleButton>
               <NFTSaleButton disabled v-else-if="external && closed && !publicStart && !publicEnd">
-                {{ selected?.publicSale?.text.pending }}
+                {{ `Public Mint: ${publicDateTime}` }}
               </NFTSaleButton>
               <ExternalLink
                 class="block w-full py-16px xl:py-22px bg-rust text-white font-semibold text-16px xl:text-24px leading-20px xl:leading-28px text-center uppercase hover:bg-white hover:text-rust"
                 :to="selected?.publicSale?.link"
                 v-else-if="external && closed && canPublic"
               >
-                {{ selected?.publicSale?.text.started }}
+                {{ selected?.publicSale?.text }}
               </ExternalLink>
               <NFTSaleButton
                 @click.stop.prevent="handleMintClick"
