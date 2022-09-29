@@ -30,12 +30,13 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
     'count()': FunctionFragment
     'flashSale()': FunctionFragment
     'flashSaleConfig()': FunctionFragment
-    'flashSaleCount()': FunctionFragment
     'flashSalePrice()': FunctionFragment
+    'flashSaleSoldCount()': FunctionFragment
     'getRoleAdmin(bytes32)': FunctionFragment
     'grantRole(bytes32,address)': FunctionFragment
     'hasRole(bytes32,address)': FunctionFragment
     'isAccountAllowed(address,bytes32,bytes32[])': FunctionFragment
+    'mintRemaining(address)': FunctionFragment
     'nft()': FunctionFragment
     'permitSale(bytes32[])': FunctionFragment
     'permitSaleConfig()': FunctionFragment
@@ -73,12 +74,13 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
       | 'count'
       | 'flashSale'
       | 'flashSaleConfig'
-      | 'flashSaleCount'
       | 'flashSalePrice'
+      | 'flashSaleSoldCount'
       | 'getRoleAdmin'
       | 'grantRole'
       | 'hasRole'
       | 'isAccountAllowed'
+      | 'mintRemaining'
       | 'nft'
       | 'permitSale'
       | 'permitSaleConfig'
@@ -114,8 +116,8 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
   encodeFunctionData(functionFragment: 'count', values?: undefined): string
   encodeFunctionData(functionFragment: 'flashSale', values?: undefined): string
   encodeFunctionData(functionFragment: 'flashSaleConfig', values?: undefined): string
-  encodeFunctionData(functionFragment: 'flashSaleCount', values?: undefined): string
   encodeFunctionData(functionFragment: 'flashSalePrice', values?: undefined): string
+  encodeFunctionData(functionFragment: 'flashSaleSoldCount', values?: undefined): string
   encodeFunctionData(functionFragment: 'getRoleAdmin', values: [PromiseOrValue<BytesLike>]): string
   encodeFunctionData(
     functionFragment: 'grantRole',
@@ -129,6 +131,7 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
     functionFragment: 'isAccountAllowed',
     values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>, PromiseOrValue<BytesLike>[]]
   ): string
+  encodeFunctionData(functionFragment: 'mintRemaining', values: [PromiseOrValue<string>]): string
   encodeFunctionData(functionFragment: 'nft', values?: undefined): string
   encodeFunctionData(functionFragment: 'permitSale', values: [PromiseOrValue<BytesLike>[]]): string
   encodeFunctionData(functionFragment: 'permitSaleConfig', values?: undefined): string
@@ -211,12 +214,13 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: 'count', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'flashSale', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'flashSaleConfig', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'flashSaleCount', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'flashSalePrice', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'flashSaleSoldCount', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'getRoleAdmin', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'grantRole', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'hasRole', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'isAccountAllowed', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'mintRemaining', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'nft', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'permitSale', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'permitSaleConfig', data: BytesLike): Result
@@ -332,9 +336,9 @@ export interface AmbrusStudioSaler extends BaseContract {
       }
     >
 
-    flashSaleCount(overrides?: CallOverrides): Promise<[number]>
-
     flashSalePrice(overrides?: CallOverrides): Promise<[BigNumber]>
+
+    flashSaleSoldCount(overrides?: CallOverrides): Promise<[number]>
 
     getRoleAdmin(role: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<[string]>
 
@@ -356,6 +360,11 @@ export interface AmbrusStudioSaler extends BaseContract {
       signature: PromiseOrValue<BytesLike>[],
       overrides?: CallOverrides
     ): Promise<[boolean]>
+
+    mintRemaining(
+      account: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>
 
     nft(overrides?: CallOverrides): Promise<[string]>
 
@@ -506,9 +515,9 @@ export interface AmbrusStudioSaler extends BaseContract {
     }
   >
 
-  flashSaleCount(overrides?: CallOverrides): Promise<number>
-
   flashSalePrice(overrides?: CallOverrides): Promise<BigNumber>
+
+  flashSaleSoldCount(overrides?: CallOverrides): Promise<number>
 
   getRoleAdmin(role: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<string>
 
@@ -530,6 +539,11 @@ export interface AmbrusStudioSaler extends BaseContract {
     signature: PromiseOrValue<BytesLike>[],
     overrides?: CallOverrides
   ): Promise<boolean>
+
+  mintRemaining(
+    account: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>
 
   nft(overrides?: CallOverrides): Promise<string>
 
@@ -673,9 +687,9 @@ export interface AmbrusStudioSaler extends BaseContract {
       }
     >
 
-    flashSaleCount(overrides?: CallOverrides): Promise<number>
-
     flashSalePrice(overrides?: CallOverrides): Promise<BigNumber>
+
+    flashSaleSoldCount(overrides?: CallOverrides): Promise<number>
 
     getRoleAdmin(role: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<string>
 
@@ -697,6 +711,8 @@ export interface AmbrusStudioSaler extends BaseContract {
       signature: PromiseOrValue<BytesLike>[],
       overrides?: CallOverrides
     ): Promise<boolean>
+
+    mintRemaining(account: PromiseOrValue<string>, overrides?: CallOverrides): Promise<void>
 
     nft(overrides?: CallOverrides): Promise<string>
 
@@ -860,9 +876,9 @@ export interface AmbrusStudioSaler extends BaseContract {
 
     flashSaleConfig(overrides?: CallOverrides): Promise<BigNumber>
 
-    flashSaleCount(overrides?: CallOverrides): Promise<BigNumber>
-
     flashSalePrice(overrides?: CallOverrides): Promise<BigNumber>
+
+    flashSaleSoldCount(overrides?: CallOverrides): Promise<BigNumber>
 
     getRoleAdmin(role: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<BigNumber>
 
@@ -883,6 +899,11 @@ export interface AmbrusStudioSaler extends BaseContract {
       merkleRoot: PromiseOrValue<BytesLike>,
       signature: PromiseOrValue<BytesLike>[],
       overrides?: CallOverrides
+    ): Promise<BigNumber>
+
+    mintRemaining(
+      account: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>
 
     nft(overrides?: CallOverrides): Promise<BigNumber>
@@ -1009,9 +1030,9 @@ export interface AmbrusStudioSaler extends BaseContract {
 
     flashSaleConfig(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
-    flashSaleCount(overrides?: CallOverrides): Promise<PopulatedTransaction>
-
     flashSalePrice(overrides?: CallOverrides): Promise<PopulatedTransaction>
+
+    flashSaleSoldCount(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
@@ -1035,6 +1056,11 @@ export interface AmbrusStudioSaler extends BaseContract {
       merkleRoot: PromiseOrValue<BytesLike>,
       signature: PromiseOrValue<BytesLike>[],
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>
+
+    mintRemaining(
+      account: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>
 
     nft(overrides?: CallOverrides): Promise<PopulatedTransaction>

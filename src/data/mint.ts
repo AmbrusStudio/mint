@@ -30,12 +30,12 @@ export const mint: Mint = {
     {
       name: 'Gold Edition',
       value: 'gold',
-      contract: '0x987493B651F91D01F5Bc8f59E9f701765E31C5b4',
+      contract: '0x37255455d1895babf6f4a86d0d4f173478f7ff7c',
       style: {
         background: 'linear-gradient(90deg, #E4AA15 0%, #F0C75D 100%)',
         boxShadow: '0px 0px 8px 1px #FFB800, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
       },
-      // 页面外公开销售信息
+      // 页面外公开销售信息，如果在页面内进行公开销售，不要有 publicSale 字段
       publicSale: {
         text: {
           pending: 'Public Mint: Sep 28th, 1:30PM SGT',
@@ -47,12 +47,18 @@ export const mint: Mint = {
     // {
     //   name: 'Rangers Edition',
     //   value: 'rangers',
-    //   contract: '0xc2D4e1a46b48EB3208bdcf4887f85E02682B7752', // TODO: 等后端改合约
+    //   contract: '0x987493B651F91D01F5Bc8f59E9f701765E31C5b4', // TODO: 等后端改合约
     //   style: {
     //     background: 'linear-gradient(90deg, #399E98 0%, #88C4C0 100%)',
     //     boxShadow: '0px 0px 8px 1px #88C3C0, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
+    //   },
+    //   publicSale: {
+    //     text: {
+    //       pending: 'Public Mint: Sep 28th, 1:30PM SGT',
+    //       started: 'Public Mint on Rarible.com'
+    //     },
+    //     link: 'https://rarible.com/'
     //   }
-    //   // 页面内进行公开销售，不要填 publicSale 字段
     // }
   ],
   introduction: [
@@ -111,15 +117,15 @@ export const flashMint: FlashMint = {
   ...mint, // 文案和 Mint 一致
   flashSale: {
     // start 和 end 都要填，不到 start 时间和过了 end 时间会跳转普通 Mint
-    start: 1664337600, // Wednesday, September 28, 2022 12:00:00 PM GMT+08:00
-    end: 1664341200 // Wednesday, September 28, 2022 1:00:00 PM GMT+08:00
+    start: 1664445600, // Thursday, September 29, 2022 6:00:00 PM GMT+08:00
+    end: 1664467200 // Friday, September 30, 2022 12:00:00 AM GMT+08:00
   },
   editions: [
     // Flash sale 只有 Gold 版本
     {
       name: 'Gold Edition',
       value: 'gold',
-      contract: '0x987493B651F91D01F5Bc8f59E9f701765E31C5b4',
+      contract: '0x37255455d1895babf6f4a86d0d4f173478f7ff7c',
       style: {
         background: 'linear-gradient(90deg, #E4AA15 0%, #F0C75D 100%)',
         boxShadow: '0px 0px 8px 1px #FFB800, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'

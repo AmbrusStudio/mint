@@ -82,7 +82,6 @@ const showInfo = computed(
 const buttonText = computed(() => {
   if (!(edition.value && salerContract.value)) return 'Choose an Edition'
   if (publicEnd.value || !amount.value) return 'Sold Out'
-  if (canPublic.value) return 'Mint Now'
   if (!permitEnd.value && !canPermit.value) return 'No Permit Mint Access'
   if (!whitelistEnd.value && !canWhitelist.value) return 'No Whitelist Mint Access'
   return 'Sold Out'
