@@ -37,10 +37,7 @@ export const mint: Mint = {
       },
       // 页面外公开销售信息，如果在页面内进行公开销售，不要有 publicSale 字段
       publicSale: {
-        text: {
-          pending: 'Public Mint: Sep 28th, 1:30PM SGT',
-          started: 'Public Mint on Rarible.com'
-        },
+        text: 'Public Mint on Rarible.com',
         link: 'https://rarible.com/E4CRangersGold/items'
       }
     }
@@ -53,10 +50,7 @@ export const mint: Mint = {
     //     boxShadow: '0px 0px 8px 1px #88C3C0, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
     //   },
     //   publicSale: {
-    //     text: {
-    //       pending: 'Public Mint: Sep 28th, 1:30PM SGT',
-    //       started: 'Public Mint on Rarible.com'
-    //     },
+    //     text: 'Public Mint on Rarible.com',
     //     link: 'https://rarible.com/'
     //   }
     // }
@@ -117,8 +111,8 @@ export const flashMint: FlashMint = {
   ...mint, // 文案和 Mint 一致
   flashSale: {
     // start 和 end 都要填，不到 start 时间和过了 end 时间会跳转普通 Mint
-    start: 1664450400, // Thursday, September 29, 2022 7:20:00 PM GMT+08:00
-    end: 1664451000 // Thursday, September 29, 2022 7:30:00 PM GMT+08:00
+    start: 1664589600, // Saturday, October 1, 2022 10:00:00 AM GMT+08:00
+    end: 1664607600 // Saturday, October 1, 2022 3:00:00 PM GMT+08:00
   },
   editions: [
     // Flash sale 只有 Gold 版本
