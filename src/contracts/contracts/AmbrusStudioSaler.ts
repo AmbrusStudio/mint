@@ -39,6 +39,7 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
     'nft()': FunctionFragment
     'permitSale(bytes32[])': FunctionFragment
     'permitSaleConfig()': FunctionFragment
+    'permitSaleCount(address)': FunctionFragment
     'permitSalePrice()': FunctionFragment
     'publicSaleEnd()': FunctionFragment
     'publicSaleStart()': FunctionFragment
@@ -59,6 +60,7 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
     'supportsInterface(bytes4)': FunctionFragment
     'whitelistSale(bytes32[])': FunctionFragment
     'whitelistSaleConfig()': FunctionFragment
+    'whitelistSaleCount(address)': FunctionFragment
     'whitelistSalePrice()': FunctionFragment
     'withdraw()': FunctionFragment
   }
@@ -80,6 +82,7 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
       | 'nft'
       | 'permitSale'
       | 'permitSaleConfig'
+      | 'permitSaleCount'
       | 'permitSalePrice'
       | 'publicSaleEnd'
       | 'publicSaleStart'
@@ -100,6 +103,7 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
       | 'supportsInterface'
       | 'whitelistSale'
       | 'whitelistSaleConfig'
+      | 'whitelistSaleCount'
       | 'whitelistSalePrice'
       | 'withdraw'
   ): FunctionFragment
@@ -128,6 +132,7 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
   encodeFunctionData(functionFragment: 'nft', values?: undefined): string
   encodeFunctionData(functionFragment: 'permitSale', values: [PromiseOrValue<BytesLike>[]]): string
   encodeFunctionData(functionFragment: 'permitSaleConfig', values?: undefined): string
+  encodeFunctionData(functionFragment: 'permitSaleCount', values: [PromiseOrValue<string>]): string
   encodeFunctionData(functionFragment: 'permitSalePrice', values?: undefined): string
   encodeFunctionData(functionFragment: 'publicSaleEnd', values?: undefined): string
   encodeFunctionData(functionFragment: 'publicSaleStart', values?: undefined): string
@@ -193,6 +198,10 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>[]]
   ): string
   encodeFunctionData(functionFragment: 'whitelistSaleConfig', values?: undefined): string
+  encodeFunctionData(
+    functionFragment: 'whitelistSaleCount',
+    values: [PromiseOrValue<string>]
+  ): string
   encodeFunctionData(functionFragment: 'whitelistSalePrice', values?: undefined): string
   encodeFunctionData(functionFragment: 'withdraw', values?: undefined): string
 
@@ -211,6 +220,7 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: 'nft', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'permitSale', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'permitSaleConfig', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'permitSaleCount', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'permitSalePrice', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'publicSaleEnd', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'publicSaleStart', data: BytesLike): Result
@@ -231,6 +241,7 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: 'supportsInterface', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'whitelistSale', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'whitelistSaleConfig', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'whitelistSaleCount', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'whitelistSalePrice', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'withdraw', data: BytesLike): Result
 
@@ -362,6 +373,8 @@ export interface AmbrusStudioSaler extends BaseContract {
       }
     >
 
+    permitSaleCount(arg0: PromiseOrValue<string>, overrides?: CallOverrides): Promise<[BigNumber]>
+
     permitSalePrice(overrides?: CallOverrides): Promise<[BigNumber]>
 
     publicSaleEnd(overrides?: CallOverrides): Promise<[number]>
@@ -460,6 +473,11 @@ export interface AmbrusStudioSaler extends BaseContract {
       }
     >
 
+    whitelistSaleCount(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>
+
     whitelistSalePrice(overrides?: CallOverrides): Promise<[BigNumber]>
 
     withdraw(
@@ -528,6 +546,8 @@ export interface AmbrusStudioSaler extends BaseContract {
       merkleRoot: string
     }
   >
+
+  permitSaleCount(arg0: PromiseOrValue<string>, overrides?: CallOverrides): Promise<BigNumber>
 
   permitSalePrice(overrides?: CallOverrides): Promise<BigNumber>
 
@@ -627,6 +647,8 @@ export interface AmbrusStudioSaler extends BaseContract {
     }
   >
 
+  whitelistSaleCount(arg0: PromiseOrValue<string>, overrides?: CallOverrides): Promise<BigNumber>
+
   whitelistSalePrice(overrides?: CallOverrides): Promise<BigNumber>
 
   withdraw(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<ContractTransaction>
@@ -688,6 +710,8 @@ export interface AmbrusStudioSaler extends BaseContract {
         merkleRoot: string
       }
     >
+
+    permitSaleCount(arg0: PromiseOrValue<string>, overrides?: CallOverrides): Promise<BigNumber>
 
     permitSalePrice(overrides?: CallOverrides): Promise<BigNumber>
 
@@ -781,6 +805,8 @@ export interface AmbrusStudioSaler extends BaseContract {
       }
     >
 
+    whitelistSaleCount(arg0: PromiseOrValue<string>, overrides?: CallOverrides): Promise<BigNumber>
+
     whitelistSalePrice(overrides?: CallOverrides): Promise<BigNumber>
 
     withdraw(overrides?: CallOverrides): Promise<void>
@@ -867,6 +893,8 @@ export interface AmbrusStudioSaler extends BaseContract {
     ): Promise<BigNumber>
 
     permitSaleConfig(overrides?: CallOverrides): Promise<BigNumber>
+
+    permitSaleCount(arg0: PromiseOrValue<string>, overrides?: CallOverrides): Promise<BigNumber>
 
     permitSalePrice(overrides?: CallOverrides): Promise<BigNumber>
 
@@ -959,6 +987,8 @@ export interface AmbrusStudioSaler extends BaseContract {
 
     whitelistSaleConfig(overrides?: CallOverrides): Promise<BigNumber>
 
+    whitelistSaleCount(arg0: PromiseOrValue<string>, overrides?: CallOverrides): Promise<BigNumber>
+
     whitelistSalePrice(overrides?: CallOverrides): Promise<BigNumber>
 
     withdraw(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<BigNumber>
@@ -1015,6 +1045,11 @@ export interface AmbrusStudioSaler extends BaseContract {
     ): Promise<PopulatedTransaction>
 
     permitSaleConfig(overrides?: CallOverrides): Promise<PopulatedTransaction>
+
+    permitSaleCount(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>
 
     permitSalePrice(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
@@ -1106,6 +1141,11 @@ export interface AmbrusStudioSaler extends BaseContract {
     ): Promise<PopulatedTransaction>
 
     whitelistSaleConfig(overrides?: CallOverrides): Promise<PopulatedTransaction>
+
+    whitelistSaleCount(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>
 
     whitelistSalePrice(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
