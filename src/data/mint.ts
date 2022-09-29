@@ -41,7 +41,7 @@ export const mint: Mint = {
           pending: 'Public Mint: Sep 28th, 1:30PM SGT',
           started: 'Public Mint on Rarible.com'
         },
-        link: 'https://rarible.com/'
+        link: 'https://rarible.com/E4CRangersGold/items'
       }
     }
     // {
