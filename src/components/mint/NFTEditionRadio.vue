@@ -20,18 +20,17 @@ const props = defineProps<Props>()
 const emits = defineEmits<Emits>()
 
 const editionModel = useVModel(props, 'edition', emits)
-const { basePrice, amount, isSaleStart, isSaleEnd } = useReadonlySalerData(props.data.contract)
+const { basePrice, amount, isSaleStart } = useReadonlySalerData(props.data.contract)
 const { coming, closed } = useComputedSalerData(props.data.contract)
 
 const external = computed(() => !!props.data?.publicSale)
 const publicStart = isSaleStart('public')
-const publicEnd = isSaleEnd('public')
-const canPublic = computed(() => publicStart.value && !publicEnd.value)
+const canPublic = computed(() => closed.value && publicStart.value)
 
 const disabled = computed(() => {
   if (coming.value) return true
   if (external.value && canPublic.value) return false
-  if (publicEnd.value || !amount.value) return true
+  if (!amount.value) return true
   if (closed.value) return false
   return true
 })
@@ -68,13 +67,11 @@ const labelStyle = computed(() => ({
     >
       <span class="text-white font-semibold">{{ data.name }}</span>
       <span class="text-white font-medium" v-if="coming">Coming Soon</span>
-      <span class="text-white font-medium" v-else-if="external && closed && canPublic">
-        Public Mint
-      </span>
-      <span class="text-white font-medium" v-else-if="external && closed && !publicEnd">
+      <span class="text-white font-medium" v-else-if="external && closed && !publicStart">
         Mint Closed
       </span>
-      <span class="text-white font-medium" v-else-if="publicEnd || !amount">Sold Out</span>
+      <span class="text-white font-medium" v-else-if="external && canPublic">Public Mint</span>
+      <span class="text-white font-medium" v-else-if="!amount">Sold Out</span>
       <NFTCurrency className="text-white font-medium" :price="price" v-else />
     </div>
   </label>

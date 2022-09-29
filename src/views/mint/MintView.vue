@@ -41,8 +41,7 @@ const { basePrice, amount, sold, total, isSaleStart, isSaleEnd, getSaleData } =
 const { coming, closed } = useComputedSalerData(salerAddress)
 
 const publicStart = isSaleStart('public')
-const publicEnd = isSaleEnd('public')
-const canPublic = computed(() => publicStart.value && !publicEnd.value)
+const canPublic = computed(() => closed.value && publicStart.value)
 const editions = computed(() => !!nftData.value.editions.length)
 const external = computed(() => !!selected.value?.publicSale)
 
@@ -81,7 +80,7 @@ const showInfo = computed(
 // buttonText 和下面 NFTSaleButton 的展示逻辑没有完全搞清楚
 const buttonText = computed(() => {
   if (!(edition.value && salerContract.value)) return 'Choose an Edition'
-  if (publicEnd.value || !amount.value) return 'Sold Out'
+  if (!amount.value) return 'Sold Out'
   if (!permitEnd.value && !canPermit.value) return 'No Permit Mint Access'
   if (!whitelistEnd.value && !canWhitelist.value) return 'No Whitelist Mint Access'
   return 'Sold Out'
@@ -213,20 +212,20 @@ watch([edition, account], ([edition]) => selectEdition(edition), { immediate: tr
 
             <section class="flex flex-col">
               <NFTSaleButton disabled v-if="!editions || coming">Coming Soon</NFTSaleButton>
-              <NFTSaleButton disabled v-else-if="external && closed && !publicStart && !publicEnd">
+              <NFTSaleButton disabled v-else-if="external && closed && !publicStart">
                 {{ `Public Mint: ${publicDateTime}` }}
               </NFTSaleButton>
               <ExternalLink
                 class="block w-full py-16px xl:py-22px bg-rust text-white font-semibold text-16px xl:text-24px leading-20px xl:leading-28px text-center uppercase hover:bg-white hover:text-rust"
                 :to="selected?.publicSale?.link"
-                v-else-if="external && closed && canPublic"
+                v-else-if="external && canPublic"
               >
                 {{ selected?.publicSale?.text }}
               </ExternalLink>
               <NFTSaleButton
                 @click.stop.prevent="handleMintClick"
                 :disabled="isMinting"
-                v-else-if="!external && closed && canPublic && connected"
+                v-else-if="!external && canPublic && connected"
               >
                 Mint Now
               </NFTSaleButton>
