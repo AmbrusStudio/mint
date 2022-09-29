@@ -68,7 +68,9 @@ const labelStyle = computed(() => ({
     >
       <span class="text-white font-semibold">{{ data.name }}</span>
       <span class="text-white font-medium" v-if="coming">Coming Soon</span>
-      <span class="text-white font-medium" v-else-if="external && canPublic">Public Mint</span>
+      <span class="text-white font-medium" v-else-if="external && closed && canPublic">
+        Public Mint
+      </span>
       <span class="text-white font-medium" v-else-if="external && closed && !publicEnd">
         Mint Closed
       </span>

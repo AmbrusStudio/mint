@@ -110,7 +110,7 @@ function getSalerHelpers(salerData: SalerData): SalerHelpers {
   function isSaleEnd(type: SaleType) {
     return computed(() => {
       const time = salerData[type]
-      if (!time || !time?.end) return false
+      if (!time || !time?.end) return true
       return !isFuture(time.end)
     })
   }
