@@ -119,7 +119,7 @@ export const flashMint: FlashMint = {
     {
       name: 'Gold Edition',
       value: 'gold',
-      contract: '0x52b27e707164f6216d4a150777c5d6b9d4295398 ',
+      contract: '0x52b27e707164f6216d4a150777c5d6b9d4295398',
       style: {
         background: 'linear-gradient(90deg, #E4AA15 0%, #F0C75D 100%)',
         boxShadow: '0px 0px 8px 1px #FFB800, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
