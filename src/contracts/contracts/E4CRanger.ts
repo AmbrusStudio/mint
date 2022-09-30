@@ -23,68 +23,58 @@ import type {
 
 export interface E4CRangerInterface extends utils.Interface {
   functions: {
-    'DEFAULT_ADMIN_ROLE()': FunctionFragment
-    'MINTER_ROLE()': FunctionFragment
     'approve(address,uint256)': FunctionFragment
     'balanceOf(address)': FunctionFragment
     'baseURI()': FunctionFragment
     'blueprints(uint256)': FunctionFragment
     'getApproved(uint256)': FunctionFragment
-    'getRoleAdmin(bytes32)': FunctionFragment
-    'grantMinterRole(address)': FunctionFragment
-    'grantRole(bytes32,address)': FunctionFragment
-    'hasRole(bytes32,address)': FunctionFragment
     'imx()': FunctionFragment
     'isApprovedForAll(address,address)': FunctionFragment
     'mintFor(address,uint256,bytes)': FunctionFragment
     'name()': FunctionFragment
+    'owner()': FunctionFragment
     'ownerOf(uint256)': FunctionFragment
-    'renounceRole(bytes32,address)': FunctionFragment
-    'revokeMinterRole(address)': FunctionFragment
-    'revokeRole(bytes32,address)': FunctionFragment
+    'renounceOwnership()': FunctionFragment
     'safeTransferFrom(address,address,uint256)': FunctionFragment
     'safeTransferFrom(address,address,uint256,bytes)': FunctionFragment
+    'saler()': FunctionFragment
     'setApprovalForAll(address,bool)': FunctionFragment
     'setBaseURI(string)': FunctionFragment
+    'setSaler(address)': FunctionFragment
     'supportsInterface(bytes4)': FunctionFragment
     'symbol()': FunctionFragment
     'tokenURI(uint256)': FunctionFragment
     'transferFrom(address,address,uint256)': FunctionFragment
+    'transferOwnership(address)': FunctionFragment
   }
 
   getFunction(
     nameOrSignatureOrTopic:
-      | 'DEFAULT_ADMIN_ROLE'
-      | 'MINTER_ROLE'
       | 'approve'
       | 'balanceOf'
       | 'baseURI'
       | 'blueprints'
       | 'getApproved'
-      | 'getRoleAdmin'
-      | 'grantMinterRole'
-      | 'grantRole'
-      | 'hasRole'
       | 'imx'
       | 'isApprovedForAll'
       | 'mintFor'
       | 'name'
+      | 'owner'
       | 'ownerOf'
-      | 'renounceRole'
-      | 'revokeMinterRole'
-      | 'revokeRole'
+      | 'renounceOwnership'
       | 'safeTransferFrom(address,address,uint256)'
       | 'safeTransferFrom(address,address,uint256,bytes)'
+      | 'saler'
       | 'setApprovalForAll'
       | 'setBaseURI'
+      | 'setSaler'
       | 'supportsInterface'
       | 'symbol'
       | 'tokenURI'
       | 'transferFrom'
+      | 'transferOwnership'
   ): FunctionFragment
 
-  encodeFunctionData(functionFragment: 'DEFAULT_ADMIN_ROLE', values?: undefined): string
-  encodeFunctionData(functionFragment: 'MINTER_ROLE', values?: undefined): string
   encodeFunctionData(
     functionFragment: 'approve',
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
@@ -96,16 +86,6 @@ export interface E4CRangerInterface extends utils.Interface {
     functionFragment: 'getApproved',
     values: [PromiseOrValue<BigNumberish>]
   ): string
-  encodeFunctionData(functionFragment: 'getRoleAdmin', values: [PromiseOrValue<BytesLike>]): string
-  encodeFunctionData(functionFragment: 'grantMinterRole', values: [PromiseOrValue<string>]): string
-  encodeFunctionData(
-    functionFragment: 'grantRole',
-    values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
-  ): string
-  encodeFunctionData(
-    functionFragment: 'hasRole',
-    values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
-  ): string
   encodeFunctionData(functionFragment: 'imx', values?: undefined): string
   encodeFunctionData(
     functionFragment: 'isApprovedForAll',
@@ -116,16 +96,9 @@ export interface E4CRangerInterface extends utils.Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>, PromiseOrValue<BytesLike>]
   ): string
   encodeFunctionData(functionFragment: 'name', values?: undefined): string
+  encodeFunctionData(functionFragment: 'owner', values?: undefined): string
   encodeFunctionData(functionFragment: 'ownerOf', values: [PromiseOrValue<BigNumberish>]): string
-  encodeFunctionData(
-    functionFragment: 'renounceRole',
-    values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
-  ): string
-  encodeFunctionData(functionFragment: 'revokeMinterRole', values: [PromiseOrValue<string>]): string
-  encodeFunctionData(
-    functionFragment: 'revokeRole',
-    values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
-  ): string
+  encodeFunctionData(functionFragment: 'renounceOwnership', values?: undefined): string
   encodeFunctionData(
     functionFragment: 'safeTransferFrom(address,address,uint256)',
     values: [PromiseOrValue<string>, PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
@@ -139,11 +112,13 @@ export interface E4CRangerInterface extends utils.Interface {
       PromiseOrValue<BytesLike>
     ]
   ): string
+  encodeFunctionData(functionFragment: 'saler', values?: undefined): string
   encodeFunctionData(
     functionFragment: 'setApprovalForAll',
     values: [PromiseOrValue<string>, PromiseOrValue<boolean>]
   ): string
   encodeFunctionData(functionFragment: 'setBaseURI', values: [PromiseOrValue<string>]): string
+  encodeFunctionData(functionFragment: 'setSaler', values: [PromiseOrValue<string>]): string
   encodeFunctionData(
     functionFragment: 'supportsInterface',
     values: [PromiseOrValue<BytesLike>]
@@ -154,26 +129,23 @@ export interface E4CRangerInterface extends utils.Interface {
     functionFragment: 'transferFrom',
     values: [PromiseOrValue<string>, PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string
+  encodeFunctionData(
+    functionFragment: 'transferOwnership',
+    values: [PromiseOrValue<string>]
+  ): string
 
-  decodeFunctionResult(functionFragment: 'DEFAULT_ADMIN_ROLE', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'MINTER_ROLE', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'approve', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'balanceOf', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'baseURI', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'blueprints', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'getApproved', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'getRoleAdmin', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'grantMinterRole', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'grantRole', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'hasRole', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'imx', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'isApprovedForAll', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'mintFor', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'name', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'ownerOf', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'renounceRole', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'revokeMinterRole', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'revokeRole', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'renounceOwnership', data: BytesLike): Result
   decodeFunctionResult(
     functionFragment: 'safeTransferFrom(address,address,uint256)',
     data: BytesLike
@@ -182,29 +154,28 @@ export interface E4CRangerInterface extends utils.Interface {
     functionFragment: 'safeTransferFrom(address,address,uint256,bytes)',
     data: BytesLike
   ): Result
+  decodeFunctionResult(functionFragment: 'saler', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'setApprovalForAll', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'setBaseURI', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'setSaler', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'supportsInterface', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'symbol', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'tokenURI', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'transferFrom', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'transferOwnership', data: BytesLike): Result
 
   events: {
     'Approval(address,address,uint256)': EventFragment
     'ApprovalForAll(address,address,bool)': EventFragment
     'AssetMinted(address,uint256,bytes)': EventFragment
-    'RoleAdminChanged(bytes32,bytes32,bytes32)': EventFragment
-    'RoleGranted(bytes32,address,address)': EventFragment
-    'RoleRevoked(bytes32,address,address)': EventFragment
+    'OwnershipTransferred(address,address)': EventFragment
     'Transfer(address,address,uint256)': EventFragment
   }
 
   getEvent(nameOrSignatureOrTopic: 'Approval'): EventFragment
   getEvent(nameOrSignatureOrTopic: 'ApprovalForAll'): EventFragment
   getEvent(nameOrSignatureOrTopic: 'AssetMinted'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'RoleAdminChanged'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'RoleGranted'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'RoleRevoked'): EventFragment
+  getEvent(nameOrSignatureOrTopic: 'OwnershipTransferred'): EventFragment
   getEvent(nameOrSignatureOrTopic: 'Transfer'): EventFragment
 }
 
@@ -235,35 +206,16 @@ export type AssetMintedEvent = TypedEvent<[string, BigNumber, string], AssetMint
 
 export type AssetMintedEventFilter = TypedEventFilter<AssetMintedEvent>
 
-export interface RoleAdminChangedEventObject {
-  role: string
-  previousAdminRole: string
-  newAdminRole: string
+export interface OwnershipTransferredEventObject {
+  previousOwner: string
+  newOwner: string
 }
-export type RoleAdminChangedEvent = TypedEvent<
-  [string, string, string],
-  RoleAdminChangedEventObject
+export type OwnershipTransferredEvent = TypedEvent<
+  [string, string],
+  OwnershipTransferredEventObject
 >
 
-export type RoleAdminChangedEventFilter = TypedEventFilter<RoleAdminChangedEvent>
-
-export interface RoleGrantedEventObject {
-  role: string
-  account: string
-  sender: string
-}
-export type RoleGrantedEvent = TypedEvent<[string, string, string], RoleGrantedEventObject>
-
-export type RoleGrantedEventFilter = TypedEventFilter<RoleGrantedEvent>
-
-export interface RoleRevokedEventObject {
-  role: string
-  account: string
-  sender: string
-}
-export type RoleRevokedEvent = TypedEvent<[string, string, string], RoleRevokedEventObject>
-
-export type RoleRevokedEventFilter = TypedEventFilter<RoleRevokedEvent>
+export type OwnershipTransferredEventFilter = TypedEventFilter<OwnershipTransferredEvent>
 
 export interface TransferEventObject {
   from: string
@@ -299,10 +251,6 @@ export interface E4CRanger extends BaseContract {
   removeListener: OnEvent<this>
 
   functions: {
-    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>
-
-    MINTER_ROLE(overrides?: CallOverrides): Promise<[string]>
-
     approve(
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
@@ -316,25 +264,6 @@ export interface E4CRanger extends BaseContract {
     blueprints(arg0: PromiseOrValue<BigNumberish>, overrides?: CallOverrides): Promise<[string]>
 
     getApproved(tokenId: PromiseOrValue<BigNumberish>, overrides?: CallOverrides): Promise<[string]>
-
-    getRoleAdmin(role: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<[string]>
-
-    grantMinterRole(
-      account: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>
-
-    grantRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>
-
-    hasRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>
 
     imx(overrides?: CallOverrides): Promise<[string]>
 
@@ -353,22 +282,11 @@ export interface E4CRanger extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<[string]>
 
+    owner(overrides?: CallOverrides): Promise<[string]>
+
     ownerOf(tokenId: PromiseOrValue<BigNumberish>, overrides?: CallOverrides): Promise<[string]>
 
-    renounceRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>
-
-    revokeMinterRole(
-      account: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>
-
-    revokeRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
+    renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>
 
@@ -387,6 +305,8 @@ export interface E4CRanger extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>
 
+    saler(overrides?: CallOverrides): Promise<[string]>
+
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
@@ -395,6 +315,11 @@ export interface E4CRanger extends BaseContract {
 
     setBaseURI(
       baseURI_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>
+
+    setSaler(
+      _saler: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>
 
@@ -413,11 +338,12 @@ export interface E4CRanger extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>
+
+    transferOwnership(
+      newOwner: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>
   }
-
-  DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>
-
-  MINTER_ROLE(overrides?: CallOverrides): Promise<string>
 
   approve(
     to: PromiseOrValue<string>,
@@ -432,25 +358,6 @@ export interface E4CRanger extends BaseContract {
   blueprints(arg0: PromiseOrValue<BigNumberish>, overrides?: CallOverrides): Promise<string>
 
   getApproved(tokenId: PromiseOrValue<BigNumberish>, overrides?: CallOverrides): Promise<string>
-
-  getRoleAdmin(role: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<string>
-
-  grantMinterRole(
-    account: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>
-
-  grantRole(
-    role: PromiseOrValue<BytesLike>,
-    account: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>
-
-  hasRole(
-    role: PromiseOrValue<BytesLike>,
-    account: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<boolean>
 
   imx(overrides?: CallOverrides): Promise<string>
 
@@ -469,22 +376,11 @@ export interface E4CRanger extends BaseContract {
 
   name(overrides?: CallOverrides): Promise<string>
 
+  owner(overrides?: CallOverrides): Promise<string>
+
   ownerOf(tokenId: PromiseOrValue<BigNumberish>, overrides?: CallOverrides): Promise<string>
 
-  renounceRole(
-    role: PromiseOrValue<BytesLike>,
-    account: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>
-
-  revokeMinterRole(
-    account: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>
-
-  revokeRole(
-    role: PromiseOrValue<BytesLike>,
-    account: PromiseOrValue<string>,
+  renounceOwnership(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>
 
@@ -503,6 +399,8 @@ export interface E4CRanger extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>
 
+  saler(overrides?: CallOverrides): Promise<string>
+
   setApprovalForAll(
     operator: PromiseOrValue<string>,
     approved: PromiseOrValue<boolean>,
@@ -511,6 +409,11 @@ export interface E4CRanger extends BaseContract {
 
   setBaseURI(
     baseURI_: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>
+
+  setSaler(
+    _saler: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>
 
@@ -530,11 +433,12 @@ export interface E4CRanger extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>
 
+  transferOwnership(
+    newOwner: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>
+
   callStatic: {
-    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>
-
-    MINTER_ROLE(overrides?: CallOverrides): Promise<string>
-
     approve(
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
@@ -548,22 +452,6 @@ export interface E4CRanger extends BaseContract {
     blueprints(arg0: PromiseOrValue<BigNumberish>, overrides?: CallOverrides): Promise<string>
 
     getApproved(tokenId: PromiseOrValue<BigNumberish>, overrides?: CallOverrides): Promise<string>
-
-    getRoleAdmin(role: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<string>
-
-    grantMinterRole(account: PromiseOrValue<string>, overrides?: CallOverrides): Promise<void>
-
-    grantRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>
-
-    hasRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<boolean>
 
     imx(overrides?: CallOverrides): Promise<string>
 
@@ -582,21 +470,11 @@ export interface E4CRanger extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<string>
 
+    owner(overrides?: CallOverrides): Promise<string>
+
     ownerOf(tokenId: PromiseOrValue<BigNumberish>, overrides?: CallOverrides): Promise<string>
 
-    renounceRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>
-
-    revokeMinterRole(account: PromiseOrValue<string>, overrides?: CallOverrides): Promise<void>
-
-    revokeRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>
+    renounceOwnership(overrides?: CallOverrides): Promise<void>
 
     'safeTransferFrom(address,address,uint256)'(
       from: PromiseOrValue<string>,
@@ -613,6 +491,8 @@ export interface E4CRanger extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>
 
+    saler(overrides?: CallOverrides): Promise<string>
+
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
@@ -620,6 +500,8 @@ export interface E4CRanger extends BaseContract {
     ): Promise<void>
 
     setBaseURI(baseURI_: PromiseOrValue<string>, overrides?: CallOverrides): Promise<void>
+
+    setSaler(_saler: PromiseOrValue<string>, overrides?: CallOverrides): Promise<void>
 
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
@@ -636,6 +518,8 @@ export interface E4CRanger extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>
+
+    transferOwnership(newOwner: PromiseOrValue<string>, overrides?: CallOverrides): Promise<void>
   }
 
   filters: {
@@ -668,38 +552,14 @@ export interface E4CRanger extends BaseContract {
     ): AssetMintedEventFilter
     AssetMinted(to?: null, id?: null, blueprint?: null): AssetMintedEventFilter
 
-    'RoleAdminChanged(bytes32,bytes32,bytes32)'(
-      role?: PromiseOrValue<BytesLike> | null,
-      previousAdminRole?: PromiseOrValue<BytesLike> | null,
-      newAdminRole?: PromiseOrValue<BytesLike> | null
-    ): RoleAdminChangedEventFilter
-    RoleAdminChanged(
-      role?: PromiseOrValue<BytesLike> | null,
-      previousAdminRole?: PromiseOrValue<BytesLike> | null,
-      newAdminRole?: PromiseOrValue<BytesLike> | null
-    ): RoleAdminChangedEventFilter
-
-    'RoleGranted(bytes32,address,address)'(
-      role?: PromiseOrValue<BytesLike> | null,
-      account?: PromiseOrValue<string> | null,
-      sender?: PromiseOrValue<string> | null
-    ): RoleGrantedEventFilter
-    RoleGranted(
-      role?: PromiseOrValue<BytesLike> | null,
-      account?: PromiseOrValue<string> | null,
-      sender?: PromiseOrValue<string> | null
-    ): RoleGrantedEventFilter
-
-    'RoleRevoked(bytes32,address,address)'(
-      role?: PromiseOrValue<BytesLike> | null,
-      account?: PromiseOrValue<string> | null,
-      sender?: PromiseOrValue<string> | null
-    ): RoleRevokedEventFilter
-    RoleRevoked(
-      role?: PromiseOrValue<BytesLike> | null,
-      account?: PromiseOrValue<string> | null,
-      sender?: PromiseOrValue<string> | null
-    ): RoleRevokedEventFilter
+    'OwnershipTransferred(address,address)'(
+      previousOwner?: PromiseOrValue<string> | null,
+      newOwner?: PromiseOrValue<string> | null
+    ): OwnershipTransferredEventFilter
+    OwnershipTransferred(
+      previousOwner?: PromiseOrValue<string> | null,
+      newOwner?: PromiseOrValue<string> | null
+    ): OwnershipTransferredEventFilter
 
     'Transfer(address,address,uint256)'(
       from?: PromiseOrValue<string> | null,
@@ -714,10 +574,6 @@ export interface E4CRanger extends BaseContract {
   }
 
   estimateGas: {
-    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>
-
-    MINTER_ROLE(overrides?: CallOverrides): Promise<BigNumber>
-
     approve(
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
@@ -732,25 +588,6 @@ export interface E4CRanger extends BaseContract {
 
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>
-
-    getRoleAdmin(role: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<BigNumber>
-
-    grantMinterRole(
-      account: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>
-
-    grantRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>
-
-    hasRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>
 
@@ -771,24 +608,11 @@ export interface E4CRanger extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<BigNumber>
 
+    owner(overrides?: CallOverrides): Promise<BigNumber>
+
     ownerOf(tokenId: PromiseOrValue<BigNumberish>, overrides?: CallOverrides): Promise<BigNumber>
 
-    renounceRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>
-
-    revokeMinterRole(
-      account: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>
-
-    revokeRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>
+    renounceOwnership(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<BigNumber>
 
     'safeTransferFrom(address,address,uint256)'(
       from: PromiseOrValue<string>,
@@ -805,6 +629,8 @@ export interface E4CRanger extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>
 
+    saler(overrides?: CallOverrides): Promise<BigNumber>
+
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
@@ -813,6 +639,11 @@ export interface E4CRanger extends BaseContract {
 
     setBaseURI(
       baseURI_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>
+
+    setSaler(
+      _saler: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>
 
@@ -831,13 +662,14 @@ export interface E4CRanger extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>
+
+    transferOwnership(
+      newOwner: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>
   }
 
   populateTransaction: {
-    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>
-
-    MINTER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>
-
     approve(
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
@@ -861,28 +693,6 @@ export interface E4CRanger extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>
 
-    getRoleAdmin(
-      role: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>
-
-    grantMinterRole(
-      account: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>
-
-    grantRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>
-
-    hasRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>
-
     imx(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
     isApprovedForAll(
@@ -900,25 +710,14 @@ export interface E4CRanger extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
+    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>
+
     ownerOf(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>
 
-    renounceRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>
-
-    revokeMinterRole(
-      account: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>
-
-    revokeRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
+    renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>
 
@@ -937,6 +736,8 @@ export interface E4CRanger extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>
 
+    saler(overrides?: CallOverrides): Promise<PopulatedTransaction>
+
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
@@ -945,6 +746,11 @@ export interface E4CRanger extends BaseContract {
 
     setBaseURI(
       baseURI_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>
+
+    setSaler(
+      _saler: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>
 
@@ -964,6 +770,11 @@ export interface E4CRanger extends BaseContract {
       from: PromiseOrValue<string>,
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>
+
+    transferOwnership(
+      newOwner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>
   }
