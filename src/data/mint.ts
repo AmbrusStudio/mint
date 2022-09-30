@@ -12,7 +12,7 @@ export const mint: Mint = {
     name: 'Rin: Heir of Musashi',
     content:
       '<p>Rin is the first Ranger coming to <a href="https://www.ambrus.studio/worldview" target="_blank" rel="noopener">E4C Verse</a>. She is a combat cyborg, who carries the razor-sharp katana sword and scaled samurai armor. She is also a major member of A.E.R.L, who fights against corruption. <a href="https://www.ambrus.studio/worldview/ranger/6">Learn more about Rin</a></p>',
-    note: '<p>For Gold Edition public mint, visit <a href="https://rarible.com/" target="_blank" rel="noopener">Rarible.com</a></p>'
+    note: '<p>For Gold Edition public mint, visit <a href="https://rarible.com/e4cgold/items" target="_blank" rel="noopener">Rarible.com</a></p>'
   },
   disclaimer: {
     images: [
