@@ -38,7 +38,7 @@ export const mint: Mint = {
       // 页面外公开销售信息，如果在页面内进行公开销售，不要有 publicSale 字段
       publicSale: {
         text: 'Public Mint on Rarible.com',
-        link: 'https://rarible.com/E4CRangersGold/items'
+        link: 'https://rarible.com/e4cgold/items'
       }
     }
     // {
