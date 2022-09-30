@@ -63,7 +63,7 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
     'whitelistSaleConfig()': FunctionFragment
     'whitelistSaleCount(address)': FunctionFragment
     'whitelistSalePrice()': FunctionFragment
-    'withdraw()': FunctionFragment
+    'withdraw(address)': FunctionFragment
   }
 
   getFunction(
@@ -206,7 +206,7 @@ export interface AmbrusStudioSalerInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string
   encodeFunctionData(functionFragment: 'whitelistSalePrice', values?: undefined): string
-  encodeFunctionData(functionFragment: 'withdraw', values?: undefined): string
+  encodeFunctionData(functionFragment: 'withdraw', values: [PromiseOrValue<string>]): string
 
   decodeFunctionResult(functionFragment: 'DEFAULT_ADMIN_ROLE', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'WITHDRAWER_ROLE', data: BytesLike): Result
@@ -490,6 +490,7 @@ export interface AmbrusStudioSaler extends BaseContract {
     whitelistSalePrice(overrides?: CallOverrides): Promise<[BigNumber]>
 
     withdraw(
+      account: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>
   }
@@ -665,7 +666,10 @@ export interface AmbrusStudioSaler extends BaseContract {
 
   whitelistSalePrice(overrides?: CallOverrides): Promise<BigNumber>
 
-  withdraw(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<ContractTransaction>
+  withdraw(
+    account: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>
 
   callStatic: {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>
@@ -825,7 +829,7 @@ export interface AmbrusStudioSaler extends BaseContract {
 
     whitelistSalePrice(overrides?: CallOverrides): Promise<BigNumber>
 
-    withdraw(overrides?: CallOverrides): Promise<void>
+    withdraw(account: PromiseOrValue<string>, overrides?: CallOverrides): Promise<void>
   }
 
   filters: {
@@ -1012,7 +1016,10 @@ export interface AmbrusStudioSaler extends BaseContract {
 
     whitelistSalePrice(overrides?: CallOverrides): Promise<BigNumber>
 
-    withdraw(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<BigNumber>
+    withdraw(
+      account: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>
   }
 
   populateTransaction: {
@@ -1176,6 +1183,7 @@ export interface AmbrusStudioSaler extends BaseContract {
     whitelistSalePrice(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
     withdraw(
+      account: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>
   }
