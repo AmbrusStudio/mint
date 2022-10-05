@@ -40,20 +40,20 @@ export const mint: Mint = {
         text: 'Public Mint on Rarible.com',
         link: 'https://rarible.com/e4cgold/items'
       }
-    }
-    // {
-    //   name: 'Rangers Edition',
-    //   value: 'rangers',
-    //   contract: '0x987493B651F91D01F5Bc8f59E9f701765E31C5b4', // TODO: 等后端改合约
-    //   style: {
-    //     background: 'linear-gradient(90deg, #399E98 0%, #88C4C0 100%)',
-    //     boxShadow: '0px 0px 8px 1px #88C3C0, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
-    //   },
-    //   publicSale: {
-    //     text: 'Public Mint on Rarible.com',
-    //     link: 'https://rarible.com/'
-    //   }
-    // }
+    },
+     {
+       name: 'Rangers Edition',
+       value: 'rangers',
+       contract: '0x3A2e6ea2eFB2fB1D2C2b1Eb364FCA376500D4785',
+       style: {
+         background: 'linear-gradient(90deg, #399E98 0%, #88C4C0 100%)',
+         boxShadow: '0px 0px 8px 1px #88C3C0, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
+       },
+       publicSale: {
+         text: 'Public Mint on Rarible.com',
+         link: 'https://rarible.com/e4cgold/items' // FIX ME
+       }
+     }
   ],
   introduction: [
     // 完全展示部分
