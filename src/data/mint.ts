@@ -11,8 +11,8 @@ export const mint: Mint = {
     type: 'E4C Rangers Genesis Series 1',
     name: 'Rin: Heir of Musashi',
     content:
-      '<p>Rin is the first Ranger coming to <a href="https://www.ambrus.studio/worldview" target="_blank" rel="noopener">E4C Verse</a>. She is a combat cyborg, who carries the razor-sharp katana sword and scaled samurai armor. She is also a major member of A.E.R.L, who fights against corruption. <a href="https://www.ambrus.studio/worldview/ranger/6">Learn more about Rin</a></p>',
-    note: '<p>For Gold Edition public mint, visit <a href="https://rarible.com/e4cgold/items" target="_blank" rel="noopener">Rarible.com</a></p>'
+      '<p>Rin is the first Ranger coming to <a href="https://www.ambrus.studio/worldview" target="_blank" rel="noopener">E4C Verse</a>. She is a combat cyborg, who carries the razor-sharp katana sword and scaled samurai armor. She is also a major member of A.E.R.L, who fights against corruption. <a href="https://www.ambrus.studio/worldview/ranger/6">Learn more about Rin</a></p>'
+    // note: '<p>For Rangers Edition public mint, visit <a href="https://rarible.com/e4cgold/items" target="_blank" rel="noopener">Rarible.com</a></p>'
   },
   disclaimer: {
     images: [
@@ -28,32 +28,19 @@ export const mint: Mint = {
   // editions: [], // 删除所有版本展示 Coming soon
   editions: [
     {
-      name: 'Gold Edition',
-      value: 'gold',
-      contract: '0x52b27e707164f6216d4a150777c5d6b9d4295398',
+      name: 'Rangers Edition',
+      value: 'rangers',
+      contract: '0x3A2e6ea2eFB2fB1D2C2b1Eb364FCA376500D4785',
       style: {
-        background: 'linear-gradient(90deg, #E4AA15 0%, #F0C75D 100%)',
-        boxShadow: '0px 0px 8px 1px #FFB800, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
-      },
-      // 页面外公开销售信息，如果在页面内进行公开销售，不要有 publicSale 字段
-      publicSale: {
-        text: 'Public Mint on Rarible.com',
-        link: 'https://rarible.com/e4cgold/items'
+        background: 'linear-gradient(90deg, #399E98 0%, #88C4C0 100%)',
+        boxShadow: '0px 0px 8px 1px #88C3C0, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
       }
-    },
-     {
-       name: 'Rangers Edition',
-       value: 'rangers',
-       contract: '0x3A2e6ea2eFB2fB1D2C2b1Eb364FCA376500D4785',
-       style: {
-         background: 'linear-gradient(90deg, #399E98 0%, #88C4C0 100%)',
-         boxShadow: '0px 0px 8px 1px #88C3C0, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
-       },
-       publicSale: {
-         text: 'Public Mint on Rarible.com',
-         link: 'https://rarible.com/e4cgold/items' // FIX ME
-       }
-     }
+      // 在页面 Mint 不需要 publicSale 字段
+      // publicSale: {
+      //   text: 'Public Mint on Rarible.com',
+      //   link: 'https://rarible.com/e4cgold/items'
+      // }
+    }
   ],
   introduction: [
     // 完全展示部分
