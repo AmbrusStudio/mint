@@ -30,7 +30,7 @@ const endDate = computed(() => props.timeType === 'end' && formatDatetime(props.
     <div class="flex flex-row flex-nowrap items-baseline">
       <NFTCurrency className="font-semibold text-32px leading-40px text-white" :price="price" />
       <NFTCurrency
-        v-if="basePrice && discount !== 100"
+        v-if="basePrice && discount && discount > 0"
         className="font-normal text-16px leading-20px text-grey-medium ml-12px"
         textClass="line-through"
         :price="basePrice || 0"

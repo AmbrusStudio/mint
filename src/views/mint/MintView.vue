@@ -103,9 +103,10 @@ const handleMintClick = async () => {
       await openNFTModal(nftAddress, tx)
     } else if (canPublic.value) {
       // const price = await salerContract.value.basePrice()
-      // const nftAddress = await salerContract.value.nft()
       // const tx = await salerContract.value.publicSale({ value: price })
-      // await openNFTModal(nftAddress, tx)
+      const price = await salerContract.value.flashSalePrice()
+      const tx = await salerContract.value.flashSale({ value: price })
+      await openNFTModal(nftAddress, tx)
     }
   } catch (error) {
     alertErrorMessage('Mint faild', error)
