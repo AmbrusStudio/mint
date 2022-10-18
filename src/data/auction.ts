@@ -53,7 +53,7 @@ export const auction: Auction = {
         {
           title: 'How',
           content:
-            'Open ascending bid auction in which the highest bidder wins and pays the second highest price',
+            'Open ascending bid auction',
           style: {
             lineHeight: '51px',
             fontSize: '42px'
@@ -86,7 +86,7 @@ export const auction: Auction = {
   actions: {
     text: 'Sign up and get 5% off bidding price',
     button: 'RSVP FOR THE AUCTION', // Bid on Opensea
-    link: 'https://opensea.io/collection/e4c',
+    link: 'https://forms.gle/Qz2nudXzH8bYJxH2A',
     buttonStyle: {
       backgroundColor: '#FF4125' // #2081E2
     }
