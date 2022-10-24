@@ -30,7 +30,8 @@ export default defineConfig({
       red_1: '#b7220c'
     },
     boxShadow: {
-      'nft-sale': '0px 4px 12px rgba(0, 0, 0, 0.15)'
+      'nft-sale': '0px 4px 12px rgba(0, 0, 0, 0.15)',
+      'wallet-button': '0px 4px 10px rgba(0, 0, 0, 0.2)'
     },
     dropShadow: {
       'nft-modal': '0px 4px 24px rgba(0, 0, 0, 0.4)'
