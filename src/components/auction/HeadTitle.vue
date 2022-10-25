@@ -10,20 +10,17 @@ defineProps<Props>()
 /// opens roadmap(undone)
 
 const handleOpenRoadmap = () => {
-      window.open('')
-    }
+  window.open('')
+}
 </script>
 
 <template>
   <div class="max-w-1332px p-x-9 mx-auto">
     <section>
-      <div
-        class="rotating-box-roadmap"
-        @click="handleOpenRoadmap()"
-      >
+      <div class="rotating-box-roadmap" @click="handleOpenRoadmap()">
         <div></div>
       </div>
-  </section>
+    </section>
     <h2
       class="text-base md:text-2xl uppercase text-white leading-20px md:leading-29px mt-15 not-italic"
     >
@@ -96,5 +93,4 @@ const handleOpenRoadmap = () => {
     transform: rotate(359deg);
   }
 }
-
 </style>
