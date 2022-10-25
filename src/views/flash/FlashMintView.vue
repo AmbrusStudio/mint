@@ -15,14 +15,14 @@ import { computed, ref, watch, watchEffect } from 'vue'
 import { getFlashMintInfo } from '@/api'
 import { initialMint } from '@/data'
 import { useNFTModal, useReadonlySalerData, useSalerContract, useWallet } from '@/hooks'
-import type { Mint, MintEdition } from '@/types'
+import type { Mint, MintEdition, MintEditionValue } from '@/types'
 import { alertErrorMessage } from '@/utils'
 
 const { ethereum, connect, isConnected } = useWallet()
 const { modalOpen, modalData, openNFTModal, closeNFTModal } = useNFTModal()
 
 const nftData = ref<Mint>(initialMint)
-const edition = ref<string>('')
+const edition = ref<MintEditionValue>()
 const selected = ref<MintEdition>()
 const salerAddress = ref<string>('')
 const isMinting = ref(false)
@@ -82,13 +82,13 @@ watchEffect(async () => {
   const data = await getFlashMintInfo()
   nftData.value = data
   if (Array.isArray(data.editions)) {
-    edition.value = data.editions[0].value
+    edition.value = data.editions[0]?.value
   }
 })
 
 watch(
   edition,
-  (value: string) => {
+  (value) => {
     const _selected = nftData.value.editions.find((e) => e.value === value)
     if (!_selected) return
     selected.value = _selected
