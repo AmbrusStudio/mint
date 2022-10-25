@@ -41,11 +41,13 @@ export type MintPublicSale = {
   link: string
 }
 
+export type MintEditionValue = 'gold' | 'rangers'
+
 export type MintEdition = {
   /** 版本名称 */
   name: string
   /** 版本识别值（唯一，用于单选识别） */
-  value: string
+  value: MintEditionValue
   /** 版本对应的 AmbrusStudioSaler 合约地址 */
   contract: string
   /** AmbrusStudioSaler 合约操作的 NFT 真实地址 */
@@ -106,3 +108,5 @@ export type FlashMint = Mint & {
   /** 闪购销售配置 */
   flashSale: MintFlashSale
 }
+
+export type MintSaleKind = 'permit' | 'whitelist'

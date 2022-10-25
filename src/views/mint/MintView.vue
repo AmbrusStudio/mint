@@ -23,7 +23,7 @@ import {
   useSalerContract,
   useWallet
 } from '@/hooks'
-import type { Mint, MintEdition } from '@/types'
+import type { Mint, MintEdition, MintEditionValue } from '@/types'
 import { alertErrorMessage, formatDatetime } from '@/utils'
 
 const { ethereum } = useWallet()
@@ -31,7 +31,7 @@ const { walletInfo, connect, isConnected } = useImmutableXWallet()
 const { modalOpen, modalData, openNFTModal, closeNFTModal } = useNFTModal()
 
 const nftData = ref<Mint>(initialMint)
-const edition = ref<string>('')
+const edition = ref<MintEditionValue>()
 const selected = ref<MintEdition>()
 const salerAddress = ref<string>('')
 const permitSig = ref<string[]>()
@@ -128,7 +128,7 @@ watchEffect(async () => {
   const data = await getMintInfo()
   nftData.value = data
   if (Array.isArray(data.editions)) {
-    edition.value = data.editions[0].value
+    edition.value = data.editions[0]?.value
   }
 })
 
@@ -141,7 +141,7 @@ watchEffect(async () => {
   }
 })
 
-const selectEdition = (edition: string): void => {
+const selectEdition = (edition?: MintEditionValue): void => {
   if (!edition) return
   const _selected = nftData.value.editions.find((e) => e.value === edition)
   if (!_selected) return

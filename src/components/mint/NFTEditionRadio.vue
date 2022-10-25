@@ -3,17 +3,17 @@ import { useVModel } from '@vueuse/core'
 import { computed, reactive } from 'vue'
 
 import { useComputedSalerData, useReadonlySalerData } from '@/hooks'
-import type { MintEdition } from '@/types'
+import type { MintEdition, MintEditionValue } from '@/types'
 
 import NFTCurrency from '../nft/NFTCurrency.vue'
 
 interface Props {
   data: MintEdition
-  edition: string
+  edition?: MintEditionValue
   price?: string
 }
 interface Emits {
-  (event: 'update:edition', value: string): void
+  (event: 'update:edition', value?: MintEditionValue): void
 }
 
 const props = defineProps<Props>()

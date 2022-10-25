@@ -1,5 +1,5 @@
 import { flashMint, mint } from '@/data'
-import type { FlashMint, Mint } from '@/types'
+import type { FlashMint, Mint, MintEditionValue, MintSaleKind } from '@/types'
 
 import { mintRequest } from '../axios'
 
@@ -16,8 +16,8 @@ type GetSignature = {
 }
 export async function getSignature(
   address: string,
-  saleKind: 'permit' | 'whitelist',
-  edition: string //'gold' | 'rangers'
+  saleKind: MintSaleKind,
+  edition: MintEditionValue
 ): Promise<string[]> {
   console.debug('getSignature', address, saleKind, edition)
   const { data: proof } = await mintRequest.get<GetSignature>('/nft-minting/hasRole', {

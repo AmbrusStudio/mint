@@ -25,23 +25,7 @@ export const mint: Mint = {
     ],
     content: ''
   },
-  // editions: [], // 删除所有版本展示 Coming soon
-  editions: [
-    {
-      name: 'Rangers Edition',
-      value: 'rangers',
-      contract: '0x3A2e6ea2eFB2fB1D2C2b1Eb364FCA376500D4785',
-      style: {
-        background: 'linear-gradient(90deg, #399E98 0%, #88C4C0 100%)',
-        boxShadow: '0px 0px 8px 1px #88C3C0, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
-      }
-      // 在页面 Mint 不需要 publicSale 字段
-      // publicSale: {
-      //   text: 'Public Mint on Rarible.com',
-      //   link: 'https://rarible.com/e4cgold/items'
-      // }
-    }
-  ],
+  editions: [], // 删除所有版本展示 Coming soon
   introduction: [
     // 完全展示部分
     {
