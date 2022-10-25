@@ -1,8 +1,7 @@
 import type { LinkResults } from '@imtbl/imx-sdk'
 import { ImmutableXClient, Link } from '@imtbl/imx-sdk'
 import { StorageSerializers, useLocalStorage } from '@vueuse/core'
-import { type ToRefs, watchEffect } from 'vue'
-import { reactive, toRefs } from 'vue'
+import { type ToRefs, reactive, toRefs, watchEffect } from 'vue'
 
 import { LSK_IMX_WALLET_INFO } from '@/constants'
 import { getViteEnv } from '@/utils'

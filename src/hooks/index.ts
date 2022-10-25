@@ -1,6 +1,7 @@
 export * from './useContract'
 export * from './useEthereum'
 export * from './useImmutableXWallet'
+export * from './useMintSignature'
 export * from './useNFTModal'
 export * from './useSaler'
 export * from './useWallet'

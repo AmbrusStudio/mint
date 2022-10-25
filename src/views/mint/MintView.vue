@@ -18,6 +18,7 @@ import { initialMint } from '@/data'
 import {
   useComputedSalerData,
   useImmutableXWallet,
+  useMintSignature,
   useNFTModal,
   useReadonlySalerData,
   useSalerContract,
@@ -28,14 +29,15 @@ import { alertErrorMessage, formatDatetime } from '@/utils'
 
 const { ethereum } = useWallet()
 const { walletInfo, connect, isConnected } = useImmutableXWallet()
+const mintSignature = useMintSignature(walletInfo?.value?.address)
 const { modalOpen, modalData, openNFTModal, closeNFTModal } = useNFTModal()
 
 const nftData = ref<Mint>(initialMint)
 const edition = ref<MintEditionValue>()
 const selected = ref<MintEdition>()
 const salerAddress = ref<string>('')
-const permitSig = ref<string[]>()
-const whitelistSig = ref<string[]>()
+const permitSig = ref<string[]>([])
+const whitelistSig = ref<string[]>([])
 const isMinting = ref(false)
 
 const salerContract = useSalerContract(ethereum, salerAddress)
@@ -134,10 +136,10 @@ watchEffect(async () => {
 
 watchEffect(async () => {
   if (walletInfo.value && edition.value) {
-    const _permitSig = await getSignature(walletInfo.value.address, 'permit', edition.value)
-    permitSig.value = _permitSig
-    const _whitelistSig = await getSignature(walletInfo.value.address, 'whitelist', edition.value)
-    whitelistSig.value = _whitelistSig
+    const _sig = mintSignature[edition.value]
+    permitSig.value = _sig.value.permit
+    whitelistSig.value = _sig.value.whitelist
+    console.debug('Watch edition effect', edition.value, JSON.parse(JSON.stringify(_sig.value)))
   }
 })
 
