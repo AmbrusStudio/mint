@@ -1,6 +1,7 @@
 export * from './array'
 export * from './chains'
 export * from './datetime'
+export * from './env'
 export * from './error'
 export * from './explorer'
 export * from './html'

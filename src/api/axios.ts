@@ -1,6 +1,8 @@
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import Axios, { AxiosError } from 'axios'
 
+import { getViteEnv } from '@/utils'
+
 class BlockBackendRequest {
   public readonly client: AxiosInstance
 
@@ -62,8 +64,7 @@ class MintBackendRequest {
 }
 
 function getAPIBaseUrl(): string {
-  const baseUrl: string | undefined = import.meta.env.VITE_BACKEND_API_URL
-  if (!baseUrl) throw new TypeError('VITE_BACKEND_API_URL not set')
+  const baseUrl = getViteEnv('VITE_BACKEND_API_URL')
   return new URL('/', baseUrl).href
 }
 
