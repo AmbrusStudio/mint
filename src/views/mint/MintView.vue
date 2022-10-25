@@ -17,6 +17,7 @@ import ExternalLink from '@/components/link/ExternalLink.vue'
 import { initialMint } from '@/data'
 import {
   useComputedSalerData,
+  useImmutableXWallet,
   useNFTModal,
   useReadonlySalerData,
   useSalerContract,
@@ -25,7 +26,8 @@ import {
 import type { Mint, MintEdition } from '@/types'
 import { alertErrorMessage, formatDatetime } from '@/utils'
 
-const { account, ethereum, connect, isConnected } = useWallet()
+const { ethereum } = useWallet()
+const { walletInfo, connect, isConnected } = useImmutableXWallet()
 const { modalOpen, modalData, openNFTModal, closeNFTModal } = useNFTModal()
 
 const nftData = ref<Mint>(initialMint)
@@ -115,8 +117,8 @@ const handleMintClick = async () => {
     isMinting.value = false
   }
 }
-const handleWalletConnect = () => {
-  connect()
+const handleWalletConnect = async () => {
+  await connect()
 }
 const handleModalClose = () => {
   closeNFTModal()
@@ -131,10 +133,10 @@ watchEffect(async () => {
 })
 
 watchEffect(async () => {
-  if (account.value && edition.value) {
-    const _permitSig = await getSignature(account.value, 'permit', edition.value)
+  if (walletInfo.value && edition.value) {
+    const _permitSig = await getSignature(walletInfo.value.address, 'permit', edition.value)
     permitSig.value = _permitSig
-    const _whitelistSig = await getSignature(account.value, 'whitelist', edition.value)
+    const _whitelistSig = await getSignature(walletInfo.value.address, 'whitelist', edition.value)
     whitelistSig.value = _whitelistSig
   }
 })
@@ -147,7 +149,7 @@ const selectEdition = (edition: string): void => {
   salerAddress.value = _selected.contract
 }
 
-watch([edition, account], ([edition]) => selectEdition(edition), { immediate: true })
+watch([edition, walletInfo], ([edition]) => selectEdition(edition), { immediate: true })
 </script>
 
 <template>

@@ -1,25 +1,57 @@
 <script setup lang="ts">
 import { Popover, PopoverPanel } from '@headlessui/vue'
-import { computed, ref } from 'vue'
+import { EthAddress, ETHTokenType } from '@imtbl/imx-sdk'
+import { formatEther } from 'ethers/lib/utils'
+import { isRight } from 'fp-ts/lib/Either'
+import { computed, ref, watchEffect } from 'vue'
 
-import { useWallet } from '@/hooks'
+import { useImmutableXWallet } from '@/hooks'
 import { getLauncherSiteLink, stringSlice } from '@/utils'
 
 import IconEthereum from '../icons/IconEthereum.vue'
 import WalletButtonPanelItem from './WalletButtonPanelItem.vue'
 import WalletButtonPanelItemTitle from './WalletButtonPanelItemTitle.vue'
 
-const { account, connect, reset, isConnected } = useWallet()
+type OnCleanup = (cleanupFn: () => void) => void
+
+const { imxClient, imxLink, walletInfo, connect, reset, isConnected } = useImmutableXWallet()
 
 const connected = computed(() => isConnected())
 const address = computed(() => {
-  if (account?.value) return stringSlice(account.value, 4, 4)
+  if (walletInfo.value) return stringSlice(walletInfo.value.address, 4, 4)
   return ''
 })
 const ethBalance = ref('0.0')
 
-const handleConnectClick = () => {
-  if (!connected.value) connect()
+async function fetchWalletBalances() {
+  if (!imxClient.value || !walletInfo.value) return
+  const userDecode = EthAddress.decode(walletInfo.value.address)
+  if (!isRight(userDecode)) return
+  const { result: balances } = await imxClient.value.listBalances({
+    user: userDecode.right,
+    symbols: [ETHTokenType.ETH]
+  })
+  console.debug('Fetch wallet balances', balances)
+  const _ethBalance = formatEther(balances[0].balance)
+  ethBalance.value = _ethBalance
+  return _ethBalance
+}
+
+const handleConnectClick = async () => {
+  if (!connected.value) await connect()
+}
+const handleBalancesClick = async () => {
+  await fetchWalletBalances()
+}
+const handleDepositClick = async () => {
+  if (!imxLink.value) return
+  await imxLink.value.deposit({ type: ETHTokenType.ETH })
+}
+const handleWithdrawClick = async () => {
+  if (!imxLink.value) return
+  const ethBalance = await fetchWalletBalances()
+  if (!ethBalance) return
+  await imxLink.value.prepareWithdrawal({ type: ETHTokenType.ETH, amount: ethBalance })
 }
 const handelAccountCenterClick = () => {
   if (window && 'open' in window && typeof window.open === 'function') {
@@ -27,9 +59,17 @@ const handelAccountCenterClick = () => {
     window.open(url, '_blank', 'noopener')
   }
 }
-const handleDisconnectClick = () => {
-  reset()
+const handleDisconnectClick = async () => {
+  await reset()
 }
+
+watchEffect(async (onCleanup: OnCleanup) => {
+  await fetchWalletBalances()
+  const fetchInterval = setInterval(async () => {
+    await fetchWalletBalances()
+  }, 30000)
+  onCleanup(() => clearInterval(fetchInterval))
+})
 </script>
 
 <template>
@@ -51,7 +91,7 @@ const handleDisconnectClick = () => {
       <div
         class="flex flex-col rounded-12px bg-black/80 text-white divide-y divide-white/20 shadow-wallet-button backdrop-blur-6px overflow-hidden"
       >
-        <WalletButtonPanelItem>
+        <WalletButtonPanelItem @click.stop="handleBalancesClick">
           <div class="flex flex-col gap-12px truncate text-12px leading-16px text-left">
             <div class="font-semibold text-grey-medium">IMX Balance</div>
             <div class="flex flex-row items-center font-normal text-white">
@@ -61,10 +101,10 @@ const handleDisconnectClick = () => {
             </div>
           </div>
         </WalletButtonPanelItem>
-        <WalletButtonPanelItem>
+        <WalletButtonPanelItem @click.stop="handleDepositClick">
           <WalletButtonPanelItemTitle>Deposit</WalletButtonPanelItemTitle>
         </WalletButtonPanelItem>
-        <WalletButtonPanelItem>
+        <WalletButtonPanelItem @click.stop="handleWithdrawClick">
           <WalletButtonPanelItemTitle>Withdraw</WalletButtonPanelItemTitle>
         </WalletButtonPanelItem>
         <WalletButtonPanelItem @click.stop="handelAccountCenterClick">

@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.3",
+    "@imtbl/imx-sdk": "^1.35.2",
     "@metamask/providers": "^9.0.0",
     "@unocss/reset": "^0.41.1",
     "@vueuse/core": "^8.8.0",
