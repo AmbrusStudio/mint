@@ -34,7 +34,8 @@ export default defineConfig({
       'wallet-button': '0px 4px 10px rgba(0, 0, 0, 0.2)'
     },
     dropShadow: {
-      'nft-modal': '0px 4px 24px rgba(0, 0, 0, 0.4)'
+      'nft-modal': '0px 4px 24px rgba(0, 0, 0, 0.4)',
+      'wallet-popover': '0px 4px 10px rgba(0, 0, 0, 0.2)'
     }
   }
 })
