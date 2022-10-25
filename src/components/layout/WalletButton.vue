@@ -91,22 +91,24 @@ watchEffect(async (onCleanup: OnCleanup) => {
       <div
         class="flex flex-col rounded-12px bg-black/80 text-white divide-y divide-white/20 shadow-wallet-button backdrop-blur-6px overflow-hidden"
       >
-        <WalletButtonPanelItem @click.stop="handleBalancesClick">
-          <div class="flex flex-col gap-12px truncate text-12px leading-16px text-left">
-            <div class="font-semibold text-grey-medium">IMX Balance</div>
-            <div class="flex flex-row items-center font-normal text-white">
-              <IconEthereum class="mr-8px" />
-              <span class="mr-4px text-14px leading-20px">{{ ethBalance }}</span>
-              <span>ETH</span>
+        <div class="flex flex-col">
+          <WalletButtonPanelItem @click.stop="handleBalancesClick">
+            <div class="flex flex-col gap-12px truncate text-12px leading-16px text-left">
+              <div class="font-semibold text-grey-medium">IMX Balance</div>
+              <div class="flex flex-row items-center font-normal text-white">
+                <IconEthereum class="mr-8px" />
+                <span class="mr-4px text-14px leading-20px">{{ ethBalance }}</span>
+                <span>ETH</span>
+              </div>
             </div>
-          </div>
-        </WalletButtonPanelItem>
-        <WalletButtonPanelItem @click.stop="handleDepositClick">
-          <WalletButtonPanelItemTitle>Deposit</WalletButtonPanelItemTitle>
-        </WalletButtonPanelItem>
-        <WalletButtonPanelItem @click.stop="handleWithdrawClick">
-          <WalletButtonPanelItemTitle>Withdraw</WalletButtonPanelItemTitle>
-        </WalletButtonPanelItem>
+          </WalletButtonPanelItem>
+          <WalletButtonPanelItem class="pl-24px" @click.stop="handleDepositClick">
+            <WalletButtonPanelItemTitle>Deposit</WalletButtonPanelItemTitle>
+          </WalletButtonPanelItem>
+          <WalletButtonPanelItem class="pl-24px" @click.stop="handleWithdrawClick">
+            <WalletButtonPanelItemTitle>Withdraw</WalletButtonPanelItemTitle>
+          </WalletButtonPanelItem>
+        </div>
         <WalletButtonPanelItem @click.stop="handelAccountCenterClick">
           <WalletButtonPanelItemTitle>Account Center</WalletButtonPanelItemTitle>
         </WalletButtonPanelItem>
