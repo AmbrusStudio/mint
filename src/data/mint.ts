@@ -1,4 +1,4 @@
-import type { FlashMint, Mint } from '@/types'
+import type { FlashMint, Mint, MintAccessModal } from '@/types'
 
 export const mint: Mint = {
   information: {
@@ -106,4 +106,34 @@ export const initialMint: Mint = {
   editions: [],
   introduction: [],
   properties: []
+}
+
+export const mintAccessModal: MintAccessModal = {
+  permit: {
+    title: 'You have Permit Mint Access',
+    subtitle: 'Permit Mint Time',
+    face: 'star',
+    time: {
+      gold: 'Oct 6th, 10AM SGT, 48 Hours',
+      rangers: 'Oct 6th, 10AM SGT, 48 Hours'
+    }
+  },
+  whitelist: {
+    title: 'You are Whitelisted',
+    subtitle: 'Whitelist Mint Time',
+    face: 'star',
+    time: {
+      gold: 'Oct 6th, 10AM SGT, 48 Hours',
+      rangers: 'Oct 6th, 10AM SGT, 48 Hours'
+    }
+  },
+  public: {
+    title: 'You are not whitelisted',
+    subtitle: 'You can participate in public mint starting at:',
+    face: 'happy',
+    time: {
+      gold: 'Oct 6th, 10AM SGT, 48 Hours',
+      rangers: 'Oct 6th, 10AM SGT, 48 Hours'
+    }
+  }
 }

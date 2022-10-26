@@ -110,3 +110,16 @@ export type FlashMint = Mint & {
 }
 
 export type MintSaleKind = 'permit' | 'whitelist'
+
+export type MintAccessModalKind = MintSaleKind | 'public'
+
+export type MintAccessModalFaceKind = 'star' | 'happy'
+
+export type MintAccessModalData = {
+  title: string
+  subtitle: string
+  face: MintAccessModalFaceKind
+  time: Record<MintEditionValue, string>
+}
+
+export type MintAccessModal = Record<MintAccessModalKind, MintAccessModalData>

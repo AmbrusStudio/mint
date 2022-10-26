@@ -9,10 +9,11 @@ import NFTIntroCard from '@components/mint/NFTIntroCard.vue'
 import NFTPropertyCard from '@components/mint/NFTPropertyCard.vue'
 import NFTSaleButton from '@components/mint/NFTSaleButton.vue'
 import NFTSaleCard from '@components/mint/NFTSaleCard.vue'
+import MintAccessModal from '@components/modal/MintAccessModal.vue'
 import NFTMintModal from '@components/modal/NFTMintModal.vue'
 import { computed, ref, watch, watchEffect } from 'vue'
 
-import { getMintInfo, getSignature } from '@/api'
+import { getMintInfo } from '@/api'
 import ExternalLink from '@/components/link/ExternalLink.vue'
 import { initialMint } from '@/data'
 import {
@@ -39,6 +40,9 @@ const salerAddress = ref<string>('')
 const permitSig = ref<string[]>([])
 const whitelistSig = ref<string[]>([])
 const isMinting = ref(false)
+const mintAccessModalOpen = ref(false)
+const hasPermitMintAccess = ref(false)
+const hasWhitelistMintAccess = ref(false)
 
 const salerContract = useSalerContract(ethereum, salerAddress)
 const { basePrice, amount, sold, total, isSaleStart, isSaleEnd, getSaleData } =
@@ -122,8 +126,18 @@ const handleMintClick = async () => {
 const handleWalletConnect = async () => {
   await connect()
 }
-const handleModalClose = () => {
+const handleMintNFTModalClose = () => {
   closeNFTModal()
+}
+const handleMintAccessModalOpen = async () => {
+  if (!walletInfo.value) await connect()
+  const { permit, whitelist } = mintSignature.hasMintSignature('gold')
+  hasPermitMintAccess.value = permit
+  hasWhitelistMintAccess.value = whitelist
+  mintAccessModalOpen.value = true
+}
+const handleMintAccessModalClose = () => {
+  mintAccessModalOpen.value = false
 }
 
 watchEffect(async () => {
@@ -259,6 +273,13 @@ watch([edition, walletInfo], ([edition]) => selectEdition(edition), { immediate:
               </IMXWalletPopover>
             </section>
           </form>
+          <button
+            class="font-bold text-14px leading-20px text-rust underline mt-24px mr-auto"
+            type="button"
+            @click.stop="handleMintAccessModalOpen"
+          >
+            Check if my wallet is whitelisted
+          </button>
         </NFTSaleCard>
         <NFTDisclaimer
           className="xl:hidden"
@@ -271,12 +292,18 @@ watch([edition, walletInfo], ([edition]) => selectEdition(edition), { immediate:
     </div>
     <NFTMintModal
       :open="modalOpen"
-      :onModalClose="handleModalClose"
+      :onModalClose="handleMintNFTModalClose"
       :images="modalData.images"
       :video="modalData.video"
       :name="modalData.name"
       :address="modalData.address"
       :transaction="modalData.transaction"
+    />
+    <MintAccessModal
+      :open="mintAccessModalOpen"
+      :onModalClose="handleMintAccessModalClose"
+      :permit="hasPermitMintAccess"
+      :whitelist="hasWhitelistMintAccess"
     />
   </PageMain>
 </template>

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 interface Props {
-  className?: string
+  modalOverlayClass?: string
+  modalMainClass?: string
+  modalContentClass?: string
   open: boolean
 }
 
@@ -10,10 +12,10 @@ defineProps<Props>()
 <template>
   <div
     class="modal-overlay fixed top-0 left-0 z-20 invisible opacity-0 w-full h-full transition-all overflow-auto"
-    :class="{ 'modal-show': open }"
+    :class="[{ 'modal-show': open }, modalOverlayClass]"
   >
-    <div class="modal-main z-30 invisible xl:top-1/2 xl:-translate-y-1/2">
-      <div class="modal-content opacity-0 scale-75 transition-all" :class="[className]">
+    <div class="modal-main z-30 invisible xl:top-1/2 xl:-translate-y-1/2" :class="[modalMainClass]">
+      <div class="modal-content opacity-0 scale-75 transition-all" :class="[modalContentClass]">
         <slot />
       </div>
     </div>
