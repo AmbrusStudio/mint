@@ -114,8 +114,8 @@ export const mintAccessModal: MintAccessModal = {
     subtitle: 'Permit Mint Time',
     face: 'star',
     time: {
-      gold: 'Oct 6th, 10AM SGT, 48 Hours',
-      rangers: 'Oct 6th, 10AM SGT, 48 Hours'
+      gold: 'Nov 6th, 10AM SGT, 48 Hours',
+      rangers: 'Nov 13th, 10AM SGT, 48 Hours'
     }
   },
   whitelist: {
@@ -123,8 +123,8 @@ export const mintAccessModal: MintAccessModal = {
     subtitle: 'Whitelist Mint Time',
     face: 'star',
     time: {
-      gold: 'Oct 6th, 10AM SGT, 48 Hours',
-      rangers: 'Oct 6th, 10AM SGT, 48 Hours'
+      gold: 'Nov 7th, 10AM SGT, 24 Hours',
+      rangers: 'Nov 14th, 10AM SGT, 24 Hours'
     }
   },
   public: {
@@ -132,8 +132,8 @@ export const mintAccessModal: MintAccessModal = {
     subtitle: 'You can participate in public mint starting at:',
     face: 'happy',
     time: {
-      gold: 'Oct 6th, 10AM SGT, 48 Hours',
-      rangers: 'Oct 6th, 10AM SGT, 48 Hours'
+      gold: 'Nov 8th, 10AM SGT',
+      rangers: 'Nov 15th, 10AM SGT'
     }
   }
 }
