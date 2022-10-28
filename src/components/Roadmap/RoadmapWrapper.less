@@ -1,0 +1,120 @@
+.roadmap-container {
+  max-width: 1272px;
+  padding: 0 60px;
+  margin: 0 auto;
+  overflow: auto;
+  @media screen and (max-width: 960px) {
+    padding: 0 36px;
+  }
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 24px;
+  grid-row-gap: 54px;
+  padding: 120px 0 164px;
+  position: relative;
+  grid-template-areas:
+    'a b c'
+    'd e f'
+    'g h i'
+    'j k l';
+  ::v-deep(.line) {
+    position: absolute;
+    left: -6px;
+    top: 114px;
+    z-index: 0;
+  }
+  ::v-deep(.line-arrow-pc) {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-50%);
+    display: initial;
+  }
+  ::v-deep(.line-arrow-mobile) {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-6px);
+    display: none;
+  }
+
+  .item:nth-child(4) {
+    grid-area: f;
+  }
+  .item:nth-child(6) {
+    grid-area: d;
+  }
+  .item:nth-child(10) {
+    grid-area: l;
+  }
+  .item:nth-child(12) {
+    grid-area: j;
+  }
+
+  @media screen and (max-width: 960px) {
+    padding-top: 132px;
+    grid-template-columns: repeat(1, 1fr);
+    grid-row-gap: 24px;
+    grid-template-areas: initial;
+    ::v-deep(.line-arrow-pc) {
+      display: none;
+    }
+    ::v-deep(.line-arrow-mobile) {
+      display: initial;
+    }
+
+    .item:nth-child(4),
+    .item:nth-child(6),
+    .item:nth-child(10),
+    .item:nth-child(12) {
+      grid-area: initial;
+    }
+  }
+}
+
+.item {
+  z-index: 1;
+}
+.card {
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+  position: relative;
+  p {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+    color: #f0f0f0;
+    z-index: 1;
+    position: relative;
+  }
+
+  ul {
+    margin-top: 7.55px;
+    margin-left: 24px;
+    li {
+      list-style: initial;
+      font-family: 'Montserrat';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 30px;
+      color: #ffffff;
+    }
+  }
+  .icon {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 36px;
+    transform: rotate(12deg);
+    z-index: 0;
+  }
+}

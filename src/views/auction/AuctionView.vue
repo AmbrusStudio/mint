@@ -4,6 +4,7 @@ import { ref, watchEffect } from 'vue'
 
 import AuctionDetail from '@/components/auction/AuctionDetail.vue'
 import SlideshowCard from '@/components/auction/SlideshowCard.vue'
+import RoadmapButton from '@/components/Roadmap/RoadmapButton.vue'
 import { auction } from '@/data/auction'
 import type { Auction } from '@/types/auction'
 
@@ -21,6 +22,7 @@ watchEffect(() => {
       <SlideshowCard :auctionImages="auctionData.images" />
       <AuctionDetail :auction="auctionData" />
     </template>
+    <RoadmapButton placement="top-right" />
   </main>
 </template>
 

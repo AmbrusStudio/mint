@@ -15,6 +15,7 @@ import { computed, ref, watch, watchEffect } from 'vue'
 
 import { getMintInfo } from '@/api'
 import ExternalLink from '@/components/link/ExternalLink.vue'
+import RoadmapButton from '@/components/Roadmap/RoadmapButton.vue'
 import { initialMint } from '@/data'
 import {
   useComputedSalerData,
@@ -306,4 +307,5 @@ watch([edition, walletInfo], ([edition]) => selectEdition(edition), { immediate:
       :whitelist="hasWhitelistMintAccess"
     />
   </PageMain>
+  <RoadmapButton placement="bottom-right" />
 </template>
