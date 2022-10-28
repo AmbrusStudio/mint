@@ -60,7 +60,7 @@ export const auction: Auction = {
         },
         {
           title: 'Where',
-          content: 'TBD',
+          content: 'OpenSea',
           style: {
             lineHeight: '51px',
             fontSize: '42px'
