@@ -1,4 +1,5 @@
 import { defineConfig, presetUno, presetWebFonts, transformerDirectives } from 'unocss'
+import { presetScrollbar } from 'unocss-preset-scrollbar'
 
 export default defineConfig({
   presets: [
@@ -15,7 +16,8 @@ export default defineConfig({
         teko: { name: 'Teko', weights: [300, 400, 500, 600, 700] },
         zenKaku: { name: 'Zen Kaku Gothic New', weights: [300, 400, 500, 700] }
       }
-    })
+    }),
+    presetScrollbar({})
   ],
   transformers: [transformerDirectives()],
   theme: {

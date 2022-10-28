@@ -23,7 +23,9 @@ onKeyStroke('Escape', (e) => {
       class="absolute right-[24px] md:right-[60px] top-[24px] md:top-[60px] cursor-pointer z-101"
       @click="toggleVisible(!visible)"
     />
-    <div class="w-full h-full overflow-auto">
+    <div
+      class="w-full h-full overflow-auto scrollbar scrollbar-thumb-color-black scrollbar-track-color-black scrollbar-w-0"
+    >
       <RoadmapWrapper />
     </div>
   </div>

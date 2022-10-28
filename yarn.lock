@@ -1515,6 +1515,11 @@
     "@unocss/core" "0.41.2"
     unconfig "^0.3.4"
 
+"@unocss/core@0.31.17":
+  version "0.31.17"
+  resolved "https://registry.yarnpkg.com/@unocss/core/-/core-0.31.17.tgz#e4f74f0495b8c395f6b0090dbcb371d3ce5d40c7"
+  integrity sha512-DJ3Uk2ePVXvV1qQmgoLK44aqB6f0s+naOEvouI97nzVXDZgxDQPBxIPB/L4vvE4U+gQxEiHwwE3gJ75iPqVzXw==
+
 "@unocss/core@0.41.2":
   version "0.41.2"
   resolved "https://registry.yarnpkg.com/@unocss/core/-/core-0.41.2.tgz#7d20ac1d393045796d743a4a27dc3972792f1f1c"
@@ -1550,6 +1555,13 @@
   integrity sha512-tTbm6Mc5T47MqjbETF9kn5cIHv8LOzio4ZcIDlLs9Z5NozY+JexPXkmMjNxkzWgIG6k6wVhroCJAnMTMjgjNzA==
   dependencies:
     "@unocss/core" "0.41.2"
+
+"@unocss/preset-mini@^0.31.13":
+  version "0.31.17"
+  resolved "https://registry.yarnpkg.com/@unocss/preset-mini/-/preset-mini-0.31.17.tgz#847168f1abe55d44f3e9aa6128ad3cb516ba471b"
+  integrity sha512-gVgMTOKLt3O1ym348QIBmR5sS9W0Ozkk5xelhH6e0VXcpg0dXDPDrl4hFErMy4x6IB86yyJG6Dz5JhcwQB13Ig==
+  dependencies:
+    "@unocss/core" "0.31.17"
 
 "@unocss/preset-tagify@0.41.2":
   version "0.41.2"
@@ -7729,6 +7741,13 @@ universalify@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/universalify/-/universalify-2.0.0.tgz#75a4984efedc4b08975c5aeb73f530d02df25717"
   integrity sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==
+
+unocss-preset-scrollbar@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/unocss-preset-scrollbar/-/unocss-preset-scrollbar-0.2.1.tgz#6de889c2522122e2f0222f392b02bdcd8033d306"
+  integrity sha512-7ubHdOaUwr7xBn1glPpICNNsM2SZGjvWK5uRPNiQYsrZ9YFjsCGHk9x5S2R8pTkuMDQeiaSa/UQbYhjC8Fra5g==
+  dependencies:
+    "@unocss/preset-mini" "^0.31.13"
 
 unocss@^0.41.1:
   version "0.41.2"
