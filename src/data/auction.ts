@@ -85,7 +85,7 @@ export const auction: Auction = {
   actions: {
     text: 'Sign up and get 5% off bidding price',
     button: 'RSVP FOR THE AUCTION', // Bid on Opensea
-    link: 'https://opensea.io/zh-CN/collection/e4crangersultimate',
+    link: 'https://opensea.io/collection/e4crangersultimate',
     buttonStyle: {
       backgroundColor: '#FF4125' // #2081E2
     }
