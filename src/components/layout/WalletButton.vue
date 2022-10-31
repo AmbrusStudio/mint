@@ -9,6 +9,7 @@ import { useImmutableXWallet } from '@/hooks'
 import { getLauncherSiteLink, stringSlice } from '@/utils'
 
 import IconEthereum from '../icons/IconEthereum.vue'
+import WithdrawAmountModal from '../modal/WithdrawAmountModal.vue'
 import WalletButtonPanelItem from './WalletButtonPanelItem.vue'
 import WalletButtonPanelItemTitle from './WalletButtonPanelItemTitle.vue'
 
@@ -22,6 +23,8 @@ const address = computed(() => {
   return ''
 })
 const ethBalance = ref('0.0')
+const withdrawModalOpen = ref(false)
+const withdrawing = ref(false)
 
 async function fetchWalletBalances() {
   if (!imxClient.value || !walletInfo.value) return
@@ -48,10 +51,21 @@ const handleDepositClick = async () => {
   await imxLink.value.deposit({ type: ETHTokenType.ETH })
 }
 const handleWithdrawClick = async () => {
-  if (!imxLink.value) return
-  const ethBalance = await fetchWalletBalances()
-  if (!ethBalance) return
-  await imxLink.value.prepareWithdrawal({ type: ETHTokenType.ETH, amount: ethBalance })
+  await fetchWalletBalances()
+  withdrawModalOpen.value = true
+}
+
+const handleWithdrawModalClose = () => {
+  withdrawModalOpen.value = false
+}
+const handleWithdrawModalNextClick = async (amount: string) => {
+  if (!imxLink.value || withdrawing.value) return
+  try {
+    withdrawing.value = true
+    await imxLink.value.prepareWithdrawal({ type: ETHTokenType.ETH, amount })
+  } finally {
+    withdrawing.value = false
+  }
 }
 const handelAccountCenterClick = () => {
   if (window && 'open' in window && typeof window.open === 'function') {
@@ -118,4 +132,11 @@ watchEffect(async (onCleanup: OnCleanup) => {
       </div>
     </PopoverPanel>
   </Popover>
+  <WithdrawAmountModal
+    :open="withdrawModalOpen"
+    :ethBalance="ethBalance"
+    :disabled="withdrawing"
+    @onModalClose="handleWithdrawModalClose"
+    @onNextClick="handleWithdrawModalNextClick"
+  />
 </template>

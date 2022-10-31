@@ -29,7 +29,9 @@ export default defineConfig({
       blackBg: '#2A2A2A',
       gameNavImg: 'linear-gradient(180deg, #3F3F3F 0%, #444444 100%)',
       white_1: '#f0f0f0',
-      red_1: '#b7220c'
+      red_1: '#b7220c',
+      tips: '#4A4A4A',
+      ligntGreen: '#CCFF00'
     },
     boxShadow: {
       'nft-sale': '0px 4px 12px rgba(0, 0, 0, 0.15)',
