@@ -43,6 +43,7 @@ const modalData = computed<MintAccessModalData | undefined>(() => {
 
 <template>
   <BaseModal
+    id="mint-access-modal"
     :open="open"
     v-if="modalData"
     modalMainClass="h-full xl:h-auto"

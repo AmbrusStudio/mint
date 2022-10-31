@@ -41,7 +41,7 @@ const transactionLink = computed(() =>
 </script>
 
 <template>
-  <BaseModal :open="open">
+  <BaseModal id="nft-mint-modal" :open="open">
     <div class="flex flex-col drop-shadow-nft-modal w-full xl:w-1264px xl:mx-auto">
       <div
         class="flex flex-row flex-nowrap justify-between items-center p-24px xl:py-16px text-white bg-black-bg/80"
