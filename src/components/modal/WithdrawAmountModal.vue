@@ -57,7 +57,7 @@ const handleNextClick = () => {
     modalMainClass="h-full xl:h-auto"
     modalContentClass="h-full"
   >
-    <div class="flex flex-col drop-shadow-nft-modal w-full xl:w-600px xl:mx-auto">
+    <div class="flex flex-col drop-shadow-nft-modal w-full h-full xl:w-600px xl:mx-auto">
       <div
         class="flex flex-row flex-nowrap justify-between items-center p-24px xl:py-16px text-white bg-black-bg/80"
       >
