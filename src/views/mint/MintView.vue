@@ -19,7 +19,6 @@ import RoadmapButton from '@/components/Roadmap/RoadmapButton.vue'
 import { initialMint } from '@/data'
 import {
   useComputedSalerData,
-  useImmutableXWallet,
   useMintSignature,
   useNFTModal,
   useReadonlySalerData,
@@ -29,9 +28,8 @@ import {
 import type { Mint, MintEdition, MintEditionValue } from '@/types'
 import { alertErrorMessage, formatDatetime } from '@/utils'
 
-const { ethereum } = useWeb3Wallet()
-const { walletInfo, connect, isConnected } = useImmutableXWallet()
-const mintSignature = useMintSignature(walletInfo?.value?.address)
+const { account, ethereum, connect, isConnected } = useWeb3Wallet()
+const mintSignature = useMintSignature(account)
 const { modalOpen, modalData, openNFTModal, closeNFTModal } = useNFTModal()
 
 const nftData = ref<Mint>(initialMint)
@@ -131,7 +129,8 @@ const handleMintNFTModalClose = () => {
   closeNFTModal()
 }
 const handleMintAccessModalOpen = async () => {
-  if (!walletInfo.value) await connect()
+  if (!account.value) await connect()
+  await mintSignature.refresh()
   const { permit, whitelist } = mintSignature.hasMintSignature('gold')
   hasPermitMintAccess.value = permit
   hasWhitelistMintAccess.value = whitelist
@@ -150,7 +149,8 @@ watchEffect(async () => {
 })
 
 watchEffect(async () => {
-  if (walletInfo.value && edition.value) {
+  if (account.value && edition.value) {
+    await mintSignature.refresh()
     const _sig = mintSignature[edition.value]
     permitSig.value = _sig.value.permit
     whitelistSig.value = _sig.value.whitelist
@@ -166,7 +166,7 @@ const selectEdition = (edition?: MintEditionValue): void => {
   salerAddress.value = _selected.contract
 }
 
-watch([edition, walletInfo], ([edition]) => selectEdition(edition), { immediate: true })
+watch([edition, account], ([edition]) => selectEdition(edition), { immediate: true })
 </script>
 
 <template>

@@ -16,6 +16,7 @@ const mintSignature = reactive<MintSignature>(INITIAL_DATA)
 
 type UseMintSignature = ToRefs<MintSignature> & {
   hasMintSignature(edition: MintEditionValue): Record<MintSaleKind, boolean>
+  refresh(): Promise<void>
 }
 
 type AccountAddress = string | undefined
@@ -50,5 +51,10 @@ export function useMintSignature(address: Ref<AccountAddress> | AccountAddress):
     return { permit: hasAccess(permit), whitelist: hasAccess(whitelist) }
   }
 
-  return { ...toRefs(mintSignature), hasMintSignature }
+  async function refresh() {
+    if (isRef(address)) await fetchMintSignature(address.value)
+    else await fetchMintSignature(address)
+  }
+
+  return { ...toRefs(mintSignature), hasMintSignature, refresh }
 }
