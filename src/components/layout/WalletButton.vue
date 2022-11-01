@@ -1,41 +1,29 @@
 <script setup lang="ts">
 import { Popover, PopoverPanel } from '@headlessui/vue'
-import { EthAddress, ETHTokenType } from '@imtbl/imx-sdk'
 import { formatEther } from 'ethers/lib/utils'
-import { isRight } from 'fp-ts/lib/Either'
 import { computed, ref, watchEffect } from 'vue'
 
-import { useImmutableXWallet } from '@/hooks'
+import { useWeb3Wallet } from '@/hooks'
 import { getLauncherSiteLink, stringSlice } from '@/utils'
 
 import IconEthereum from '../icons/IconEthereum.vue'
-import WithdrawAmountModal from '../modal/WithdrawAmountModal.vue'
 import WalletButtonPanelItem from './WalletButtonPanelItem.vue'
 import WalletButtonPanelItemTitle from './WalletButtonPanelItemTitle.vue'
 
 type OnCleanup = (cleanupFn: () => void) => void
 
-const { imxClient, imxLink, walletInfo, connect, reset, isConnected } = useImmutableXWallet()
+const { account, balance, ethereum, connect, reset, isConnected } = useWeb3Wallet()
 
 const connected = computed(() => isConnected())
-const address = computed(() => {
-  if (walletInfo.value) return stringSlice(walletInfo.value.address, 4, 4)
-  return ''
-})
+const address = computed(() => (account?.value ? stringSlice(account.value, 4, 4) : ''))
 const ethBalance = ref('0.0')
-const withdrawModalOpen = ref(false)
-const withdrawing = ref(false)
 
 async function fetchWalletBalances() {
-  if (!imxClient.value || !walletInfo.value) return
-  const userDecode = EthAddress.decode(walletInfo.value.address)
-  if (!isRight(userDecode)) return
-  const { result: balances } = await imxClient.value.listBalances({
-    user: userDecode.right,
-    symbols: [ETHTokenType.ETH]
-  })
-  console.debug('Fetch wallet balances', balances)
-  const _ethBalance = formatEther(balances[0].balance)
+  if (!ethereum.value || !('getSigner' in ethereum.value)) return
+  const signer = ethereum.value.getSigner()
+  const balance = await signer.getBalance()
+  console.debug('Fetch wallet balances', balance)
+  const _ethBalance = formatEther(balance)
   ethBalance.value = _ethBalance
   return _ethBalance
 }
@@ -46,27 +34,6 @@ const handleConnectClick = async () => {
 const handleBalancesClick = async () => {
   await fetchWalletBalances()
 }
-const handleDepositClick = async () => {
-  if (!imxLink.value) return
-  await imxLink.value.deposit({ type: ETHTokenType.ETH })
-}
-const handleWithdrawClick = async () => {
-  await fetchWalletBalances()
-  withdrawModalOpen.value = true
-}
-
-const handleWithdrawModalClose = () => {
-  withdrawModalOpen.value = false
-}
-const handleWithdrawModalNextClick = async (amount: string) => {
-  if (!imxLink.value || withdrawing.value) return
-  try {
-    withdrawing.value = true
-    await imxLink.value.prepareWithdrawal({ type: ETHTokenType.ETH, amount })
-  } finally {
-    withdrawing.value = false
-  }
-}
 const handelAccountCenterClick = () => {
   if (window && 'open' in window && typeof window.open === 'function') {
     const url = getLauncherSiteLink('/account/home')
@@ -74,11 +41,11 @@ const handelAccountCenterClick = () => {
   }
 }
 const handleDisconnectClick = async () => {
-  await reset()
+  reset()
 }
 
 watchEffect(async (onCleanup: OnCleanup) => {
-  await fetchWalletBalances()
+  if (balance.value) ethBalance.value = formatEther(balance.value)
   const fetchInterval = setInterval(async () => {
     await fetchWalletBalances()
   }, 30000)
@@ -111,16 +78,12 @@ watchEffect(async (onCleanup: OnCleanup) => {
               <div class="font-semibold text-grey-medium">IMX Balance</div>
               <div class="flex flex-row items-center font-normal text-white">
                 <IconEthereum class="mr-8px" />
-                <span class="mr-4px text-14px leading-20px">{{ ethBalance }}</span>
+                <span class="mr-4px text-14px leading-20px">
+                  {{ Number(ethBalance).toFixed(8) }}
+                </span>
                 <span>ETH</span>
               </div>
             </div>
-          </WalletButtonPanelItem>
-          <WalletButtonPanelItem class="pl-24px" @click.stop="handleDepositClick">
-            <WalletButtonPanelItemTitle>Deposit</WalletButtonPanelItemTitle>
-          </WalletButtonPanelItem>
-          <WalletButtonPanelItem class="pl-24px" @click.stop="handleWithdrawClick">
-            <WalletButtonPanelItemTitle>Withdraw</WalletButtonPanelItemTitle>
           </WalletButtonPanelItem>
         </div>
         <WalletButtonPanelItem @click.stop="handelAccountCenterClick">
@@ -132,11 +95,4 @@ watchEffect(async (onCleanup: OnCleanup) => {
       </div>
     </PopoverPanel>
   </Popover>
-  <WithdrawAmountModal
-    :open="withdrawModalOpen"
-    :ethBalance="ethBalance"
-    :disabled="withdrawing"
-    @onModalClose="handleWithdrawModalClose"
-    @onNextClick="handleWithdrawModalNextClick"
-  />
 </template>
