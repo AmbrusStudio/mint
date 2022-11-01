@@ -138,7 +138,7 @@ watch(
             >
               {{ buttonText }}
             </NFTSaleButton>
-            <IMXWalletPopover v-else>
+            <IMXWalletPopover disabled v-else>
               <NFTSaleButton @click.stop.prevent="handleWalletConnect">
                 Connect Wallet
               </NFTSaleButton>

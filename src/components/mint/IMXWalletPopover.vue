@@ -2,11 +2,19 @@
 import { Popover, PopoverPanel } from '@headlessui/vue'
 import { ref } from 'vue'
 
+interface Props {
+  disabled?: boolean
+}
+
+const props = defineProps<Props>()
+
 const open = ref(false)
 const handleMouseEnter = () => {
+  if (props.disabled) return
   open.value = true
 }
 const handleMouseLeave = () => {
+  if (props.disabled) return
   open.value = false
 }
 </script>

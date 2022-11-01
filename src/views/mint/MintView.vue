@@ -267,7 +267,7 @@ watch([edition, account], ([edition]) => selectEdition(edition), { immediate: tr
               <NFTSaleButton disabled v-else-if="connected">
                 {{ buttonText }}
               </NFTSaleButton>
-              <IMXWalletPopover v-else>
+              <IMXWalletPopover disabled v-else>
                 <NFTSaleButton @click.stop.prevent="handleWalletConnect">
                   Connect Wallet
                 </NFTSaleButton>
