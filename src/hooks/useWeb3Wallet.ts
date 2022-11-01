@@ -36,9 +36,9 @@ export type AccountType = 'contract' | 'normal'
 
 export type Status = 'connected' | 'disconnected' | 'connecting' | 'error'
 
-export type UseWallet = ToRefs<
-  Pick<WalletState, 'account' | 'balance' | 'chainId' | 'ethereum'>
-> & {
+type WalletData = ToRefs<Pick<WalletState, 'account' | 'balance' | 'chainId' | 'ethereum'>>
+
+export type UseWeb3Wallet = WalletData & {
   // connector: string | null
   // connectors: object
   // error: Error | null
@@ -51,7 +51,7 @@ export type UseWallet = ToRefs<
   isConnected: () => boolean
 }
 
-export function useWallet(): UseWallet {
+export function useWeb3Wallet(): UseWeb3Wallet {
   const instance = getCurrentInstance()
 
   const clearWalletState = () => {

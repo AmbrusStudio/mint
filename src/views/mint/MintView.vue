@@ -24,12 +24,12 @@ import {
   useNFTModal,
   useReadonlySalerData,
   useSalerContract,
-  useWallet
+  useWeb3Wallet
 } from '@/hooks'
 import type { Mint, MintEdition, MintEditionValue } from '@/types'
 import { alertErrorMessage, formatDatetime } from '@/utils'
 
-const { ethereum } = useWallet()
+const { ethereum } = useWeb3Wallet()
 const { walletInfo, connect, isConnected } = useImmutableXWallet()
 const mintSignature = useMintSignature(walletInfo?.value?.address)
 const { modalOpen, modalData, openNFTModal, closeNFTModal } = useNFTModal()

@@ -14,11 +14,11 @@ import { computed, ref, watch, watchEffect } from 'vue'
 
 import { getFlashMintInfo } from '@/api'
 import { initialMint } from '@/data'
-import { useNFTModal, useReadonlySalerData, useSalerContract, useWallet } from '@/hooks'
+import { useNFTModal, useReadonlySalerData, useSalerContract, useWeb3Wallet } from '@/hooks'
 import type { Mint, MintEdition, MintEditionValue } from '@/types'
 import { alertErrorMessage } from '@/utils'
 
-const { ethereum, connect, isConnected } = useWallet()
+const { ethereum, connect, isConnected } = useWeb3Wallet()
 const { modalOpen, modalData, openNFTModal, closeNFTModal } = useNFTModal()
 
 const nftData = ref<Mint>(initialMint)
