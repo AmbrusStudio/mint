@@ -1,6 +1,7 @@
 import type { LinkResults } from '@imtbl/imx-sdk'
-import { ImmutableXClient, Link } from '@imtbl/imx-sdk'
+import { EthAddress, ETHTokenType, ImmutableXClient, Link } from '@imtbl/imx-sdk'
 import { StorageSerializers, useLocalStorage } from '@vueuse/core'
+import { isRight } from 'fp-ts/lib/Either'
 import { type ToRefs, reactive, toRefs, watchEffect } from 'vue'
 
 import { LSK_IMX_WALLET_INFO } from '@/constants'
@@ -63,4 +64,33 @@ export function useImmutableXWallet(): UseImmutableXWallet {
 
   // @ts-expect-error class private fields
   return { ...toRefs(walletState), connect, reset, isConnected }
+}
+
+export function useImmutableXWalletInfo() {
+  const { imxClient, imxLink, walletInfo } = useImmutableXWallet()
+
+  async function fetchWalletBalances() {
+    if (!imxClient.value || !walletInfo.value) return
+    const userDecode = EthAddress.decode(walletInfo.value.address)
+    if (!isRight(userDecode)) return
+    const { result: balances } = await imxClient.value.listBalances({
+      user: userDecode.right,
+      symbols: [ETHTokenType.ETH]
+    })
+    console.debug('Fetch wallet balances', balances)
+    const [ethBalance] = balances
+    return { ethBalance }
+  }
+
+  async function depositETH() {
+    if (!imxLink.value) return
+    await imxLink.value.deposit({ type: ETHTokenType.ETH })
+  }
+
+  async function prepareWithdrawalETH(amount: string) {
+    if (!imxLink.value) return
+    await imxLink.value.prepareWithdrawal({ type: ETHTokenType.ETH, amount })
+  }
+
+  return { fetchWalletBalances, depositETH, prepareWithdrawalETH }
 }
