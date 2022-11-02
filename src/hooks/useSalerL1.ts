@@ -36,7 +36,7 @@ const INITIAL_SALER_DATA: SalerData = {
   public: { start: 0, end: 0, discount: 100, price: '0' }
 }
 
-async function getContractData(contract: AmbrusStudioSaler): Promise<SalerData> {
+async function getSalerContractData(contract: AmbrusStudioSaler): Promise<SalerData> {
   const _basePrice = await contract.basePrice()
   const total = await contract.count()
   const sold = await contract.soldCount()
@@ -124,14 +124,14 @@ function getSalerHelpers(salerData: SalerData): SalerHelpers {
 
 type SalerDataWithHelpers = ToRefs<SalerData> & SalerHelpers
 
-export function useSalerData(
+export function useSalerL1Data(
   contract: Ref<AmbrusStudioSaler | undefined> | AmbrusStudioSaler | undefined
 ): SalerDataWithHelpers {
   const salerData = reactive<SalerData>({ ...INITIAL_SALER_DATA })
 
   async function getSalerData(contract: AmbrusStudioSaler | undefined) {
     if (!contract) return
-    const data = await getContractData(contract)
+    const data = await getSalerContractData(contract)
     Object.assign(salerData, data)
   }
 
@@ -157,7 +157,7 @@ export function useSalerData(
   return { ...toRefs(salerData), ...helpers }
 }
 
-export function useReadonlySalerData(address: Ref<string> | string): SalerDataWithHelpers {
+export function useReadonlySalerL1Data(address: Ref<string> | string): SalerDataWithHelpers {
   const ethereum = useReadonlyEthereum()
   const salerData = reactive<SalerData>({ ...INITIAL_SALER_DATA })
 
@@ -165,7 +165,7 @@ export function useReadonlySalerData(address: Ref<string> | string): SalerDataWi
     if (!address) return
     const _address = ethers.utils.getAddress(address)
     const contract = AmbrusStudioSaler__factory.connect(_address, ethereum)
-    const data = await getContractData(contract)
+    const data = await getSalerContractData(contract)
     Object.assign(salerData, data)
   }
 
@@ -189,8 +189,8 @@ type ComputedSaleData = {
   closed: ComputedRef<boolean>
 }
 
-export function useComputedSalerData(address: Ref<string> | string): ComputedSaleData {
-  const { isSaleStart, isSaleEnd } = useReadonlySalerData(address)
+export function useComputedSalerL1Data(address: Ref<string> | string): ComputedSaleData {
+  const { isSaleStart, isSaleEnd } = useReadonlySalerL1Data(address)
 
   const permitStart = isSaleStart('permit')
   const whitelistStart = isSaleStart('whitelist')
