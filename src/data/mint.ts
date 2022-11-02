@@ -63,12 +63,12 @@ export const mint: Mint = {
     {
       title: 'Gold edition',
       content:
-        '<p><strong>Amount</strong>: 450<br><strong>Mint price</strong>: 0.49ETH<br><strong>Permit Mint</strong>: Sep 30, 10AM SGT, 48 Hours<br><strong>Summit Flash Sale</strong>: Oct 1st, 10AM SGT<br><strong>Whitelist Mint</strong>: Oct 1st, 10AM SGT, 24 Hours</p>'
+        '<p><strong>Amount</strong>: 450<br><strong>Mint price</strong>: 0.49ETH<br><strong>Permit Mint</strong>: Nov 6th, 10AM SGT, 48 Hours<br><strong>Whitelist Mint</strong>: Nov 7th, 10AM SGT, 24 Hours</p>'
     },
     {
       title: 'Rangers edition',
       content:
-        '<p><strong>Amount</strong>: 646<br><strong>Mint price</strong>: 0.19ETH<br><strong>Permit Mint</strong>: Oct 6th, 10AM SGT, 48 Hours<br><strong>Whitelist Mint</strong>: Oct 7th, 10AM SGT, 24 Hours</p>'
+        '<p><strong>Amount</strong>: 646<br><strong>Mint price</strong>: 0.19ETH<br><strong>Permit Mint</strong>: Nov 9th, 10AM SGT, 48 Hours<br><strong>Whitelist Mint</strong>: Nov 10th, 10AM SGT, 24 Hours</p>'
     },
     // 折叠部分需要 foldable 为 true
     {
