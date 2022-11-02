@@ -33,8 +33,8 @@ const canPublic = computed(() => {
 const disabled = computed(() => {
   if (coming.value) return true
   if (external.value && canPublic.value) return false
-  if (!amount.value) return true
-  if (closed.value) return false
+  if (!closed.value) return false
+  if (closed.value || !amount.value) return true
   return true
 })
 const selected = computed(() => props.data.value === editionModel.value)
