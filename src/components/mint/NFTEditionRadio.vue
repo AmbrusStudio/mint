@@ -27,8 +27,7 @@ const { coming, closed } = useComputedSalerL2Data(props.data.contract)
 const external = computed(() => !!props.data?.publicSale)
 const canPublic = computed(() => {
   if (!props.data?.publicSale) return false
-  const publicStart = isHistorical(props.data?.publicSale.start)
-  return closed.value && publicStart
+  return isHistorical(props.data?.publicSale.start)
 })
 
 const disabled = computed(() => {
@@ -71,9 +70,13 @@ const labelStyle = computed(() => ({
     >
       <span class="text-white font-semibold">{{ data.name }}</span>
       <span class="text-white font-medium" v-if="coming">Coming Soon</span>
-      <span class="text-white font-medium" v-else-if="external && !canPublic"> Mint Closed </span>
-      <span class="text-white font-medium" v-else-if="external && canPublic">Public Mint</span>
-      <span class="text-white font-medium" v-else-if="!amount">Sold Out</span>
+      <span class="text-white font-medium" v-else-if="closed && external && !canPublic">
+        Mint Closed
+      </span>
+      <span class="text-white font-medium" v-else-if="closed && external && canPublic">
+        Public Mint
+      </span>
+      <span class="text-white font-medium" v-else-if="closed || !amount">Sold Out</span>
       <NFTCurrency className="text-white font-medium" :price="price" v-else />
     </div>
   </label>

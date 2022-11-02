@@ -48,15 +48,14 @@ const { basePrice, amount, sold, total, isSaleStart, isSaleEnd, getSaleData } =
   useReadonlySalerL2Data(salerAddress)
 const { coming, closed } = useComputedSalerL2Data(salerAddress)
 
-const publicData = computed(() => selected.value?.publicSale)
+const external = computed(() => !!selected.value?.publicSale)
 const publicDateTime = computed(() => {
-  if (!publicData.value) return ''
-  return formatDatetime(publicData.value.start, 'MMM d, t ZZZZ').replace('GMT+8', 'SGT')
+  if (!selected.value?.publicSale) return ''
+  return formatDatetime(selected.value.publicSale.start, 'MMM d, t ZZZZ').replace('GMT+8', 'SGT')
 })
 const canPublic = computed(() => {
-  if (!publicData.value) return false
-  const publicStart = isHistorical(publicData.value.start)
-  return closed.value && publicStart
+  if (!selected.value?.publicSale) return false
+  return isHistorical(selected.value.publicSale.start)
 })
 const editions = computed(() => !!nftData.value.editions.length)
 
@@ -88,7 +87,7 @@ const showInfo = computed(() => canPermit.value || canWhitelist.value)
 // buttonText 和下面 NFTSaleButton 的展示逻辑没有完全搞清楚
 const buttonText = computed(() => {
   if (!(edition.value && salerContract.value)) return 'Choose an Edition'
-  if (!amount.value) return 'Sold Out'
+  if (closed.value || !amount.value) return 'Sold Out'
   if (!permitEnd.value && !canPermit.value) return 'No Permit Mint Access'
   if (!whitelistEnd.value && !canWhitelist.value) return 'No Whitelist Mint Access'
   return 'Sold Out'
@@ -144,7 +143,6 @@ watchEffect(async () => {
 
 watchEffect(async () => {
   if (account.value && edition.value) {
-    await mintSignature.refresh()
     const _sig = mintSignature[edition.value]
     permitSig.value = _sig.value.permit
     whitelistSig.value = _sig.value.whitelist
@@ -216,13 +214,13 @@ watch([edition, account], ([edition]) => selectEdition(edition), { immediate: tr
 
             <section class="flex flex-col">
               <NFTSaleButton disabled v-if="!editions || coming">Coming Soon</NFTSaleButton>
-              <NFTSaleButton disabled v-else-if="publicData && !canPublic">
+              <NFTSaleButton disabled v-else-if="closed && external && !canPublic">
                 {{ `Public Mint: ${publicDateTime}` }}
               </NFTSaleButton>
               <ExternalLink
                 class="block w-full py-16px xl:py-22px bg-rust text-white font-semibold text-16px xl:text-24px leading-20px xl:leading-28px text-center uppercase hover:bg-white hover:text-rust"
                 :to="selected?.publicSale?.link"
-                v-else-if="publicData && canPublic"
+                v-else-if="closed && external && canPublic"
               >
                 {{ selected?.publicSale?.text }}
               </ExternalLink>
