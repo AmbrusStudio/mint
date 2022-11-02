@@ -4,9 +4,9 @@ export const mint: Mint = {
   information: {
     // 只支持文件名含 @ 符号的图片，如 banner_@1x.jpg banner_@2x.jpg banner_@3x.jpg
     images: [
-      'https://ambrus.s3.amazonaws.com/1663925833649_0.49_banner_480h.jpg',
-      'https://ambrus.s3.amazonaws.com/1663925833647_0.20_banner_960h.jpg',
-      'https://ambrus.s3.amazonaws.com/1663925833627_0.41_banner-1.jpg'
+      'https://ambrus.s3.amazonaws.com/1667384398010_0.25_banner%400.33x.jpg',
+      'https://ambrus.s3.amazonaws.com/1667384398007_0.52_banner-2%400.67x.jpg',
+      'https://ambrus.s3.amazonaws.com/1667384397977_0.74_banner-1.jpg'
     ],
     type: 'E4C Rangers Genesis Series 2',
     name: 'Kit: Uncaged Reaper',
