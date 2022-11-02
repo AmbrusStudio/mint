@@ -124,7 +124,8 @@ const handleMintNFTModalClose = () => {
 const handleMintAccessModalOpen = async () => {
   if (!account.value) await connect()
   await mintSignature.refresh()
-  const { permit, whitelist } = mintSignature.hasMintSignature('gold')
+  const selectedEdition = edition.value || 'gold'
+  const { permit, whitelist } = mintSignature.hasMintSignature(selectedEdition)
   hasPermitMintAccess.value = permit
   hasWhitelistMintAccess.value = whitelist
   mintAccessModalOpen.value = true
