@@ -74,13 +74,6 @@ export const roadmapList = [
   {
     title: 'E4C Token Launch',
     list: ['Whitelist Spots for E4C Rangers NFT Stakers', 'DAO Governance Launch']
-  },
-  {
-    title: 'Game Launch',
-    list: [
-      'E4C Rangers NFT Holders In-game IP Dividend & Utilities',
-      'Game Operations & Iterations',
-      'UGC Tools Development'
-    ]
+  }
   }
 ]
