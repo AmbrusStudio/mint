@@ -2,8 +2,9 @@
 import { useVModel } from '@vueuse/core'
 import { computed, reactive } from 'vue'
 
-import { useComputedSalerData, useReadonlySalerData } from '@/hooks'
+import { useComputedSalerL2Data, useReadonlySalerL2Data } from '@/hooks'
 import type { MintEdition, MintEditionValue } from '@/types'
+import { isHistorical } from '@/utils'
 
 import NFTCurrency from '../nft/NFTCurrency.vue'
 
@@ -20,12 +21,15 @@ const props = defineProps<Props>()
 const emits = defineEmits<Emits>()
 
 const editionModel = useVModel(props, 'edition', emits)
-const { basePrice, amount, isSaleStart } = useReadonlySalerData(props.data.contract)
-const { coming, closed } = useComputedSalerData(props.data.contract)
+const { basePrice, amount } = useReadonlySalerL2Data(props.data.contract)
+const { coming, closed } = useComputedSalerL2Data(props.data.contract)
 
 const external = computed(() => !!props.data?.publicSale)
-const publicStart = isSaleStart('public')
-const canPublic = computed(() => closed.value && publicStart.value)
+const canPublic = computed(() => {
+  if (!props.data?.publicSale) return false
+  const publicStart = isHistorical(props.data?.publicSale.start)
+  return closed.value && publicStart
+})
 
 const disabled = computed(() => {
   if (coming.value) return true
@@ -67,9 +71,7 @@ const labelStyle = computed(() => ({
     >
       <span class="text-white font-semibold">{{ data.name }}</span>
       <span class="text-white font-medium" v-if="coming">Coming Soon</span>
-      <span class="text-white font-medium" v-else-if="external && closed && !publicStart">
-        Mint Closed
-      </span>
+      <span class="text-white font-medium" v-else-if="external && !canPublic"> Mint Closed </span>
       <span class="text-white font-medium" v-else-if="external && canPublic">Public Mint</span>
       <span class="text-white font-medium" v-else-if="!amount">Sold Out</span>
       <NFTCurrency className="text-white font-medium" :price="price" v-else />

@@ -14,19 +14,18 @@ import NFTMintModal from '@components/modal/NFTMintModal.vue'
 import { computed, ref, watch, watchEffect } from 'vue'
 
 import { getMintInfo } from '@/api'
-import ExternalLink from '@/components/link/ExternalLink.vue'
 import RoadmapButton from '@/components/Roadmap/RoadmapButton.vue'
 import { initialMint } from '@/data'
 import {
-  useComputedSalerData,
+  useComputedSalerL2Data,
   useMintSignature,
   useNFTModal,
-  useReadonlySalerData,
-  useSalerContract,
+  useReadonlySalerL2Data,
+  useSalerL2Contract,
   useWeb3Wallet
 } from '@/hooks'
 import type { Mint, MintEdition, MintEditionValue } from '@/types'
-import { alertErrorMessage, formatDatetime } from '@/utils'
+import { alertErrorMessage, formatDatetime, isHistorical } from '@/utils'
 
 const { account, ethereum, connect, isConnected } = useWeb3Wallet()
 const mintSignature = useMintSignature(account)
@@ -43,15 +42,22 @@ const mintAccessModalOpen = ref(false)
 const hasPermitMintAccess = ref(false)
 const hasWhitelistMintAccess = ref(false)
 
-const salerContract = useSalerContract(ethereum, salerAddress)
+const salerContract = useSalerL2Contract(ethereum, salerAddress)
 const { basePrice, amount, sold, total, isSaleStart, isSaleEnd, getSaleData } =
-  useReadonlySalerData(salerAddress)
-const { coming, closed } = useComputedSalerData(salerAddress)
+  useReadonlySalerL2Data(salerAddress)
+const { coming, closed } = useComputedSalerL2Data(salerAddress)
 
-const publicStart = isSaleStart('public')
-const canPublic = computed(() => closed.value && publicStart.value)
+const publicData = computed(() => selected.value?.publicSale)
+const publicDateTime = computed(() => {
+  if (!publicData.value) return ''
+  return formatDatetime(publicData.value.start, 'MMM d, t ZZZZ').replace('GMT+8', 'SGT')
+})
+const canPublic = computed(() => {
+  if (!publicData.value) return false
+  const publicStart = isHistorical(publicData.value.start)
+  return closed.value && publicStart
+})
 const editions = computed(() => !!nftData.value.editions.length)
-const external = computed(() => !!selected.value?.publicSale)
 
 const connected = computed(() => isConnected())
 const permitStart = isSaleStart('permit')
@@ -75,15 +81,8 @@ const canWhitelist = computed(
 
 const permitData = getSaleData('permit')
 const whitelistData = getSaleData('whitelist')
-const publicData = getSaleData('public')
 
-const publicDateTime = computed(() =>
-  formatDatetime(publicData.value.start, 'MMM d, t ZZZZ').replace('GMT+8', 'SGT')
-)
-
-const showInfo = computed(
-  () => canPermit.value || canWhitelist.value || (canPublic.value && !external.value)
-)
+const showInfo = computed(() => canPermit.value || canWhitelist.value)
 
 // buttonText 和下面 NFTSaleButton 的展示逻辑没有完全搞清楚
 const buttonText = computed(() => {
@@ -95,11 +94,11 @@ const buttonText = computed(() => {
 })
 
 const handleMintClick = async () => {
-  if (!salerContract.value) return
+  if (!salerContract.value || !selected.value) return
   try {
     isMinting.value = true
 
-    const nftAddress = await salerContract.value.nft()
+    const nftAddress = selected.value.imxCollection
 
     if (canPermit.value && permitSig.value) {
       const price = await salerContract.value.permitSalePrice()
@@ -108,12 +107,6 @@ const handleMintClick = async () => {
     } else if (canWhitelist.value && whitelistSig.value) {
       const price = await salerContract.value.whitelistSalePrice()
       const tx = await salerContract.value.whitelistSale(whitelistSig.value, { value: price })
-      await openNFTModal(nftAddress, tx)
-    } else if (canPublic.value) {
-      // const price = await salerContract.value.basePrice()
-      // const tx = await salerContract.value.publicSale({ value: price })
-      const price = await salerContract.value.flashSalePrice()
-      const tx = await salerContract.value.flashSale({ value: price })
       await openNFTModal(nftAddress, tx)
     }
   } catch (error) {
@@ -218,38 +211,20 @@ watch([edition, account], ([edition]) => selectEdition(edition), { immediate: tr
                 :sold="sold"
                 :total="total"
               />
-              <NFTEditionInfo
-                v-else-if="canPublic"
-                timeType="unlimited"
-                :start="publicData.start"
-                :end="publicData.end"
-                :price="publicData.price"
-                :basePrice="basePrice"
-                :discount="publicData.discount"
-                :sold="sold"
-                :total="total"
-              />
             </section>
 
             <section class="flex flex-col">
               <NFTSaleButton disabled v-if="!editions || coming">Coming Soon</NFTSaleButton>
-              <NFTSaleButton disabled v-else-if="external && closed && !publicStart">
+              <NFTSaleButton disabled v-else-if="publicData && !canPublic">
                 {{ `Public Mint: ${publicDateTime}` }}
               </NFTSaleButton>
               <ExternalLink
                 class="block w-full py-16px xl:py-22px bg-rust text-white font-semibold text-16px xl:text-24px leading-20px xl:leading-28px text-center uppercase hover:bg-white hover:text-rust"
                 :to="selected?.publicSale?.link"
-                v-else-if="external && canPublic"
+                v-else-if="publicData && canPublic"
               >
                 {{ selected?.publicSale?.text }}
               </ExternalLink>
-              <NFTSaleButton
-                @click.stop.prevent="handleMintClick"
-                :disabled="isMinting"
-                v-else-if="!external && canPublic && connected"
-              >
-                Mint Now
-              </NFTSaleButton>
               <NFTSaleButton
                 @click.stop.prevent="handleMintClick"
                 :disabled="isMinting"
@@ -291,15 +266,7 @@ watch([edition, account], ([edition]) => selectEdition(edition), { immediate: tr
         <NFTPropertyCard class="mx-24px xl:m-0" :properties="nftData.properties" />
       </div>
     </div>
-    <NFTMintModal
-      :open="modalOpen"
-      :onModalClose="handleMintNFTModalClose"
-      :images="modalData.images"
-      :video="modalData.video"
-      :name="modalData.name"
-      :address="modalData.address"
-      :transaction="modalData.transaction"
-    />
+    <NFTMintModal :open="modalOpen" :onModalClose="handleMintNFTModalClose" :data="modalData" />
     <MintAccessModal
       :open="mintAccessModalOpen"
       :onModalClose="handleMintAccessModalClose"
