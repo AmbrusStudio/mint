@@ -28,7 +28,6 @@ export interface AmbrusStudioSalerL2Interface extends utils.Interface {
     'WITHDRAWER_ROLE()': FunctionFragment
     'basePrice()': FunctionFragment
     'count()': FunctionFragment
-    'flashSaleSoldCount()': FunctionFragment
     'getRoleAdmin(bytes32)': FunctionFragment
     'grantRole(bytes32,address)': FunctionFragment
     'hasRole(bytes32,address)': FunctionFragment
@@ -64,7 +63,6 @@ export interface AmbrusStudioSalerL2Interface extends utils.Interface {
       | 'WITHDRAWER_ROLE'
       | 'basePrice'
       | 'count'
-      | 'flashSaleSoldCount'
       | 'getRoleAdmin'
       | 'grantRole'
       | 'hasRole'
@@ -98,7 +96,6 @@ export interface AmbrusStudioSalerL2Interface extends utils.Interface {
   encodeFunctionData(functionFragment: 'WITHDRAWER_ROLE', values?: undefined): string
   encodeFunctionData(functionFragment: 'basePrice', values?: undefined): string
   encodeFunctionData(functionFragment: 'count', values?: undefined): string
-  encodeFunctionData(functionFragment: 'flashSaleSoldCount', values?: undefined): string
   encodeFunctionData(functionFragment: 'getRoleAdmin', values: [PromiseOrValue<BytesLike>]): string
   encodeFunctionData(
     functionFragment: 'grantRole',
@@ -182,7 +179,6 @@ export interface AmbrusStudioSalerL2Interface extends utils.Interface {
   decodeFunctionResult(functionFragment: 'WITHDRAWER_ROLE', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'basePrice', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'count', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'flashSaleSoldCount', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'getRoleAdmin', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'grantRole', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'hasRole', data: BytesLike): Result
@@ -293,8 +289,6 @@ export interface AmbrusStudioSalerL2 extends BaseContract {
     basePrice(overrides?: CallOverrides): Promise<[BigNumber]>
 
     count(overrides?: CallOverrides): Promise<[number]>
-
-    flashSaleSoldCount(overrides?: CallOverrides): Promise<[number]>
 
     getRoleAdmin(role: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<[string]>
 
@@ -440,8 +434,6 @@ export interface AmbrusStudioSalerL2 extends BaseContract {
 
   count(overrides?: CallOverrides): Promise<number>
 
-  flashSaleSoldCount(overrides?: CallOverrides): Promise<number>
-
   getRoleAdmin(role: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<string>
 
   grantRole(
@@ -582,8 +574,6 @@ export interface AmbrusStudioSalerL2 extends BaseContract {
     basePrice(overrides?: CallOverrides): Promise<BigNumber>
 
     count(overrides?: CallOverrides): Promise<number>
-
-    flashSaleSoldCount(overrides?: CallOverrides): Promise<number>
 
     getRoleAdmin(role: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<string>
 
@@ -753,8 +743,6 @@ export interface AmbrusStudioSalerL2 extends BaseContract {
 
     count(overrides?: CallOverrides): Promise<BigNumber>
 
-    flashSaleSoldCount(overrides?: CallOverrides): Promise<BigNumber>
-
     getRoleAdmin(role: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<BigNumber>
 
     grantRole(
@@ -882,8 +870,6 @@ export interface AmbrusStudioSalerL2 extends BaseContract {
     basePrice(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
     count(overrides?: CallOverrides): Promise<PopulatedTransaction>
-
-    flashSaleSoldCount(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
