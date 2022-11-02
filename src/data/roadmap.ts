@@ -81,5 +81,25 @@ export const roadmapList = [
       'TGE for $E4C token, listing on major exchanges',
       'E4C: Final Salvation launch, NFT holders get in-game utilities'
     ]
+  },
+  {
+    title: 'Game Testing',
+    list: [
+      'Alpha-testing Spots for E4C Rangers NFT Holders',
+      'Open Beta-testing to More Players',
+      'Game Polishing Based On Players’ Feedback'
+    ]
+  },
+  {
+    title: 'E4C Token Launch',
+    list: ['Whitelist Spots for E4C Rangers NFT Stakers', 'DAO Governance Launch']
+  },
+  {
+    title: 'Game Launch',
+    list: [
+      'E4C Rangers NFT Holders In-game IP Dividend & Utilities',
+      'Game Operations & Iterations',
+      'UGC Tools Development'
+    ]
   }
 ]
