@@ -17,7 +17,11 @@ export const mint: Mint = {
   disclaimer: {
     images: [
       'https://ambrus.s3.amazonaws.com/1667296791624_0.54_1.jpg',
-      'https://ambrus.s3.amazonaws.com/1667296791624_0.54_1.jpg'
+      'https://ambrus.s3.amazonaws.com/1667383465434_0.64_2.jpg',
+      'https://ambrus.s3.amazonaws.com/1667383465444_0.06_3.jpg',
+      'https://ambrus.s3.amazonaws.com/1667383465445_0.93_4.jpg',
+      'https://ambrus.s3.amazonaws.com/1667383465446_0.10_5.jpg',
+      'https://ambrus.s3.amazonaws.com/1667383465447_0.95_6.jpg'
     ],
     content: ''
   },
