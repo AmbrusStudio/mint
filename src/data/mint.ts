@@ -8,20 +8,16 @@ export const mint: Mint = {
       'https://ambrus.s3.amazonaws.com/1663925833647_0.20_banner_960h.jpg',
       'https://ambrus.s3.amazonaws.com/1663925833627_0.41_banner-1.jpg'
     ],
-    type: 'E4C Rangers Genesis Series 1',
-    name: 'Rin: Heir of Musashi',
+    type: 'E4C Rangers Genesis Series 2',
+    name: 'Kit: Uncaged Reaper',
     content:
-      '<p>Rin is the first Ranger coming to <a href="https://www.ambrus.studio/worldview" target="_blank" rel="noopener">E4C Verse</a>. She is a combat cyborg, who carries the razor-sharp katana sword and scaled samurai armor. She is also a major member of A.E.R.L, who fights against corruption. <a href="https://www.ambrus.studio/worldview/ranger/6">Learn more about Rin</a></p>'
-    // note: '<p>For Rangers Edition public mint, visit <a href="https://rarible.com/e4cgold/items" target="_blank" rel="noopener">Rarible.com</a></p>'
+      '<p>Kit is the second Ranger coming to <a href="https://www.ambrus.studio/worldview" target="_blank" rel="noopener">E4C Verse</a>. Descriptions xxx <a href="https://www.ambrus.studio/worldview/ranger/14">Learn more about Kit</a></p>'
+    // note: '<p>For Gold Edition public mint, visit <a href="https://rarible.com/e4cgold/items" target="_blank" rel="noopener">Rarible.com</a></p>'
   },
   disclaimer: {
     images: [
-      'https://ambrus.s3.amazonaws.com/1663749034842_0.94_Gold_A.png',
-      'https://ambrus.s3.amazonaws.com/1663749034863_0.51_Gold_B.png',
-      'https://ambrus.s3.amazonaws.com/1663749034868_0.09_Gold_C.png',
-      'https://ambrus.s3.amazonaws.com/1659503426906_0.55_1.jpg',
-      'https://ambrus.s3.amazonaws.com/1659503426929_0.47_2.jpg',
-      'https://ambrus.s3.amazonaws.com/1659503426933_0.29_3.jpg'
+      'https://ambrus.s3.amazonaws.com/1667296791624_0.54_1.jpg',
+      'https://ambrus.s3.amazonaws.com/1667296791624_0.54_1.jpg'
     ],
     content: ''
   },
