@@ -39,7 +39,7 @@ async function getNFTInfo(address: string, tx: ContractTransaction): Promise<NFT
   const parsedLog = receipt.logs.map((log) => contract.interface.parseLog(log))
   // Event MintRequest (uint256 tokenId)
   const filteredTransfer = parsedLog.filter(
-    (log) => log.topic === '0x7b0e05fbeb1edccdd44bd586d531628f90b83bc34de187a0b063ef548a779ac0'
+    (log) => log.topic === '0xed7e1cc32737aac2f5c91387879185d74677bc68b69562a9d6dcd77622e8b62d'
   )
   if (Array.isArray(filteredTransfer) && filteredTransfer.length > 0) {
     const _tokenId = filteredTransfer[0].args[0]

@@ -31,7 +31,7 @@ export const mint: Mint = {
       name: 'Gold Edition',
       value: 'gold',
       contract: '0x13F1d6a2085B5C915d6ed27b643217b29e01a8A9',
-      imxCollection: '0x19F724c679a8Dc49Eb4dEa2CDca6790D919FCc02',
+      imxCollection: '0xbF206014a878df4153036d7895188e340527a8f0',
       style: {
         background: 'linear-gradient(90deg, #E4AA15 0%, #F0C75D 100%)',
         boxShadow: '0px 0px 8px 1px #FFB800, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
@@ -40,6 +40,21 @@ export const mint: Mint = {
         start: 1667872800,
         text: 'Public Mint on Rarible.com',
         link: 'https://rarible.com/e4cgold/items'
+      }
+    },
+    {
+      name: 'Rangers Edition',
+      value: 'rangers',
+      contract: '0x243A98FA4D9F277aF9C0D89BBf7661aF42Ae742f',
+      imxCollection: '0x714a090F35a1f1fC9BAa65059b28939DD0F5A196',
+      style: {
+        background: 'linear-gradient(90deg, #399E98 0%, #88C4C0 100%)',
+        boxShadow: '0px 0px 8px 1px #88C3C0, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
+      },
+      publicSale: {
+        start: 1668132000,
+        text: 'Public Mint on Rarible.com',
+        link: 'https://rarible.com/e4crangers/items'
       }
     }
   ],
