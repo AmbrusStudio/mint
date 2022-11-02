@@ -62,18 +62,5 @@ export const roadmapList = [
       'Early ID Registration',
       'In-game Look Sneek Peek of Kaax'
     ]
-  },
-  {
-    title: 'Game Testing',
-    list: [
-      'Alpha-testing Spots for E4C Rangers NFT Holders',
-      'Open Beta-testing to More Players',
-      'Game Polishing Based On Players’ Feedback'
-    ]
-  },
-  {
-    title: 'E4C Token Launch',
-    list: ['Whitelist Spots for E4C Rangers NFT Stakers', 'DAO Governance Launch']
-  }
   }
 ]
