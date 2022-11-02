@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import PageMain from '@components/layout/PageMain.vue'
+import ExternalLink from '@components/link/ExternalLink.vue'
 import IMXWalletPopover from '@components/mint/IMXWalletPopover.vue'
 import NFTBanner from '@components/mint/NFTBanner.vue'
 import NFTDisclaimer from '@components/mint/NFTDisclaimer.vue'
