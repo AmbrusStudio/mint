@@ -2,7 +2,7 @@
 import IconClose from '@components/icons/IconClose.vue'
 import { computed } from 'vue'
 
-import { ExplorerDataType, getExplorerLink, getImageSet } from '@/utils'
+import { ExplorerDataType, getExplorerLink, getImageSet, getIMXMarketInventoryLink } from '@/utils'
 
 import BaseModal from './BaseModal.vue'
 import NFTMintModalTrait from './NFTMintModalTrait.vue'
@@ -34,6 +34,9 @@ const imageSet = computed(() => {
 const addressLink = computed(() => getExplorerLink(props.data.address, ExplorerDataType.ADDRESS))
 const transactionLink = computed(() =>
   getExplorerLink(props.data.transaction, ExplorerDataType.TRANSACTION)
+)
+const imxMarketLink = computed(() =>
+  getIMXMarketInventoryLink(props.data.address, props.data.tokenId)
 )
 </script>
 
@@ -83,6 +86,9 @@ const transactionLink = computed(() =>
           </NFTMintModalTrait>
           <NFTMintModalTrait title="Transaction Hash" :link="transactionLink">
             {{ data.transaction }}
+          </NFTMintModalTrait>
+          <NFTMintModalTrait title="Immutable X Marketplace" :link="imxMarketLink">
+            Click to view {{ data.name }} #{{ data.tokenId }} on Immutable X Marketplace
           </NFTMintModalTrait>
         </div>
       </div>
