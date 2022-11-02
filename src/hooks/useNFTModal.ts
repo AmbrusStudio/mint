@@ -1,8 +1,8 @@
-import { type ContractTransaction, BigNumber, ethers } from 'ethers'
+import { type ContractTransaction, BigNumber } from 'ethers'
 import { type Ref, ref } from 'vue'
 
 import type { NFTModalData } from '@/components/modal/NFTMintModal.vue'
-import { E4CRanger__factory, ERC721__factory } from '@/contracts'
+import { AmbrusStudioSalerL2__factory, ERC721__factory } from '@/contracts'
 import { useReadonlyEthereum } from '@/hooks'
 
 type NFTModalDataRef = {
@@ -11,7 +11,7 @@ type NFTModalDataRef = {
 }
 
 type NFTModalHelpers = {
-  openNFTModal: (address: string, tx: ContractTransaction) => Promise<void>
+  openNFTModal(salerAddress: string, nftAddress: string, tx: ContractTransaction): Promise<void>
   closeNFTModal: () => void
 }
 
@@ -28,16 +28,21 @@ const INITIAL_NFT_MODAL_DATA: NFTModalData = {
 const data = ref<NFTModalData>(INITIAL_NFT_MODAL_DATA)
 const open = ref(false)
 
-async function getNFTInfo(address: string, tx: ContractTransaction): Promise<NFTModalData> {
+async function getNFTInfo(
+  salerAddress: string,
+  nftAddress: string,
+  tx: ContractTransaction
+): Promise<NFTModalData> {
   const images = 'https://cdn.ambrus.studio/NFTs/blindbox.gif'
   const ethereum = useReadonlyEthereum()
-  const contract = ERC721__factory.connect(address, ethereum)
-  const name = await contract.name()
+  const salerContract = AmbrusStudioSalerL2__factory.connect(salerAddress, ethereum)
+  const nftContract = ERC721__factory.connect(nftAddress, ethereum)
+  const name = await nftContract.name()
   let tokenId = 0
   const transaction = tx.hash
   const receipt = await tx.wait()
-  const parsedLog = receipt.logs.map((log) => contract.interface.parseLog(log))
-  // Event MintRequest (uint256 tokenId)
+  const parsedLog = receipt.logs.map((log) => salerContract.interface.parseLog(log))
+  // Event MintRequested (uint256 tokenId)
   const filteredTransfer = parsedLog.filter(
     (log) => log.topic === '0xed7e1cc32737aac2f5c91387879185d74677bc68b69562a9d6dcd77622e8b62d'
   )
@@ -47,12 +52,12 @@ async function getNFTInfo(address: string, tx: ContractTransaction): Promise<NFT
       tokenId = _tokenId.toNumber()
     }
   }
-  return { name, tokenId, address, transaction, images }
+  return { name, tokenId, address: nftAddress, transaction, images }
 }
 
 export function useNFTModal(): NFTModalDataWithHelpers {
-  async function openNFTModal(address: string, tx: ContractTransaction) {
-    const modalData = await getNFTInfo(address, tx)
+  async function openNFTModal(salerAddress: string, nftAddress: string, tx: ContractTransaction) {
+    const modalData = await getNFTInfo(salerAddress, nftAddress, tx)
     data.value = { ...modalData }
     open.value = true
   }

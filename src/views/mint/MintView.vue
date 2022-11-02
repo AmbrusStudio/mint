@@ -97,17 +97,17 @@ const handleMintClick = async () => {
   if (!salerContract.value || !selected.value) return
   try {
     isMinting.value = true
-
+    const salerAddress = salerContract.value.address
     const nftAddress = selected.value.imxCollection
 
     if (canPermit.value && permitSig.value) {
       const price = await salerContract.value.permitSalePrice()
       const tx = await salerContract.value.permitSale(permitSig.value, { value: price })
-      await openNFTModal(nftAddress, tx)
+      await openNFTModal(salerAddress, nftAddress, tx)
     } else if (canWhitelist.value && whitelistSig.value) {
       const price = await salerContract.value.whitelistSalePrice()
       const tx = await salerContract.value.whitelistSale(whitelistSig.value, { value: price })
-      await openNFTModal(nftAddress, tx)
+      await openNFTModal(salerAddress, nftAddress, tx)
     }
   } catch (error) {
     alertErrorMessage('Mint faild', error)
