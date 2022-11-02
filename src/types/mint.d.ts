@@ -35,6 +35,8 @@ export type MintEditionStyle = {
 }
 
 export type MintPublicSale = {
+  /** 公开销售的开始时间 */
+  start: number
   /** 公开销售的按钮文案 */
   text: string
   /** 公开销售的跳转链接 */
@@ -50,6 +52,8 @@ export type MintEdition = {
   value: MintEditionValue
   /** 版本对应的 AmbrusStudioSaler 合约地址 */
   contract: string
+  /** 版本对应的 IMX Collection 合约地址 */
+  imxCollection: string
   /** AmbrusStudioSaler 合约操作的 NFT 真实地址 */
   // nftContract: string
   /** 版本颜色配置 */

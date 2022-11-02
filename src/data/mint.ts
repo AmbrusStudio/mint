@@ -25,7 +25,24 @@ export const mint: Mint = {
     ],
     content: ''
   },
-  editions: [], // 删除所有版本展示 Coming soon
+  editions: [
+    // 删除所有版本展示 Coming soon
+    {
+      name: 'Gold Edition',
+      value: 'gold',
+      contract: '0x13F1d6a2085B5C915d6ed27b643217b29e01a8A9',
+      imxCollection: '0x19F724c679a8Dc49Eb4dEa2CDca6790D919FCc02',
+      style: {
+        background: 'linear-gradient(90deg, #E4AA15 0%, #F0C75D 100%)',
+        boxShadow: '0px 0px 8px 1px #FFB800, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
+      },
+      publicSale: {
+        start: 1667872800,
+        text: 'Public Mint on Rarible.com',
+        link: 'https://rarible.com/e4cgold/items'
+      }
+    }
+  ],
   introduction: [
     // 完全展示部分
     {
@@ -85,18 +102,7 @@ export const flashMint: FlashMint = {
     start: 1664591400, // Saturday, October 1, 2022 11:00:00 AM GMT+08:00
     end: 1664611200 // Saturday, October 1, 2022 4:00:00 PM GMT+08:00
   },
-  editions: [
-    // Flash sale 只有 Gold 版本
-    {
-      name: 'Gold Edition',
-      value: 'gold',
-      contract: '0x52b27e707164f6216d4a150777c5d6b9d4295398',
-      style: {
-        background: 'linear-gradient(90deg, #E4AA15 0%, #F0C75D 100%)',
-        boxShadow: '0px 0px 8px 1px #FFB800, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
-      }
-    }
-  ]
+  editions: []
 }
 
 // 不要更改这里
