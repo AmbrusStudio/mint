@@ -9,6 +9,7 @@ import NFTMintModalTrait from './NFTMintModalTrait.vue'
 
 export type NFTModalData = {
   name: string
+  tokenId: string | number
   address: string
   transaction: string
   images: string | string[]
@@ -17,26 +18,22 @@ export type NFTModalData = {
 
 interface Props {
   open: boolean
-  name: string
-  address: string
-  transaction: string
-  images: string | string[]
-  video?: string
+  data: NFTModalData
   onModalClose: () => void
 }
 
 const props = defineProps<Props>()
 const image = computed(() => {
-  if (Array.isArray(props.images)) return props.images[0]
-  return props.images
+  if (Array.isArray(props.data.images)) return props.data.images[0]
+  return props.data.images
 })
 const imageSet = computed(() => {
-  if (Array.isArray(props.images)) return getImageSet(props.images)
+  if (Array.isArray(props.data.images)) return getImageSet(props.data.images)
   return undefined
 })
-const addressLink = computed(() => getExplorerLink(props.address, ExplorerDataType.ADDRESS))
+const addressLink = computed(() => getExplorerLink(props.data.address, ExplorerDataType.ADDRESS))
 const transactionLink = computed(() =>
-  getExplorerLink(props.transaction, ExplorerDataType.TRANSACTION)
+  getExplorerLink(props.data.transaction, ExplorerDataType.TRANSACTION)
 )
 </script>
 
@@ -56,7 +53,7 @@ const transactionLink = computed(() =>
       </div>
       <div class="flex flex-col xl:flex-row xl:flex-nowrap xl:justify-between bg-white/80">
         <video
-          v-if="video"
+          v-if="data.video"
           class="box-border w-full h-auto xl:w-600px xl:h-600px border-4px border-white/90 select-none"
           id="background-video"
           autoplay
@@ -68,7 +65,7 @@ const transactionLink = computed(() =>
           oncontextmenu="return false;"
           :poster="image"
         >
-          <source :src="video" type="video/mp4" />
+          <source :src="data.video" type="video/mp4" />
         </video>
         <img
           v-else
@@ -80,12 +77,12 @@ const transactionLink = computed(() =>
           oncontextmenu="return false;"
         />
         <div class="flex flex-col flex-1 gap-12px xl:gap-24px p-24px xl:p-36px backdrop-blur-20px">
-          <NFTMintModalTrait title="NFT ID">{{ name }}</NFTMintModalTrait>
+          <NFTMintModalTrait title="NFT ID">{{ data.name }} #{{ data.tokenId }}</NFTMintModalTrait>
           <NFTMintModalTrait title="Smart Contract Address" :link="addressLink">
-            {{ address }}
+            {{ data.address }}
           </NFTMintModalTrait>
           <NFTMintModalTrait title="Transaction Hash" :link="transactionLink">
-            {{ transaction }}
+            {{ data.transaction }}
           </NFTMintModalTrait>
         </div>
       </div>
