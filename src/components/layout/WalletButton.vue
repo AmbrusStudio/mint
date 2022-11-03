@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import ConnectImxModal from '@components/modal/ConnectImxModal.vue'
 import { Popover, PopoverPanel } from '@headlessui/vue'
 import { formatEther } from 'ethers/lib/utils'
 import { computed, ref, watchEffect } from 'vue'
 
-import { useWeb3Wallet } from '@/hooks'
+import { useConnectWalletFlow, useWeb3Wallet } from '@/hooks'
 import { getLauncherSiteLink, stringSlice } from '@/utils'
 
 import IconEthereum from '../icons/IconEthereum.vue'
@@ -12,7 +13,13 @@ import WalletButtonPanelItemTitle from './WalletButtonPanelItemTitle.vue'
 
 type OnCleanup = (cleanupFn: () => void) => void
 
-const { account, balance, ethereum, connect, reset, isConnected } = useWeb3Wallet()
+const { account, balance, ethereum, isConnected } = useWeb3Wallet()
+const {
+  modalOpen: connectImxModalOpen,
+  connectWeb3WalletAndCheckImxAccount,
+  connectImxWalletAndCheckImxAccount,
+  resetWeb3WalletAndImxWallet
+} = useConnectWalletFlow()
 
 const connected = computed(() => isConnected())
 const address = computed(() => (account?.value ? stringSlice(account.value, 4, 4) : ''))
@@ -29,7 +36,8 @@ async function fetchWalletBalances() {
 }
 
 const handleConnectClick = async () => {
-  if (!connected.value) await connect()
+  if (connectImxModalOpen.value) return
+  await connectWeb3WalletAndCheckImxAccount()
 }
 const handleBalancesClick = async () => {
   await fetchWalletBalances()
@@ -41,7 +49,14 @@ const handelAccountCenterClick = () => {
   }
 }
 const handleDisconnectClick = async () => {
-  reset()
+  await resetWeb3WalletAndImxWallet()
+}
+
+const handleConnectImxModalClose = async () => {
+  await resetWeb3WalletAndImxWallet()
+}
+const handleConnectImxModalConnect = async () => {
+  await connectImxWalletAndCheckImxAccount()
 }
 
 watchEffect(async (onCleanup: OnCleanup) => {
@@ -95,4 +110,9 @@ watchEffect(async (onCleanup: OnCleanup) => {
       </div>
     </PopoverPanel>
   </Popover>
+  <ConnectImxModal
+    :open="connectImxModalOpen"
+    @onModalClose="handleConnectImxModalClose"
+    @onConnectClick="handleConnectImxModalConnect"
+  />
 </template>

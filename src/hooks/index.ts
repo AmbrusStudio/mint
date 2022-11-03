@@ -1,3 +1,4 @@
+export * from './useConnectWalletFlow'
 export * from './useContract'
 export * from './useEthereum'
 export * from './useImmutableXWallet'

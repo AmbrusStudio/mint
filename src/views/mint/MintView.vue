@@ -19,6 +19,7 @@ import RoadmapButton from '@/components/Roadmap/RoadmapButton.vue'
 import { initialMint } from '@/data'
 import {
   useComputedSalerL2Data,
+  useConnectWalletFlow,
   useMintSignature,
   useNFTModal,
   useReadonlySalerL2Data,
@@ -28,9 +29,16 @@ import {
 import type { Mint, MintEdition, MintEditionValue } from '@/types'
 import { alertErrorMessage, formatDatetime, isHistorical } from '@/utils'
 
-const { account, ethereum, connect, isConnected } = useWeb3Wallet()
+const { account, ethereum, connect: connectWeb3Wallet, isConnected } = useWeb3Wallet()
 const mintSignature = useMintSignature(account)
-const { modalOpen, modalData, openNFTModal, closeNFTModal } = useNFTModal()
+const {
+  modalOpen: mintModalOpen,
+  modalData: mintModalData,
+  openNFTModal,
+  closeNFTModal
+} = useNFTModal()
+const { modalOpen: connectImxModalOpen, connectWeb3WalletAndCheckImxAccount } =
+  useConnectWalletFlow()
 
 const nftData = ref<Mint>(initialMint)
 const edition = ref<MintEditionValue>()
@@ -39,6 +47,7 @@ const salerAddress = ref<string>('')
 const permitSig = ref<string[]>([])
 const whitelistSig = ref<string[]>([])
 const isMinting = ref(false)
+
 const mintAccessModalOpen = ref(false)
 const hasPermitMintAccess = ref(false)
 const hasWhitelistMintAccess = ref(false)
@@ -116,13 +125,14 @@ const handleMintClick = async () => {
   }
 }
 const handleWalletConnect = async () => {
-  await connect()
+  if (connectImxModalOpen.value) return
+  await connectWeb3WalletAndCheckImxAccount()
 }
 const handleMintNFTModalClose = () => {
   closeNFTModal()
 }
 const handleMintAccessModalOpen = async () => {
-  if (!account.value) await connect()
+  if (!account.value) await connectWeb3Wallet()
   await mintSignature.refresh()
   const selectedEdition = edition.value || 'gold'
   const { permit, whitelist } = mintSignature.hasMintSignature(selectedEdition)
@@ -266,7 +276,11 @@ watch([edition, account], ([edition]) => selectEdition(edition), { immediate: tr
         <NFTPropertyCard class="mx-24px xl:m-0" :properties="nftData.properties" />
       </div>
     </div>
-    <NFTMintModal :open="modalOpen" :onModalClose="handleMintNFTModalClose" :data="modalData" />
+    <NFTMintModal
+      :open="mintModalOpen"
+      :onModalClose="handleMintNFTModalClose"
+      :data="mintModalData"
+    />
     <MintAccessModal
       :open="mintAccessModalOpen"
       :onModalClose="handleMintAccessModalClose"
