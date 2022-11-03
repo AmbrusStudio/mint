@@ -11,7 +11,7 @@ export const mint: Mint = {
     type: 'E4C Rangers Genesis Series 2',
     name: 'Kit: Uncaged Reaper',
     content:
-      '<p>Kit is the second Ranger coming to <a href="https://www.ambrus.studio/worldview" target="_blank" rel="noopener">E4C Verse</a>. He was once an ordinary fox roaming around in Tokyo. One day, he, among many animals, gained new capabilities getting affected from a nuclear accident caused by a major storm. Then, joined by many animals, he founded the AERL group in order to defend their community. <a href="https://www.ambrus.studio/worldview/ranger/14">Learn more about Kit</a></p>'
+      '<p>Kit is the second Ranger coming to <a href="https://www.ambrus.studio/worldview" target="_blank" rel="noopener">E4C Verse</a>.  A fox whose life has been forever changed by natural disasters. He and many other animals have gained special powers from a nuclear accident. Together they founded the AERL group in defense of their community and Kit has been a major leader ever since. <a href="https://www.ambrus.studio/worldview/ranger/14">Learn more about Kit</a></p>'
     // note: '<p>For Gold Edition public mint, visit <a href="https://rarible.com/e4cgold/items" target="_blank" rel="noopener">Rarible.com</a></p>'
   },
   disclaimer: {
