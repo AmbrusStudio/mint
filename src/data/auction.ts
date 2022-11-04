@@ -83,11 +83,11 @@ export const auction: Auction = {
     content: `Kit is the second ranger comes to life in <a href="https://www.ambrus.studio/worldview" target="_blank" rel="noopener"><strong>E4C Verse</strong></a>. We crafted 15 superb 3D arts as our one-of-one NFTs, each having a meaningful background, the most special texture and color combinations, and ultimately unique vibes.<br/><br/>He will also make an appearance in our upcoming game, <a href="https://youtu.be/oB_rvxzTRzE" target="_blank" rel="noopener"><strong>E4C Final Salvation</strong></a>.`
   },
   actions: {
-    text: 'Sign up and get 5% off bidding price',
-    button: 'RSVP FOR THE AUCTION', // Bid on Opensea
+    text: 'Join the Auction Now',
+    button: 'BID ON OPENSEA', // Bid on Opensea
     link: 'https://opensea.io/collection/e4crangersultimate',
     buttonStyle: {
-      backgroundColor: '#FF4125' // #2081E2
+      backgroundColor: '#2081E2' // #2081E2
     }
   }
 }
