@@ -30,7 +30,7 @@ export const mint: Mint = {
     {
       name: 'Gold Edition',
       value: 'gold',
-      contract: '0x13F1d6a2085B5C915d6ed27b643217b29e01a8A9',
+      contract: '0x75531AEA9B71C70A1cba22Fff2C917BfD9036d15',
       imxCollection: '0xbF206014a878df4153036d7895188e340527a8f0',
       style: {
         background: 'linear-gradient(90deg, #E4AA15 0%, #F0C75D 100%)',
@@ -45,7 +45,7 @@ export const mint: Mint = {
     {
       name: 'Rangers Edition',
       value: 'rangers',
-      contract: '0x243A98FA4D9F277aF9C0D89BBf7661aF42Ae742f',
+      contract: '0xCefD016812097CE89E8FE350c8D174BE7e65aE60',
       imxCollection: '0x714a090F35a1f1fC9BAa65059b28939DD0F5A196',
       style: {
         background: 'linear-gradient(90deg, #399E98 0%, #88C4C0 100%)',
