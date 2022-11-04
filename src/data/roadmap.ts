@@ -28,22 +28,16 @@ export const roadmapList = [
     title: 'September 2022',
     list: ['Special gifts to the community: E4C: Fallen Arena', 
            'Announce NFT utility upgrade system, NFT can be upgraded to the Plus edition',
-           'Hold in-depth Web3 Panel involving Web3 top-tier leaders and investors'
+           'Hold in-depth Web3 Panel involving Web3 top-tier leaders and investors',
+           'Genesis NFT Drop'
           ]
-  },
-  {
-    title: 'September 2022 - 1H 2023',
-    list: ['Genesis NFT Drop']
-  },
-  {
-    title: 'November 2022  -  1H 2023',
-    list: ['Special airdrop for Plus edition upgraders']
   },
   {
     title: 'November 2022',
     list: ['$E4C token announcement', 
            '$E4C token airdrop plan announcement',
-           'Start regular E4Cverse co-creation campaigns '
+           'Start regular E4Cverse co-creation campaigns ',
+           'Special airdrop for Plus edition upgraders'
           ]
   },
   {
@@ -74,9 +68,12 @@ export const roadmapList = [
            'Early game ID registration for NFT holders']
   },
   {
-    title: 'Game Launch',
+    title: '2nd Half 2023',
     list: [
-      ''
+      'Beta-testing spots for NFT holders',
+      '$E4C token airdrop for E4C Rangers Ultimate and Gold Plus edition holders',
+      'TGE for $E4C token, listing on major exchanges',
+      'E4C: Final Salvation launch, NFT holders get in-game IP dividend & utilities'
     ]
   }
 ]
