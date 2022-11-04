@@ -62,16 +62,24 @@ export const roadmapList = [
     ]
   },
   {
+    title: '1st Quarter 2023',
+    list: ['Game early access to top community members']
+  },
+  {
     title: '1st Half 2023',
-    list: ['Game early access to top community members', 
-           'Alpha-testing spots for NFT holders', 
+    list: ['Alpha-testing spots for NFT holders', 
            'Early game ID registration for NFT holders']
   },
   {
     title: '2nd Half 2023',
     list: [
       'Beta-testing spots for NFT holders',
-      '$E4C token airdrop for E4C Rangers Ultimate and Gold Plus edition holders',
+      '$E4C token airdrop for E4C Rangers Ultimate and Gold Plus edition holders'
+    ]
+  },
+  {
+    title: 'End of 2023',
+    list: [
       'TGE for $E4C token, listing on major exchanges',
       'E4C: Final Salvation launch, NFT holders get in-game IP dividend & utilities'
     ]
