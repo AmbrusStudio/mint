@@ -35,19 +35,25 @@ export type MintEditionStyle = {
 }
 
 export type MintPublicSale = {
+  /** 公开销售的开始时间 */
+  start: number
   /** 公开销售的按钮文案 */
   text: string
   /** 公开销售的跳转链接 */
   link: string
 }
 
+export type MintEditionValue = 'gold' | 'rangers'
+
 export type MintEdition = {
   /** 版本名称 */
   name: string
   /** 版本识别值（唯一，用于单选识别） */
-  value: string
+  value: MintEditionValue
   /** 版本对应的 AmbrusStudioSaler 合约地址 */
   contract: string
+  /** 版本对应的 IMX Collection 合约地址 */
+  imxCollection: string
   /** AmbrusStudioSaler 合约操作的 NFT 真实地址 */
   // nftContract: string
   /** 版本颜色配置 */
@@ -106,3 +112,18 @@ export type FlashMint = Mint & {
   /** 闪购销售配置 */
   flashSale: MintFlashSale
 }
+
+export type MintSaleKind = 'permit' | 'whitelist'
+
+export type MintAccessModalKind = MintSaleKind | 'public'
+
+export type MintAccessModalFaceKind = 'star' | 'happy'
+
+export type MintAccessModalData = {
+  title: string
+  subtitle: string
+  face: MintAccessModalFaceKind
+  time: Record<MintEditionValue, string>
+}
+
+export type MintAccessModal = Record<MintAccessModalKind, MintAccessModalData>

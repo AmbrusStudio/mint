@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import PageMain from '@components/layout/PageMain.vue'
+import ExternalLink from '@components/link/ExternalLink.vue'
+import IMXWalletPopover from '@components/mint/IMXWalletPopover.vue'
 import NFTBanner from '@components/mint/NFTBanner.vue'
 import NFTDisclaimer from '@components/mint/NFTDisclaimer.vue'
 import NFTEditionInfo from '@components/mint/NFTEditionInfo.vue'
@@ -8,42 +10,63 @@ import NFTIntroCard from '@components/mint/NFTIntroCard.vue'
 import NFTPropertyCard from '@components/mint/NFTPropertyCard.vue'
 import NFTSaleButton from '@components/mint/NFTSaleButton.vue'
 import NFTSaleCard from '@components/mint/NFTSaleCard.vue'
+import MintAccessModal from '@components/modal/MintAccessModal.vue'
 import NFTMintModal from '@components/modal/NFTMintModal.vue'
 import { computed, ref, watch, watchEffect } from 'vue'
 
-import { getMintInfo, getSignature } from '@/api'
-import ExternalLink from '@/components/link/ExternalLink.vue'
+import { getMintInfo } from '@/api'
+import RoadmapButton from '@/components/Roadmap/RoadmapButton.vue'
 import { initialMint } from '@/data'
 import {
-  useComputedSalerData,
+  useComputedSalerL2Data,
+  useConnectWalletFlow,
+  useMintSignature,
   useNFTModal,
-  useReadonlySalerData,
-  useSalerContract,
-  useWallet
+  useReadonlySalerL2Data,
+  useSalerL2Contract,
+  useWeb3Wallet
 } from '@/hooks'
-import type { Mint, MintEdition } from '@/types'
-import { alertErrorMessage, formatDatetime } from '@/utils'
+import type { Mint, MintEdition, MintEditionValue } from '@/types'
+import { alertErrorMessage, formatDatetime, isHistorical } from '@/utils'
 
-const { account, ethereum, connect, isConnected } = useWallet()
-const { modalOpen, modalData, openNFTModal, closeNFTModal } = useNFTModal()
+const { account, ethereum, connect: connectWeb3Wallet, isConnected } = useWeb3Wallet()
+const mintSignature = useMintSignature(account)
+const {
+  modalOpen: mintModalOpen,
+  modalData: mintModalData,
+  openNFTModal,
+  closeNFTModal
+} = useNFTModal()
+const { modalOpen: connectImxModalOpen, connectWeb3WalletAndCheckImxAccount } =
+  useConnectWalletFlow()
 
 const nftData = ref<Mint>(initialMint)
-const edition = ref<string>('')
+const edition = ref<MintEditionValue>()
 const selected = ref<MintEdition>()
 const salerAddress = ref<string>('')
-const permitSig = ref<string[]>()
-const whitelistSig = ref<string[]>()
+const permitSig = ref<string[]>([])
+const whitelistSig = ref<string[]>([])
 const isMinting = ref(false)
 
-const salerContract = useSalerContract(ethereum, salerAddress)
-const { basePrice, amount, sold, total, isSaleStart, isSaleEnd, getSaleData } =
-  useReadonlySalerData(salerAddress)
-const { coming, closed } = useComputedSalerData(salerAddress)
+const mintAccessModalOpen = ref(false)
+const hasPermitMintAccess = ref(false)
+const hasWhitelistMintAccess = ref(false)
 
-const publicStart = isSaleStart('public')
-const canPublic = computed(() => closed.value && publicStart.value)
-const editions = computed(() => !!nftData.value.editions.length)
+const salerContract = useSalerL2Contract(ethereum, salerAddress)
+const { basePrice, amount, sold, total, isSaleStart, isSaleEnd, getSaleData } =
+  useReadonlySalerL2Data(salerAddress)
+const { coming, closed } = useComputedSalerL2Data(salerAddress)
+
 const external = computed(() => !!selected.value?.publicSale)
+const publicDateTime = computed(() => {
+  if (!selected.value?.publicSale) return ''
+  return formatDatetime(selected.value.publicSale.start, 'MMM d, t ZZZZ').replace('GMT+8', 'SGT')
+})
+const canPublic = computed(() => {
+  if (!selected.value?.publicSale) return false
+  return isHistorical(selected.value.publicSale.start)
+})
+const editions = computed(() => !!nftData.value.editions.length)
 
 const connected = computed(() => isConnected())
 const permitStart = isSaleStart('permit')
@@ -67,46 +90,33 @@ const canWhitelist = computed(
 
 const permitData = getSaleData('permit')
 const whitelistData = getSaleData('whitelist')
-const publicData = getSaleData('public')
 
-const publicDateTime = computed(() =>
-  formatDatetime(publicData.value.start, 'MMM d, t ZZZZ').replace('GMT+8', 'SGT')
-)
-
-const showInfo = computed(
-  () => canPermit.value || canWhitelist.value || (canPublic.value && !external.value)
-)
+const showInfo = computed(() => canPermit.value || canWhitelist.value)
 
 // buttonText 和下面 NFTSaleButton 的展示逻辑没有完全搞清楚
 const buttonText = computed(() => {
   if (!(edition.value && salerContract.value)) return 'Choose an Edition'
-  if (!amount.value) return 'Sold Out'
+  if (closed.value || !amount.value) return 'Sold Out'
   if (!permitEnd.value && !canPermit.value) return 'No Permit Mint Access'
   if (!whitelistEnd.value && !canWhitelist.value) return 'No Whitelist Mint Access'
   return 'Sold Out'
 })
 
 const handleMintClick = async () => {
-  if (!salerContract.value) return
+  if (!salerContract.value || !selected.value) return
   try {
     isMinting.value = true
-
-    const nftAddress = await salerContract.value.nft()
+    const salerAddress = salerContract.value.address
+    const nftAddress = selected.value.imxCollection
 
     if (canPermit.value && permitSig.value) {
       const price = await salerContract.value.permitSalePrice()
       const tx = await salerContract.value.permitSale(permitSig.value, { value: price })
-      await openNFTModal(nftAddress, tx)
+      await openNFTModal(salerAddress, nftAddress, tx)
     } else if (canWhitelist.value && whitelistSig.value) {
       const price = await salerContract.value.whitelistSalePrice()
       const tx = await salerContract.value.whitelistSale(whitelistSig.value, { value: price })
-      await openNFTModal(nftAddress, tx)
-    } else if (canPublic.value) {
-      // const price = await salerContract.value.basePrice()
-      // const tx = await salerContract.value.publicSale({ value: price })
-      const price = await salerContract.value.flashSalePrice()
-      const tx = await salerContract.value.flashSale({ value: price })
-      await openNFTModal(nftAddress, tx)
+      await openNFTModal(salerAddress, nftAddress, tx)
     }
   } catch (error) {
     alertErrorMessage('Mint faild', error)
@@ -114,31 +124,44 @@ const handleMintClick = async () => {
     isMinting.value = false
   }
 }
-const handleWalletConnect = () => {
-  connect()
+const handleWalletConnect = async () => {
+  if (connectImxModalOpen.value) return
+  await connectWeb3WalletAndCheckImxAccount()
 }
-const handleModalClose = () => {
+const handleMintNFTModalClose = () => {
   closeNFTModal()
+}
+const handleMintAccessModalOpen = async () => {
+  if (!account.value) await connectWeb3Wallet()
+  await mintSignature.refresh()
+  const selectedEdition = edition.value || 'gold'
+  const { permit, whitelist } = mintSignature.hasMintSignature(selectedEdition)
+  hasPermitMintAccess.value = permit
+  hasWhitelistMintAccess.value = whitelist
+  mintAccessModalOpen.value = true
+}
+const handleMintAccessModalClose = () => {
+  mintAccessModalOpen.value = false
 }
 
 watchEffect(async () => {
   const data = await getMintInfo()
   nftData.value = data
   if (Array.isArray(data.editions)) {
-    edition.value = data.editions[0].value
+    edition.value = data.editions[0]?.value
   }
 })
 
 watchEffect(async () => {
   if (account.value && edition.value) {
-    const _permitSig = await getSignature(account.value, 'permit', edition.value)
-    permitSig.value = _permitSig
-    const _whitelistSig = await getSignature(account.value, 'whitelist', edition.value)
-    whitelistSig.value = _whitelistSig
+    const _sig = mintSignature[edition.value]
+    permitSig.value = _sig.value.permit
+    whitelistSig.value = _sig.value.whitelist
+    console.debug('Watch edition effect', edition.value, JSON.parse(JSON.stringify(_sig.value)))
   }
 })
 
-const selectEdition = (edition: string): void => {
+const selectEdition = (edition?: MintEditionValue): void => {
   if (!edition) return
   const _selected = nftData.value.editions.find((e) => e.value === edition)
   if (!_selected) return
@@ -198,38 +221,20 @@ watch([edition, account], ([edition]) => selectEdition(edition), { immediate: tr
                 :sold="sold"
                 :total="total"
               />
-              <NFTEditionInfo
-                v-else-if="canPublic"
-                timeType="unlimited"
-                :start="publicData.start"
-                :end="publicData.end"
-                :price="publicData.price"
-                :basePrice="basePrice"
-                :discount="publicData.discount"
-                :sold="sold"
-                :total="total"
-              />
             </section>
 
             <section class="flex flex-col">
               <NFTSaleButton disabled v-if="!editions || coming">Coming Soon</NFTSaleButton>
-              <NFTSaleButton disabled v-else-if="external && closed && !publicStart">
+              <NFTSaleButton disabled v-else-if="closed && external && !canPublic">
                 {{ `Public Mint: ${publicDateTime}` }}
               </NFTSaleButton>
               <ExternalLink
                 class="block w-full py-16px xl:py-22px bg-rust text-white font-semibold text-16px xl:text-24px leading-20px xl:leading-28px text-center uppercase hover:bg-white hover:text-rust"
                 :to="selected?.publicSale?.link"
-                v-else-if="external && canPublic"
+                v-else-if="closed && external && canPublic"
               >
                 {{ selected?.publicSale?.text }}
               </ExternalLink>
-              <NFTSaleButton
-                @click.stop.prevent="handleMintClick"
-                :disabled="isMinting"
-                v-else-if="!external && canPublic && connected"
-              >
-                Mint Now
-              </NFTSaleButton>
               <NFTSaleButton
                 @click.stop.prevent="handleMintClick"
                 :disabled="isMinting"
@@ -247,11 +252,20 @@ watch([edition, account], ([edition]) => selectEdition(edition), { immediate: tr
               <NFTSaleButton disabled v-else-if="connected">
                 {{ buttonText }}
               </NFTSaleButton>
-              <NFTSaleButton @click.stop.prevent="handleWalletConnect" v-else>
-                Connect Wallet
-              </NFTSaleButton>
+              <IMXWalletPopover disabled v-else>
+                <NFTSaleButton @click.stop.prevent="handleWalletConnect">
+                  Connect Wallet
+                </NFTSaleButton>
+              </IMXWalletPopover>
             </section>
           </form>
+          <button
+            class="font-bold text-14px leading-20px text-rust underline mt-24px mr-auto"
+            type="button"
+            @click.stop="handleMintAccessModalOpen"
+          >
+            Check if my wallet is whitelisted
+          </button>
         </NFTSaleCard>
         <NFTDisclaimer
           className="xl:hidden"
@@ -263,13 +277,16 @@ watch([edition, account], ([edition]) => selectEdition(edition), { immediate: tr
       </div>
     </div>
     <NFTMintModal
-      :open="modalOpen"
-      :onModalClose="handleModalClose"
-      :images="modalData.images"
-      :video="modalData.video"
-      :name="modalData.name"
-      :address="modalData.address"
-      :transaction="modalData.transaction"
+      :open="mintModalOpen"
+      :onModalClose="handleMintNFTModalClose"
+      :data="mintModalData"
+    />
+    <MintAccessModal
+      :open="mintAccessModalOpen"
+      :onModalClose="handleMintAccessModalClose"
+      :permit="hasPermitMintAccess"
+      :whitelist="hasWhitelistMintAccess"
     />
   </PageMain>
+  <RoadmapButton placement="bottom-right" />
 </template>

@@ -52,8 +52,7 @@ export const auction: Auction = {
         },
         {
           title: 'How',
-          content:
-            'Open ascending bid auction',
+          content: 'Open ascending bid auction',
           style: {
             lineHeight: '51px',
             fontSize: '42px'

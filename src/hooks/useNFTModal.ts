@@ -1,9 +1,8 @@
-import { type ContractTransaction, BigNumber, ethers } from 'ethers'
+import { type ContractTransaction, BigNumber } from 'ethers'
 import { type Ref, ref } from 'vue'
 
-import BlindboxCover from '@/assets/images/cover/cover-blindbox.png'
 import type { NFTModalData } from '@/components/modal/NFTMintModal.vue'
-import { E4CRanger__factory } from '@/contracts'
+import { AmbrusStudioSalerL2__factory, ERC721__factory } from '@/contracts'
 import { useReadonlyEthereum } from '@/hooks'
 
 type NFTModalDataRef = {
@@ -12,7 +11,7 @@ type NFTModalDataRef = {
 }
 
 type NFTModalHelpers = {
-  openNFTModal: (address: string, tx: ContractTransaction) => Promise<void>
+  openNFTModal(salerAddress: string, nftAddress: string, tx: ContractTransaction): Promise<void>
   closeNFTModal: () => void
 }
 
@@ -20,43 +19,45 @@ type NFTModalDataWithHelpers = NFTModalDataRef & NFTModalHelpers
 
 const INITIAL_NFT_MODAL_DATA: NFTModalData = {
   name: '',
-  images: '',
+  tokenId: 0,
   address: '',
-  transaction: ''
+  transaction: '',
+  images: ''
 }
 
 const data = ref<NFTModalData>(INITIAL_NFT_MODAL_DATA)
 const open = ref(false)
 
-async function getNFTInfo(address: string, tx: ContractTransaction): Promise<NFTModalData> {
+async function getNFTInfo(
+  salerAddress: string,
+  nftAddress: string,
+  tx: ContractTransaction
+): Promise<NFTModalData> {
+  const images = 'https://cdn.ambrus.studio/NFTs/blindbox.gif'
   const ethereum = useReadonlyEthereum()
-  // Vue ref 的 get 有问题，使用 E4CRanger Factory
-  const contract = E4CRanger__factory.connect(address, ethereum)
-  const images = BlindboxCover
-  const video = 'https://cdn.ambrus.studio/NFTs/Blindbox.mp4'
-  let name = await contract.name() // AmbrusStudioRanger
+  const salerContract = AmbrusStudioSalerL2__factory.connect(salerAddress, ethereum)
+  const nftContract = ERC721__factory.connect(nftAddress, ethereum)
+  const name = await nftContract.name()
+  let tokenId = 0
   const transaction = tx.hash
   const receipt = await tx.wait()
-  const filteredLogs = receipt.logs.filter((log) => log.address === address)
-  const parsedLog = filteredLogs.map((log) => contract.interface.parseLog(log))
-  // Event Transfer(address,address,uint256)
+  const parsedLog = receipt.logs.map((log) => salerContract.interface.parseLog(log))
+  // Event MintRequested (uint256 tokenId)
   const filteredTransfer = parsedLog.filter(
-    (log) =>
-      log.topic === '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef' &&
-      log.args[0] === ethers.constants.AddressZero
+    (log) => log.topic === '0xed7e1cc32737aac2f5c91387879185d74677bc68b69562a9d6dcd77622e8b62d'
   )
   if (Array.isArray(filteredTransfer) && filteredTransfer.length > 0) {
-    const tokenId = filteredTransfer[0].args[2]
-    if (typeof tokenId === 'object' && tokenId instanceof BigNumber) {
-      name += ` #${tokenId.toNumber()}`
+    const _tokenId = filteredTransfer[0].args[0]
+    if (typeof _tokenId === 'object' && _tokenId instanceof BigNumber) {
+      tokenId = _tokenId.toNumber()
     }
   }
-  return { images, video, name, address, transaction }
+  return { name, tokenId, address: nftAddress, transaction, images }
 }
 
 export function useNFTModal(): NFTModalDataWithHelpers {
-  async function openNFTModal(address: string, tx: ContractTransaction) {
-    const modalData = await getNFTInfo(address, tx)
+  async function openNFTModal(salerAddress: string, nftAddress: string, tx: ContractTransaction) {
+    const modalData = await getNFTInfo(salerAddress, nftAddress, tx)
     data.value = { ...modalData }
     open.value = true
   }

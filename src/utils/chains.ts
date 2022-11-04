@@ -6,6 +6,8 @@ import {
   SupportedChainId
 } from '@/constants/chains'
 
+import { getViteEnv } from './env'
+
 export function getChainIdFromName(name: string): number | undefined {
   const entry = Object.entries(CHAIN_IDS_TO_NAMES).find(([, n]) => n === name)
   const chainId = entry?.[0]
@@ -26,15 +28,13 @@ export function getChainInfoFromId(id: string | number): ChainInfo | undefined {
 }
 
 export function getDefaultChainInfo(): ChainInfo {
-  const chainId: string | undefined = import.meta.env.VITE_CHAIN_ID
-  if (!chainId) console.warn('VITE_CHAIN_ID not set')
+  const chainId = getViteEnv('VITE_CHAIN_ID')
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   return getChainInfoFromId(chainId || DefaultChainId)!
 }
 
 export function getInfuraKey(): string | undefined {
-  const infuraId = import.meta.env.VITE_INFURA_API_KEY
-  if (!infuraId) throw new TypeError('VITE_INFURA_API_KEY not set')
+  const infuraId = getViteEnv('VITE_INFURA_API_KEY')
   return infuraId
 }
 
@@ -50,13 +50,11 @@ export function getInfuraUrl(id: string | number): string | undefined {
 }
 
 export function getEtherscanKey(): string | undefined {
-  const etherscan = import.meta.env.VITE_ETHERSCAN_API_KEY
-  if (!etherscan) throw new TypeError('VITE_ETHERSCAN_API_KEY not set')
+  const etherscan = getViteEnv('VITE_ETHERSCAN_API_KEY')
   return etherscan
 }
 
 export function getAlchemyKey(): string | undefined {
-  const alchemy = import.meta.env.VITE_ALCHEMY_API_KEY
-  if (!alchemy) throw new TypeError('VITE_ALCHEMY_API_KEY not set')
+  const alchemy = getViteEnv('VITE_ALCHEMY_API_KEY')
   return alchemy
 }
