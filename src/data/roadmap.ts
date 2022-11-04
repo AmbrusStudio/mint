@@ -3,84 +3,80 @@ export const roadmapList = [
   {
     title: 'May 2022',
     list: [
-      'Official Website Launch',
-      'E4C Verse Introduction',
-      'Litepaper Release',
-      'Biographics of E4C Rangers Release'
+      'Launch E4C official website, start to call for new Rangers',
+      'Release biography of E4C Rangers'
     ]
   },
   {
     title: 'June 2022',
     list: [
-      'Discord Server Launch',
-      'Daily Community-team Chat',
-      'Weekly Community Events',
-      'SBT Badge System Launch'
+      'Launch E4C Discord Server, start to build gaming and eSports community',
+      'Start to hold weekly community events',
+      'Start to reward active community members with special SBT badges'
     ]
   },
   {
-    title: 'July - September 2022',
+    title: 'July - August 2022',
     list: [
-      'E4C Rangers NFT Series 1 Release',
-      'First Game Trailer Release',
-      'Community Esports Events',
-      'E4C Organization Conflict Events',
-      'NFT Staking System Release',
-      'In-depth Web3 Panel',
-      'Special Gifts To Community'
+      'Announce Genesis NFT utility in 3 editions: Ultimate, Gold, and Rangers',
+      'E4C Rangers NFT first character Ultimate Auction',
+      'Regular community Esports Events',
+      'Regular E4C organization conflict events'
     ]
   },
   {
-    title: 'October 2022',
-    list: ['E4C Verse Co-creation Events', 'First Champion Trailer Release']
+    title: 'September 2022',
+    list: ['Special gifts to the community: E4C: Fallen Arena', 
+           'Announce NFT utility upgrade system, NFT can be upgraded to the Plus edition',
+           'Hold in-depth Web3 Panel involving Web3 top-tier leaders and investors'
+          ]
+  },
+  {
+    title: 'September 2022 - 1H 2023',
+    list: ['Genesis NFT Drop']
+  },
+  {
+    title: 'November 2022  -  1H 2023',
+    list: ['Special airdrop for Plus edition upgraders']
   },
   {
     title: 'November 2022',
-    list: ['Weekly NFT Airdrop Lucky Draw', 'Special Esports Events & Gifts', 'Special NFT Airdrop']
+    list: ['$E4C token announcement', 
+           '$E4C token airdrop plan announcement',
+           'Start regular E4Cverse co-creation campaigns '
+          ]
   },
   {
-    title: 'December 2022',
-    list: ['E4C Verse New Page Release', 'In-game Look Sneek Peek of Rin, Kit, Thorn & Buzz ']
+    title: 'End of 2022',
+    list: [
+      'Ambrus\' First Esports Tournament for E4C: Fallen Arena',
+      '50K Twitter Followers',
+      '35K Discord Followers'
+    ]
   },
   {
     title: 'January 2023',
-    list: ['Special New Year Events', 'In-game Look Sneek Peek of Nana']
+    list: [
+      'Announce NFT utility 2.0',
+      'Special NFT airdrop for NFT holders'
+    ]
   },
   {
     title: 'February 2023',
     list: [
-      'First Co-creation Champion Trailer',
-      'Online/Offline Sustainability Events',
-      'In-game Look Sneek Peek of Alamo'
+      'Announce SBT badges utilities'
     ]
   },
   {
-    title: 'March 2023',
-    list: [
-      'Special Donation Event',
-      'Complete Worldview Stories Release',
-      'Early ID Registration',
-      'In-game Look Sneek Peek of Kaax'
-    ]
-  },
-  {
-    title: 'Game Testing',
-    list: [
-      'Alpha-testing Spots for E4C Rangers NFT Holders',
-      'Open Beta-testing to More Players',
-      'Game Polishing Based On Players’ Feedback'
-    ]
-  },
-  {
-    title: 'E4C Token Launch',
-    list: ['Whitelist Spots for E4C Rangers NFT Stakers', 'DAO Governance Launch']
+    title: '1st Half 2023',
+    list: ['Game early access to top community members', 
+           'Alpha-testing spots for NFT holders', 
+           'Early game ID registration for NFT holders']
   },
   {
     title: 'Game Launch',
     list: [
-      'E4C Rangers NFT Holders In-game IP Dividend & Utilities',
-      'Game Operations & Iterations',
-      'UGC Tools Development'
+      ''
     ]
   }
 ]
