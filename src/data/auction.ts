@@ -84,7 +84,7 @@ export const auction: Auction = {
   },
   actions: {
     text: 'Join the Auction Now',
-    button: 'BID ON OPENSEA', // Bid on Opensea
+    button: 'VIEW ON OPENSEA', // Bid on Opensea
     link: 'https://opensea.io/collection/e4crangersultimate',
     buttonStyle: {
       backgroundColor: '#2081E2' // #2081E2
