@@ -27,36 +27,36 @@ export const mint: Mint = {
   },
   editions: [
     // 删除所有版本展示 Coming soon
-    // {
-    //   name: 'Gold Edition',
-    //   value: 'gold',
-    //   contract: '0x75531AEA9B71C70A1cba22Fff2C917BfD9036d15',
-    //   imxCollection: '0xbF206014a878df4153036d7895188e340527a8f0',
-    //   style: {
-    //     background: 'linear-gradient(90deg, #E4AA15 0%, #F0C75D 100%)',
-    //     boxShadow: '0px 0px 8px 1px #FFB800, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
-    //   },
-    //   publicSale: {
-    //     start: 1667872800,
-    //     text: 'Public Mint on Rarible.com',
-    //     link: 'https://rarible.com/e4cgold/items'
-    //   }
-    // },
-    // {
-    //   name: 'Rangers Edition',
-    //   value: 'rangers',
-    //   contract: '0xCefD016812097CE89E8FE350c8D174BE7e65aE60',
-    //   imxCollection: '0x714a090F35a1f1fC9BAa65059b28939DD0F5A196',
-    //   style: {
-    //     background: 'linear-gradient(90deg, #399E98 0%, #88C4C0 100%)',
-    //     boxShadow: '0px 0px 8px 1px #88C3C0, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
-    //   },
-    //   publicSale: {
-    //     start: 1668132000,
-    //     text: 'Public Mint on Rarible.com',
-    //     link: 'https://rarible.com/e4crangers/items'
-    //   }
-    // }
+    {
+      name: 'Gold Edition',
+      value: 'gold',
+      contract: '0xaD798052BB64d327df9b2Dc57D5213114F1753CC',
+      imxCollection: '0xbA265B93519E6473F34F46ee35F4B23970F41a3f',
+      style: {
+        background: 'linear-gradient(90deg, #E4AA15 0%, #F0C75D 100%)',
+        boxShadow: '0px 0px 8px 1px #FFB800, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
+      },
+      publicSale: {
+        start: 1667872800,
+        text: 'Public Mint on Rarible.com',
+        link: 'https://rarible.com/e4cgold/items'
+      }
+    },
+    {
+      name: 'Rangers Edition',
+      value: 'rangers',
+      contract: '0xC31B8dFeC945f493EE0B91f61351E5dDC21EC92d',
+      imxCollection: '0xC17Aa29c43e4cE0c349749C8986a03B2734813fa',
+      style: {
+        background: 'linear-gradient(90deg, #399E98 0%, #88C4C0 100%)',
+        boxShadow: '0px 0px 8px 1px #88C3C0, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
+      },
+      publicSale: {
+        start: 1668132000,
+        text: 'Public Mint on Rarible.com',
+        link: 'https://rarible.com/e4crangers/items'
+      }
+    }
   ],
   introduction: [
     // 完全展示部分
