@@ -39,7 +39,7 @@ export const mint: Mint = {
       publicSale: {
         start: 1667872800,
         text: 'Public Mint on Rarible.com',
-        link: 'https://rarible.com/e4cgold/items'
+        link: 'https://rarible.com/e4crangersgold'
       }
     },
     {
