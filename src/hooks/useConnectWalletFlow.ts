@@ -8,6 +8,7 @@ type UseConnectWalletFlow = {
   connectWeb3WalletAndCheckImxAccount(): Promise<void>
   connectImxWalletAndCheckImxAccount(): Promise<void>
   resetWeb3WalletAndImxWallet(): Promise<void>
+  pureCheckImxAccount(): Promise<boolean>
 }
 
 const open = ref(false)
@@ -50,12 +51,20 @@ export function useConnectWalletFlow(): UseConnectWalletFlow {
     open.value = false
   }
 
+  async function pureCheckImxAccount() {
+    const checkImx = await checkImxUserAccount()
+    if (!checkImx) open.value = true
+    else open.value = false
+    return checkImx
+  }
+
   return {
     get modalOpen() {
       return open
     },
     connectWeb3WalletAndCheckImxAccount,
     connectImxWalletAndCheckImxAccount,
-    resetWeb3WalletAndImxWallet
+    resetWeb3WalletAndImxWallet,
+    pureCheckImxAccount
   }
 }
