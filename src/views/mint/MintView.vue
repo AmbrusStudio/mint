@@ -37,8 +37,11 @@ const {
   openNFTModal,
   closeNFTModal
 } = useNFTModal()
-const { modalOpen: connectImxModalOpen, connectWeb3WalletAndCheckImxAccount } =
-  useConnectWalletFlow()
+const {
+  modalOpen: connectImxModalOpen,
+  connectWeb3WalletAndCheckImxAccount,
+  pureCheckImxAccount
+} = useConnectWalletFlow()
 
 const nftData = ref<Mint>(initialMint)
 const edition = ref<MintEditionValue>()
@@ -103,9 +106,13 @@ const buttonText = computed(() => {
 })
 
 const handleMintClick = async () => {
-  if (!salerContract.value || !selected.value) return
+  if (!salerContract.value || !selected.value || connectImxModalOpen.value) return
   try {
     isMinting.value = true
+
+    const checkImx = await pureCheckImxAccount()
+    if (!checkImx) return
+
     const salerAddress = salerContract.value.address
     const nftAddress = selected.value.imxCollection
 
@@ -159,6 +166,10 @@ watchEffect(async () => {
     whitelistSig.value = _sig.value.whitelist
     console.debug('Watch edition effect', edition.value, JSON.parse(JSON.stringify(_sig.value)))
   }
+})
+
+watchEffect(async () => {
+  if (account.value) await pureCheckImxAccount()
 })
 
 const selectEdition = (edition?: MintEditionValue): void => {
