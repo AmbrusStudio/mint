@@ -54,7 +54,7 @@ export const mint: Mint = {
       publicSale: {
         start: 1668132000,
         text: 'Public Mint on Rarible.com',
-        link: 'https://rarible.com/e4crangers/items'
+        link: 'https://rarible.com/collection/immutablex/0xba265b93519e6473f34f46ee35f4b23970f41a3f'
       }
     }
   ],
