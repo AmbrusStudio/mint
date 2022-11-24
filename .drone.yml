@@ -10,7 +10,7 @@ steps:
 - name: build mint
   when:
     branch:
-    - mint
+    - main
   commands:
   - cd /mnt/website-mint
   - git pull
@@ -19,7 +19,7 @@ steps:
 - name: build mint testing
   when:
     branch:
-    - mint-testing
+    - testing
   commands:
   - cd /mnt/website-mint-testing
   - git pull
