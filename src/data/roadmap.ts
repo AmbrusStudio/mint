@@ -18,7 +18,7 @@ export const roadmapList = [
   {
     title: 'July - August 2022',
     list: [
-      'Announce Genesis NFT utility in 3 editions: Ultimate, Gold, and Rangers',
+      'Announce Genesis NFT utilities in 3 editions: Ultimate, Gold, and Rangers',
       'E4C Rangers NFT first character Ultimate Auction',
       'Regular community Esports Events',
       'Regular E4C organization conflict events'
@@ -43,9 +43,7 @@ export const roadmapList = [
   {
     title: 'End of 2022',
     list: [
-      'Ambrus\' First Esports Tournament for E4C: Fallen Arena',
-      '50K Twitter Followers',
-      '35K Discord Followers'
+      'Ambrus\' First Esports Tournament for E4C: Fallen Arena'
     ]
   },
   {
