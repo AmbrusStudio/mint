@@ -4,24 +4,24 @@ export const mint: Mint = {
   information: {
     // 只支持文件名含 @ 符号的图片，如 banner_@1x.jpg banner_@2x.jpg banner_@3x.jpg
     images: [
-      'https://ambrus.s3.amazonaws.com/1667384398010_0.25_banner%400.33x.jpg',
-      'https://ambrus.s3.amazonaws.com/1667384398007_0.52_banner-2%400.67x.jpg',
-      'https://ambrus.s3.amazonaws.com/1667384397977_0.74_banner-1.jpg'
+      'https://ambrus.s3.amazonaws.com/1672031056982_0.85_banner%400.33x.jpg',
+      'https://ambrus.s3.amazonaws.com/1672031056980_0.75_banner-2%400.67x.jpg',
+      'https://ambrus.s3.amazonaws.com/1672031056961_0.79_banner-1.jpg'
     ],
-    type: 'E4C Rangers Genesis Series 2',
-    name: 'Kit: Uncaged Reaper',
+    type: 'E4C Rangers NFT Hive Series 3',
+    name: 'Thorn: Bumble Fighter',
     content:
-      '<p>Kit is the second Ranger coming to <a href="https://www.ambrus.studio/worldview" target="_blank" rel="noopener">E4C Verse</a>.  A fox whose life has been forever changed by natural disasters. He and many other animals have gained special powers from a nuclear accident. Together they founded the AERL group in defense of their community and Kit has been a major leader ever since. <a href="https://www.ambrus.studio/worldview/ranger/14">Learn more about Kit</a></p>'
-    // note: '<p>For Gold Edition public mint, visit <a href="https://rarible.com/e4cgold/items" target="_blank" rel="noopener">Rarible.com</a></p>'
+      '<p>Rin is the first Ranger coming to <a href="https://www.ambrus.studio/worldview" target="_blank" rel="noopener">E4C Verse</a>. She is a combat cyborg, who carries the razor-sharp katana sword and scaled samurai armor. She is also a major member of A.E.R.L, who fights against corruption. <a href="https://www.ambrus.studio/worldview/ranger/6">Learn more about Rin</a></p>',
+    note: '<p>For public mint, visit <a href="https://rarible.com/" target="_blank" rel="noopener">Rarible.com</a></p>'
   },
   disclaimer: {
     images: [
-      'https://ambrus.s3.amazonaws.com/1667296791624_0.54_1.jpg',
-      'https://ambrus.s3.amazonaws.com/1667383465434_0.64_2.jpg',
-      'https://ambrus.s3.amazonaws.com/1667383465444_0.06_3.jpg',
-      'https://ambrus.s3.amazonaws.com/1667383465445_0.93_4.jpg',
-      'https://ambrus.s3.amazonaws.com/1667383465446_0.10_5.jpg',
-      'https://ambrus.s3.amazonaws.com/1667383465447_0.95_6.jpg'
+      'https://ambrus.s3.amazonaws.com/1672032083985_0.65_1.jpg',
+      'https://ambrus.s3.amazonaws.com/1672032084006_0.64_2.jpg',
+      'https://ambrus.s3.amazonaws.com/1672032084009_0.68_3.jpg',
+      'https://ambrus.s3.amazonaws.com/1672032084014_0.99_4.jpg',
+      'https://ambrus.s3.amazonaws.com/1672032084017_0.86_5.jpg',
+      'https://ambrus.s3.amazonaws.com/1672032084020_0.37_6.jpg'
     ],
     content: ''
   },
@@ -61,52 +61,46 @@ export const mint: Mint = {
   introduction: [
     // 完全展示部分
     {
-      title: 'Gold edition',
+      title: 'E4C Rangers HIVE',
       content:
-        '<p><strong>Amount</strong>: 450<br><strong>Mint price</strong>: 0.49ETH<br><strong>Permit Mint</strong>: Nov 6th, 10AM SGT, 48 Hours<br><strong>Whitelist Mint</strong>: Nov 7th, 10AM SGT, 24 Hours</p>'
+        '<p><strong>Amount</strong>: 9,999<br>Free mint and available to E4C NFT holders, E4Cverse Permit owners, and Whitelist owners only.<br><strong>Permit Mint</strong>: From Jan.9th 10AM SGT<br><strong>Whitelist Mint</strong>: From Jan.10th 10AM SGT</p>'
     },
     {
-      title: 'Rangers edition',
+      title: 'Utilities',
       content:
-        '<p><strong>Amount</strong>: 646<br><strong>Mint price</strong>: 0.19ETH<br><strong>Permit Mint</strong>: Nov 9th, 10AM SGT, 48 Hours<br><strong>Whitelist Mint</strong>: Nov 10th, 10AM SGT, 24 Hours</p>'
-    },
-    // 折叠部分需要 foldable 为 true
-    {
-      title: 'NFT Staking',
-      foldable: false,
-      content:
-        '<p>For Gold/Rangers Edition holders, we offer you a chance to upgrade your NFT to Gold+/Rangers+ Edition and to earn more benefits by:</p><ul><li>Staking E4C Rangers NFT for at least 35 days.</li><li>Acquiring 1 special community badge.</li></ul>'
-    },
-    {
-      title: 'Gold Edition Utilities',
-      foldable: true,
-      content:
-        '<ul><li>5% in-game IP dividend ownership* of the corresponding champions&skins</li><li>Exclusive airdrop of the corresponding champion in game E4C: Final Salvation</li><li>Gold Loot Box containing in-game champions and skins</li><li>10% discount on in-game purchases</li><li>Complementary gifts to 1 friend</li></ul>'
-    },
-    {
-      title: 'Gold+ Edition Utilities',
-      foldable: true,
-      content:
-        '<ul><li>3% additional in-game IP dividend ownership* of the corresponding champions&skins</li><li>Exclusive airdrop of the corresponding champion in game E4C: Final Salvation</li><li>E4C token airdrop</li><li>Gold+ Loot Box containing in-game champions and skins</li><li>15% discount on in-game purchases</li><li>Complementary gifts to 3 friends</li></ul>'
-    },
-    {
-      title: 'Rangers Edition Utilities',
-      foldable: true,
-      content:
-        '<ul><li>5% in-game IP dividend ownership* of the corresponding champions&skins</li><li>Exclusive airdrop of the corresponding champion in game E4C: Final Salvation</li></ul>'
-    },
-    {
-      title: 'Rangers+ Edition Utilities',
-      foldable: true,
-      content:
-        '<ul><li>5% in-game IP dividend ownership* of the corresponding champions&skins</li><li>Exclusive airdrop of the corresponding champion in game E4C: Final Salvation</li><li>Gold Loot Box containing in-game champions and skins</li><li>10% discount on in-game purchases</li><li>Complementary gifts to 1 friend</li></ul>'
-    },
-    {
-      title: '* Note',
-      foldable: false,
-      content:
-        '<p>The ownership is shared among holders and will be redeemed in 10 years after the game launch</p>'
+        '<p>In-game airdrops of champions.<br>Staking the NFT to receive future $DGC tokens (the utility token of E4C, find more in the <a href="https://tokenomics.ambrus.studio/">Tokenomics Paper</a>). <br>Please note that the Hive Edition is not applicable for NFT upgrading.</p>'
     }
+    // 折叠部分需要 foldable 为 true
+//    {
+//      title: 'NFT Staking',
+//      foldable: false,
+//      content:
+//        '<p>For Gold/Rangers Edition holders, we offer you a chance to upgrade your NFT to Gold+/Rangers+ Edition and to earn more benefits by:</p><ul><li>Staking E4C Rangers NFT for at least 35 days.</li><li>Acquiring 1 special community badge.</li></ul>'
+//    },
+//    {
+//      title: 'Gold Edition Utilities',
+//      foldable: true,
+//      content:
+//        '<ul><li>5% in-game IP dividend ownership* of the corresponding champions&skins</li><li>Exclusive airdrop of the corresponding champion in game E4C: Final Salvation</li><li>Gold Loot Box containing in-game champions and skins</li><li>10% discount on in-game purchases</li><li>Complementary gifts to 1 friend</li></ul>'
+//    },
+//    {
+//      title: 'Gold+ Edition Utilities',
+//      foldable: true,
+//      content:
+//        '<ul><li>3% additional in-game IP dividend ownership* of the corresponding champions&skins</li><li>Exclusive airdrop of the corresponding champion in game E4C: Final Salvation</li><li>E4C token airdrop</li><li>Gold+ Loot Box containing in-game champions and skins</li><li>15% discount on in-game purchases</li><li>Complementary gifts to 3 friends</li></ul>'
+//    },
+//    {
+//      title: 'Rangers Edition Utilities',
+//      foldable: true,
+//      content:
+//        '<ul><li>5% in-game IP dividend ownership* of the corresponding champions&skins</li><li>Exclusive airdrop of the corresponding champion in game E4C: Final Salvation</li></ul>'
+//    },
+//    {
+//      title: 'Rangers+ Edition Utilities',
+//      foldable: true,
+//      content:
+//        '<ul><li>5% in-game IP dividend ownership* of the corresponding champions&skins</li><li>Exclusive airdrop of the corresponding champion in game E4C: Final Salvation</li><li>Gold Loot Box containing in-game champions and skins</li><li>10% discount on in-game purchases</li><li>Complementary gifts to 1 friend</li></ul>'
+//    }
   ]
 }
 
