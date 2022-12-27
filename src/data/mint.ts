@@ -11,8 +11,8 @@ export const mint: Mint = {
     type: 'E4C Rangers NFT Hive Series 3',
     name: 'Thorn: Bumble Fighter',
     content:
-      '<p>Rin is the first Ranger coming to <a href="https://www.ambrus.studio/worldview" target="_blank" rel="noopener">E4C Verse</a>. She is a combat cyborg, who carries the razor-sharp katana sword and scaled samurai armor. She is also a major member of A.E.R.L, who fights against corruption. <a href="https://www.ambrus.studio/worldview/ranger/6">Learn more about Rin</a></p>',
-    note: '<p>For public mint, visit <a href="https://rarible.com/" target="_blank" rel="noopener">Rarible.com</a></p>'
+      '<p>Thorn is a fierce advocate for environmental protection who joined HIVE. Thorn became the personal army for Patton, the new tyrannical leader of HIVE, and is sent on missions to a variety of countries for the reclamation project. A turning point rose when Thorn finally realized the purpose of Patton and eventually started his journey to defeat HIVE. <a href="https://www.ambrus.studio/worldview/ranger/13">Learn more about Thorn</a></p>',
+//    note: '<p>For public mint, visit <a href="https://rarible.com/" target="_blank" rel="noopener">Rarible.com</a></p>'
   },
   disclaimer: {
     images: [
