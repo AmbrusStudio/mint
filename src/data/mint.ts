@@ -63,12 +63,12 @@ export const mint: Mint = {
     {
       title: 'E4C Rangers HIVE',
       content:
-        '<p><strong>Amount</strong>: 9,999<br>Free mint and available to E4C NFT holders, E4Cverse Permit owners, and Whitelist owners only.<br><strong>Permit Mint</strong>: From Jan.9th 10AM SGT<br><strong>Whitelist Mint</strong>: From Jan.10th 10AM SGT</p>'
+        '<p><strong>Amount</strong>: 9,999<br>Free mint and available to E4Cverse Permit owners and Whitelist owners only.<br><strong>Permit Mint</strong>: From Jan.9th 10AM SGT<br><strong>Whitelist Mint</strong>: From Jan.10th 10AM SGT</p>'
     },
     {
       title: 'Utilities',
       content:
-        '<p>In-game airdrops of champions.<br>Staking the NFT to receive future $DGC tokens (the utility token of E4C, find more in the <a href="https://tokenomics.ambrus.studio/">Tokenomics Paper</a>). <br>Please note that the Hive Edition is not applicable for NFT upgrading.</p>'
+        '<p>- In-game airdrops of the champion and exclusive skins.<br>- Staking the NFT to receive future $DGC tokens (the utility token of E4C, find more in the <a href="https://tokenomics.ambrus.studio/">Tokenomics Paper</a>). <br>- Please note that the Hive Edition is not applicable for NFT upgrading.</p>'
     }
     // 折叠部分需要 foldable 为 true
 //    {
