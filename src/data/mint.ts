@@ -4,9 +4,9 @@ export const mint: Mint = {
   information: {
     // 只支持文件名含 @ 符号的图片，如 banner_@1x.jpg banner_@2x.jpg banner_@3x.jpg
     images: [
-      'https://ambrus.s3.amazonaws.com/1672031056982_0.85_banner%400.33x.jpg',
-      'https://ambrus.s3.amazonaws.com/1672031056980_0.75_banner-2%400.67x.jpg',
-      'https://ambrus.s3.amazonaws.com/1672031056961_0.79_banner-1.jpg'
+      'https://ambrus.s3.amazonaws.com/1672113266553_0.77_banner_480w.jpg',
+      'https://ambrus.s3.amazonaws.com/1672113266602_0.80_banner_960w.jpg',
+      '	https://ambrus.s3.amazonaws.com/1672113266604_0.47_banner_1440w.jpg'
     ],
     type: 'E4C Rangers NFT Hive Series 3',
     name: 'Thorn: Bumble Fighter',
