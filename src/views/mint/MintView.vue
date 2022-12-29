@@ -194,7 +194,8 @@ watch([edition, account], ([edition]) => selectEdition(edition), { immediate: tr
         :images="nftData.disclaimer.images"
         :content="nftData.disclaimer.content"
       />
-      <div class="grid grid-cols-1 xl:gap-y-36px xl:w-540px xl:-mt-480px xl:ml-56px">
+      <!-- <div class="grid grid-cols-1 xl:gap-y-36px xl:w-540px xl:-mt-480px xl:ml-56px"> -->
+      <div class="grid grid-cols-1 xl:gap-y-36px xl:w-540px xl:absolute xl:right-36px xl:mt-96px">
         <NFTSaleCard :info="nftData.information" :editions="nftData.editions">
           <form class="flex flex-col" action="#">
             <section
