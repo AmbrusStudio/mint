@@ -5,6 +5,7 @@ import { computed, ref, watchEffect } from 'vue'
 
 import { getMintAccessModalInfo } from '@/api'
 import type { MintAccessModal, MintAccessModalData } from '@/types'
+import { cleanupHTML } from '@/utils'
 
 import BaseModal from './BaseModal.vue'
 import MintAccessModalEdition from './MintAccessModalEdition.vue'
@@ -63,15 +64,14 @@ const modalData = computed<MintAccessModalData | undefined>(() => {
             <IconFaceHappy class="mb-48px" v-if="modalData.face === 'happy'" />
             <IconFaceStar class="mb-48px" v-if="modalData.face === 'star'" />
             <p
-              class="text-16px leading-30px text-center mb-8px"
+              class="subtitle-html-view text-16px leading-30px text-center mb-8px"
               :class="{
                 'font-normal text-black-bg': modalData.face === 'happy',
                 'font-semibold text-black uppercase': modalData.face === 'star'
               }"
-            >
-              {{ modalData.subtitle }}
-            </p>
-            <div class="flex flex-col gap-10px mb-26px">
+              v-html="cleanupHTML(modalData.subtitle)"
+            />
+            <div class="flex flex-col gap-10px mb-26px" v-if="typeof modalData.time === 'object'">
               <MintAccessModalEdition
                 labelClass="bg-#FFB600"
                 name="Gold Edition"
@@ -83,6 +83,12 @@ const modalData = computed<MintAccessModalData | undefined>(() => {
                 :time="modalData.time.rangers"
               />
             </div>
+            <p
+              class="mb-26px font-normal text-16px leading-20px text-black-bg text-center"
+              v-if="typeof modalData.time === 'string'"
+            >
+              {{ modalData.time }}
+            </p>
           </div>
           <button
             class="w-full py-20px bg-rust text-white font-semibold text-16px leading-20px text-center uppercase hover:bg-rust/90 disabled:bg-grey-medium disabled:text-white disabled:hover:text-white"
@@ -95,3 +101,8 @@ const modalData = computed<MintAccessModalData | undefined>(() => {
     </div>
   </BaseModal>
 </template>
+<style>
+.subtitle-html-view a {
+  @apply font-semibold text-black-bg underline;
+}
+</style>
