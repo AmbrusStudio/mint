@@ -11,8 +11,8 @@ export const mint: Mint = {
     type: 'E4C Rangers NFT Hive Series 3',
     name: 'Thorn: Bumble Fighter',
     content:
-      '<p>Thorn is a fierce advocate for environmental protection who joined HIVE. Thorn became the personal army for Patton, the new tyrannical leader of HIVE, and is sent on missions to a variety of countries for the reclamation project. A turning point rose when Thorn finally realized the purpose of Patton and eventually started his journey to defeat HIVE. <a href="https://www.ambrus.studio/worldview/ranger/13">Learn more about Thorn</a></p>',
-//    note: '<p>For public mint, visit <a href="https://rarible.com/" target="_blank" rel="noopener">Rarible.com</a></p>'
+      '<p>Thorn is a fierce advocate for environmental protection who joined HIVE. Thorn became the personal army for Patton, the new tyrannical leader of HIVE, and is sent on missions to a variety of countries for the reclamation project. A turning point rose when Thorn finally realized the purpose of Patton and eventually started his journey to defeat HIVE. <a href="https://www.ambrus.studio/worldview/ranger/13">Learn more about Thorn</a></p>'
+    // note: '<p>For public mint, visit <a href="https://rarible.com/" target="_blank" rel="noopener">Rarible.com</a></p>'
   },
   disclaimer: {
     images: [
@@ -28,33 +28,13 @@ export const mint: Mint = {
   editions: [
     // 删除所有版本展示 Coming soon
     {
-      name: 'Gold Edition',
-      value: 'gold',
-      contract: '0xaD798052BB64d327df9b2Dc57D5213114F1753CC',
-      imxCollection: '0xbA265B93519E6473F34F46ee35F4B23970F41a3f',
-      style: {
-        background: 'linear-gradient(90deg, #E4AA15 0%, #F0C75D 100%)',
-        boxShadow: '0px 0px 8px 1px #FFB800, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
-      },
-      publicSale: {
-        start: 1667872800,
-        text: 'Public Mint on Rarible.com',
-        link: 'https://rarible.com/e4crangersgold'
-      }
-    },
-    {
-      name: 'Rangers Edition',
+      name: 'E4C Rangers Hive',
       value: 'rangers',
       contract: '0xC31B8dFeC945f493EE0B91f61351E5dDC21EC92d',
       imxCollection: '0xC17Aa29c43e4cE0c349749C8986a03B2734813fa',
       style: {
-        background: 'linear-gradient(90deg, #399E98 0%, #88C4C0 100%)',
-        boxShadow: '0px 0px 8px 1px #88C3C0, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
-      },
-      publicSale: {
-        start: 1668132000,
-        text: 'Public Mint on Rarible.com',
-        link: 'https://rarible.com/collection/immutablex/0xba265b93519e6473f34f46ee35f4b23970f41a3f'
+        background: 'linear-gradient(90deg, #0FC56D 0%, #3AB9E1 100%)',
+        boxShadow: '0px 0px 8px 1px #3AB9E1, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
       }
     }
   ],
@@ -71,36 +51,36 @@ export const mint: Mint = {
         '<p>- In-game airdrops of the champion and exclusive skins.<br>- Staking the NFT to receive future $DGC tokens (the utility token of E4C, find more in the <a href="https://tokenomics.ambrus.studio/">Tokenomics Paper</a>). <br>- Please note that the Hive Edition is not applicable for NFT upgrading.</p>'
     }
     // 折叠部分需要 foldable 为 true
-//    {
-//      title: 'NFT Staking',
-//      foldable: false,
-//      content:
-//        '<p>For Gold/Rangers Edition holders, we offer you a chance to upgrade your NFT to Gold+/Rangers+ Edition and to earn more benefits by:</p><ul><li>Staking E4C Rangers NFT for at least 35 days.</li><li>Acquiring 1 special community badge.</li></ul>'
-//    },
-//    {
-//      title: 'Gold Edition Utilities',
-//      foldable: true,
-//      content:
-//        '<ul><li>5% in-game IP dividend ownership* of the corresponding champions&skins</li><li>Exclusive airdrop of the corresponding champion in game E4C: Final Salvation</li><li>Gold Loot Box containing in-game champions and skins</li><li>10% discount on in-game purchases</li><li>Complementary gifts to 1 friend</li></ul>'
-//    },
-//    {
-//      title: 'Gold+ Edition Utilities',
-//      foldable: true,
-//      content:
-//        '<ul><li>3% additional in-game IP dividend ownership* of the corresponding champions&skins</li><li>Exclusive airdrop of the corresponding champion in game E4C: Final Salvation</li><li>E4C token airdrop</li><li>Gold+ Loot Box containing in-game champions and skins</li><li>15% discount on in-game purchases</li><li>Complementary gifts to 3 friends</li></ul>'
-//    },
-//    {
-//      title: 'Rangers Edition Utilities',
-//      foldable: true,
-//      content:
-//        '<ul><li>5% in-game IP dividend ownership* of the corresponding champions&skins</li><li>Exclusive airdrop of the corresponding champion in game E4C: Final Salvation</li></ul>'
-//    },
-//    {
-//      title: 'Rangers+ Edition Utilities',
-//      foldable: true,
-//      content:
-//        '<ul><li>5% in-game IP dividend ownership* of the corresponding champions&skins</li><li>Exclusive airdrop of the corresponding champion in game E4C: Final Salvation</li><li>Gold Loot Box containing in-game champions and skins</li><li>10% discount on in-game purchases</li><li>Complementary gifts to 1 friend</li></ul>'
-//    }
+    // {
+    //   title: 'NFT Staking',
+    //   foldable: false,
+    //   content:
+    //     '<p>For Gold/Rangers Edition holders, we offer you a chance to upgrade your NFT to Gold+/Rangers+ Edition and to earn more benefits by:</p><ul><li>Staking E4C Rangers NFT for at least 35 days.</li><li>Acquiring 1 special community badge.</li></ul>'
+    // },
+    // {
+    //   title: 'Gold Edition Utilities',
+    //   foldable: true,
+    //   content:
+    //     '<ul><li>5% in-game IP dividend ownership* of the corresponding champions&skins</li><li>Exclusive airdrop of the corresponding champion in game E4C: Final Salvation</li><li>Gold Loot Box containing in-game champions and skins</li><li>10% discount on in-game purchases</li><li>Complementary gifts to 1 friend</li></ul>'
+    // },
+    // {
+    //   title: 'Gold+ Edition Utilities',
+    //   foldable: true,
+    //   content:
+    //     '<ul><li>3% additional in-game IP dividend ownership* of the corresponding champions&skins</li><li>Exclusive airdrop of the corresponding champion in game E4C: Final Salvation</li><li>E4C token airdrop</li><li>Gold+ Loot Box containing in-game champions and skins</li><li>15% discount on in-game purchases</li><li>Complementary gifts to 3 friends</li></ul>'
+    // },
+    // {
+    //   title: 'Rangers Edition Utilities',
+    //   foldable: true,
+    //   content:
+    //     '<ul><li>5% in-game IP dividend ownership* of the corresponding champions&skins</li><li>Exclusive airdrop of the corresponding champion in game E4C: Final Salvation</li></ul>'
+    // },
+    // {
+    //   title: 'Rangers+ Edition Utilities',
+    //   foldable: true,
+    //   content:
+    //     '<ul><li>5% in-game IP dividend ownership* of the corresponding champions&skins</li><li>Exclusive airdrop of the corresponding champion in game E4C: Final Salvation</li><li>Gold Loot Box containing in-game champions and skins</li><li>10% discount on in-game purchases</li><li>Complementary gifts to 1 friend</li></ul>'
+    // }
   ]
 }
 
@@ -128,27 +108,19 @@ export const mintAccessModal: MintAccessModal = {
     title: 'You have Permit Mint Access',
     subtitle: 'Permit Mint Time',
     face: 'star',
-    time: {
-      gold: 'Nov 6th, 10AM SGT, 48 Hours',
-      rangers: 'Nov 9th, 10AM SGT, 48 Hours'
-    }
+    time: 'From Jan 9th, 10AM SGT'
   },
   whitelist: {
     title: 'You are Whitelisted',
     subtitle: 'Whitelist Mint Time',
     face: 'star',
-    time: {
-      gold: 'Nov 7th, 10AM SGT, 24 Hours',
-      rangers: 'Nov 10th, 10AM SGT, 24 Hours'
-    }
+    time: 'From Jan 10th, 10AM SGT'
   },
   public: {
     title: 'You are not whitelisted',
-    subtitle: 'You can participate in public mint starting at:',
+    subtitle:
+      'Get whitelisted in our <a href="https://discord.com/invite/e4c" target="_blank" rel="noopener">Official Discord Server</a>',
     face: 'happy',
-    time: {
-      gold: 'Nov 8th, 10AM SGT',
-      rangers: 'Nov 11th, 10AM SGT'
-    }
+    time: ''
   }
 }
