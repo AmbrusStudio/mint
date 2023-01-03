@@ -55,7 +55,7 @@ const mintAccessModalOpen = ref(false)
 const hasPermitMintAccess = ref(false)
 const hasWhitelistMintAccess = ref(false)
 
-const { basePrice, amount, sold, total, isSaleStart, isSaleEnd, getSaleData } =
+const { basePrice, amount, sold, total, isSaleStart, isSaleEnd, getSaleData, refreshData } =
   useReadonlySalerFreeMintData()
 const { coming, closed } = useComputedSalerFreeMintData()
 const { freeSale } = useSalerFreeMint(ethereum)
@@ -114,19 +114,25 @@ const handleMintClick = async () => {
     const checkImx = await pureCheckImxAccount()
     if (!checkImx) return
 
-    // if (canPermit.value && permitSig.value) {
-    //   const price = await salerContract.value.permitSalePrice()
-    //   const tx = await salerContract.value.permitSale(permitSig.value, { value: price })
-    //   await openNFTModal(salerAddress, nftAddress, tx)
-    // } else if (canWhitelist.value && whitelistSig.value) {
-    //   const price = await salerContract.value.whitelistSalePrice()
-    //   const tx = await salerContract.value.whitelistSale(whitelistSig.value, { value: price })
-    //   await openNFTModal(salerAddress, nftAddress, tx)
-    // }
-    if ((canPermit.value && permitSig.value) || (canWhitelist.value && whitelistSig.value)) {
-      const saleResult = await freeSale()
+    if (canPermit.value && permitSig.value) {
+      // const price = await salerContract.value.permitSalePrice()
+      // const tx = await salerContract.value.permitSale(permitSig.value, { value: price })
+      // await openNFTModal(salerAddress, nftAddress, tx)
+      const saleResult = await freeSale('permit', permitSig.value)
       if (!saleResult) return
+      const nftAddress = selected.value.imxCollection
+      await openNFTModal(nftAddress, saleResult.tokenId, saleResult.transferId)
+    } else if (canWhitelist.value && whitelistSig.value) {
+      // const price = await salerContract.value.whitelistSalePrice()
+      // const tx = await salerContract.value.whitelistSale(whitelistSig.value, { value: price })
+      // await openNFTModal(salerAddress, nftAddress, tx)
+      const saleResult = await freeSale('whitelist', whitelistSig.value)
+      if (!saleResult) return
+      const nftAddress = selected.value.imxCollection
+      await openNFTModal(nftAddress, saleResult.tokenId, saleResult.transferId)
     }
+
+    await refreshData()
   } catch (error) {
     alertErrorMessage('Mint faild', error)
   } finally {
