@@ -3,6 +3,7 @@ import type { ComputedRef, Ref, ToRefs } from 'vue'
 import { computed, reactive, toRefs, watchEffect } from 'vue'
 
 import { getHiveSaleStatus, getMintHiveSignatureCode, mintHiveNft } from '@/api'
+import type { MintSaleKind } from '@/types'
 import { isFuture, isHistorical } from '@/utils'
 
 type SaleType = 'permit' | 'whitelist'
@@ -42,6 +43,7 @@ async function getSalerFreeMintData(): Promise<SalerData> {
 
   const permit: SaleData = {
     start: 1673229600,
+    // start: 1672744427,
     end: 1673402400,
     discount: 0,
     price: basePrice
@@ -93,7 +95,10 @@ function getSalerHelpers(salerData: SalerData): SalerHelpers {
   return { isSaleStart, isSaleEnd, getSaleData }
 }
 
-type SalerDataWithHelpers = ToRefs<SalerData> & SalerHelpers
+type SalerDataWithHelpers = ToRefs<SalerData> &
+  SalerHelpers & {
+    refreshData: () => Promise<void>
+  }
 
 export function useReadonlySalerFreeMintData(): SalerDataWithHelpers {
   const salerData = reactive<SalerData>({ ...INITIAL_SALER_DATA })
@@ -107,7 +112,7 @@ export function useReadonlySalerFreeMintData(): SalerDataWithHelpers {
 
   const helpers = getSalerHelpers(salerData)
 
-  return { ...toRefs(salerData), ...helpers }
+  return { ...toRefs(salerData), ...helpers, refreshData: getSalerData }
 }
 
 type ComputedSaleData = {
@@ -148,18 +153,18 @@ export function useSalerFreeMint(ethereum: Ref<ethers.providers.Web3Provider>) {
     if (!signer || !account) return
 
     const { code } = await getMintHiveSignatureCode(account)
-    const signatureText = `Code: ${code}`
+    const signatureText = `\x19Ethereum Signed Message:\n Code Length: ${code.length}; Code: ${code}`
     const signature = await signer.signMessage(signatureText)
 
     return signature
   }
 
-  async function freeSale() {
+  async function freeSale(saleKind: MintSaleKind, hexProof: string[]) {
     const { account } = await getProviderInfo()
     const signature = await getMintSignature()
     if (!account || !signature) return
 
-    return mintHiveNft(account, signature)
+    return mintHiveNft(account, signature, saleKind, hexProof)
   }
 
   return { freeSale }
