@@ -46,11 +46,24 @@ export async function getMintHiveSignatureCode(address: string): Promise<GetMint
   return data
 }
 
-type MintHiveNft = { tokenId: number; transferId: number }
-export async function mintHiveNft(address: string, signature: string): Promise<MintHiveNft> {
-  const { data } = await mintRequest.post<MintHiveNft>(`${hiveApiPath}/mint`, {
-    address,
-    signature
-  })
+type MintHiveNft = { tokenId: string; transferId: string }
+export async function mintHiveNft(
+  address: string,
+  signature: string,
+  saleKind: MintSaleKind,
+  hexProof: string[]
+): Promise<MintHiveNft> {
+  const { status, data } = await mintRequest.post<MintHiveNft>(
+    `${hiveApiPath}/mint`,
+    {
+      address,
+      signature,
+      saleKind,
+      hexProof
+    },
+    { validateStatus: (status) => status < 500 }
+  )
+  if (status === 400 || status === 401) throw new Error('Invalid account or signature.')
+  if (status === 409) throw new Error("You've minted, only can mint once.")
   return data
 }
