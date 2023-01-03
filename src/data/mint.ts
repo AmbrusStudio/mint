@@ -30,8 +30,8 @@ export const mint: Mint = {
     {
       name: 'E4C Rangers Hive',
       value: 'rangers',
-      contract: '0xC31B8dFeC945f493EE0B91f61351E5dDC21EC92d',
-      imxCollection: '0xC17Aa29c43e4cE0c349749C8986a03B2734813fa',
+      contract: '',
+      imxCollection: '0x899b2032426ea4d1e3D066067f85754Ada3D61A1',
       style: {
         background: 'linear-gradient(90deg, #0FC56D 0%, #3AB9E1 100%)',
         boxShadow: '0px 0px 8px 1px #3AB9E1, inset 4px 0px 10px rgba(0, 0, 0, 0.15)'
