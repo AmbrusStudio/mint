@@ -42,7 +42,9 @@ const endDate = computed(() => props.timeType === 'end' && formatDatetime(props.
       <p v-if="timeType === 'unlimited'">Available until sold out</p>
       <p v-if="startDate">Available through {{ startDate }}</p>
       <p v-if="endDate">Ends at {{ endDate }}</p>
-      <p v-if="sold && total">{{ sold }} / {{ total }} Sold</p>
+      <p v-if="typeof sold === 'number' && typeof total === 'number'">
+        {{ sold }} / {{ total }} Sold
+      </p>
     </div>
   </section>
 </template>
