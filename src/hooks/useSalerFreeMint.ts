@@ -1,6 +1,8 @@
-import type { ComputedRef, ToRefs } from 'vue'
+import type { ethers } from 'ethers'
+import type { ComputedRef, Ref, ToRefs } from 'vue'
 import { computed, reactive, toRefs, watchEffect } from 'vue'
 
+import { getHiveSaleStatus, getMintHiveSignatureCode, mintHiveNft } from '@/api'
 import { isFuture, isHistorical } from '@/utils'
 
 type SaleType = 'permit' | 'whitelist'
@@ -31,8 +33,10 @@ const INITIAL_SALER_DATA: SalerData = {
 }
 
 async function getSalerFreeMintData(): Promise<SalerData> {
+  const { soldCount } = await getHiveSaleStatus()
+
   const total = 9999
-  const sold = 0 // TODO: backend api /saleStatus
+  const sold = soldCount
   const basePrice = '0'
   const amount = total - sold
 
@@ -124,4 +128,39 @@ export function useComputedSalerFreeMintData(): ComputedSaleData {
   const closed = computed(() => permitEnd.value && whitelistEnd.value)
 
   return { coming, closed }
+}
+
+type GetProviderInfo = {
+  signer: ethers.providers.JsonRpcSigner | undefined
+  account: string | undefined
+}
+
+export function useSalerFreeMint(ethereum: Ref<ethers.providers.Web3Provider>) {
+  async function getProviderInfo(): Promise<GetProviderInfo> {
+    if (!ethereum.value) return { signer: undefined, account: undefined }
+    const signer = ethereum.value.getSigner()
+    const account = await signer.getAddress()
+    return { signer, account }
+  }
+
+  async function getMintSignature(): Promise<string | undefined> {
+    const { signer, account } = await getProviderInfo()
+    if (!signer || !account) return
+
+    const { code } = await getMintHiveSignatureCode(account)
+    const signatureText = `Code: ${code}`
+    const signature = await signer.signMessage(signatureText)
+
+    return signature
+  }
+
+  async function freeSale() {
+    const { account } = await getProviderInfo()
+    const signature = await getMintSignature()
+    if (!account || !signature) return
+
+    return mintHiveNft(account, signature)
+  }
+
+  return { freeSale }
 }
