@@ -1,6 +1,6 @@
 import { type Ref, type ToRefs, isRef, reactive, toRefs, watch } from 'vue'
 
-import { getSignature } from '@/api'
+import { getMintSignature } from '@/api'
 import type { MintEditionValue, MintSaleKind } from '@/types'
 
 type SignatureData = Record<MintSaleKind, string[]>
@@ -24,10 +24,10 @@ type AccountAddress = string | undefined
 export function useMintSignature(address: Ref<AccountAddress> | AccountAddress): UseMintSignature {
   async function fetchMintSignature(address: string | undefined) {
     if (!address) return
-    const goldPermit = await getSignature(address, 'permit', 'gold')
-    const goldWhitelist = await getSignature(address, 'whitelist', 'gold')
-    const rangersPermit = await getSignature(address, 'permit', 'rangers')
-    const rangersWhitelist = await getSignature(address, 'whitelist', 'rangers')
+    const goldPermit = await getMintSignature(address, 'permit', 'gold')
+    const goldWhitelist = await getMintSignature(address, 'whitelist', 'gold')
+    const rangersPermit = await getMintSignature(address, 'permit', 'rangers')
+    const rangersWhitelist = await getMintSignature(address, 'whitelist', 'rangers')
     mintSignature.gold = { permit: goldPermit, whitelist: goldWhitelist }
     mintSignature.rangers = { permit: rangersPermit, whitelist: rangersWhitelist }
   }
