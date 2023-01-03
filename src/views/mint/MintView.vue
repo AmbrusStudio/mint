@@ -23,12 +23,13 @@ import {
   useMintSignature,
   useNFTModal,
   useReadonlySalerFreeMintData,
+  useSalerFreeMint,
   useWeb3Wallet
 } from '@/hooks'
 import type { Mint, MintEdition, MintEditionValue } from '@/types'
 import { alertErrorMessage, formatDatetime, isHistorical } from '@/utils'
 
-const { account, connect: connectWeb3Wallet, isConnected } = useWeb3Wallet()
+const { account, ethereum, connect: connectWeb3Wallet, isConnected } = useWeb3Wallet()
 const mintSignature = useMintSignature(account)
 const {
   modalOpen: mintModalOpen,
@@ -57,6 +58,7 @@ const hasWhitelistMintAccess = ref(false)
 const { basePrice, amount, sold, total, isSaleStart, isSaleEnd, getSaleData } =
   useReadonlySalerFreeMintData()
 const { coming, closed } = useComputedSalerFreeMintData()
+const { freeSale } = useSalerFreeMint(ethereum)
 
 const external = computed(() => !!selected.value?.publicSale)
 const publicDateTime = computed(() => {
@@ -105,21 +107,25 @@ const buttonText = computed(() => {
 
 const handleMintClick = async () => {
   // if (!salerContract.value || !selected.value || connectImxModalOpen.value) return
-  if (!selected.value || connectImxModalOpen.value) return
+  if (!selected.value || connectImxModalOpen.value || !ethereum.value) return
   try {
     isMinting.value = true
 
     const checkImx = await pureCheckImxAccount()
     if (!checkImx) return
 
-    if (canPermit.value && permitSig.value) {
-      // const price = await salerContract.value.permitSalePrice()
-      // const tx = await salerContract.value.permitSale(permitSig.value, { value: price })
-      // await openNFTModal(salerAddress, nftAddress, tx)
-    } else if (canWhitelist.value && whitelistSig.value) {
-      // const price = await salerContract.value.whitelistSalePrice()
-      // const tx = await salerContract.value.whitelistSale(whitelistSig.value, { value: price })
-      // await openNFTModal(salerAddress, nftAddress, tx)
+    // if (canPermit.value && permitSig.value) {
+    //   const price = await salerContract.value.permitSalePrice()
+    //   const tx = await salerContract.value.permitSale(permitSig.value, { value: price })
+    //   await openNFTModal(salerAddress, nftAddress, tx)
+    // } else if (canWhitelist.value && whitelistSig.value) {
+    //   const price = await salerContract.value.whitelistSalePrice()
+    //   const tx = await salerContract.value.whitelistSale(whitelistSig.value, { value: price })
+    //   await openNFTModal(salerAddress, nftAddress, tx)
+    // }
+    if ((canPermit.value && permitSig.value) || (canWhitelist.value && whitelistSig.value)) {
+      const saleResult = await freeSale()
+      if (!saleResult) return
     }
   } catch (error) {
     alertErrorMessage('Mint faild', error)
