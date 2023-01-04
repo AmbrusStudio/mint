@@ -123,7 +123,7 @@ export type MintAccessModalData = {
   title: string
   subtitle: string
   face: MintAccessModalFaceKind
-  time: Record<MintEditionValue, string>
+  time: Record<MintEditionValue, string> | string
 }
 
 export type MintAccessModal = Record<MintAccessModalKind, MintAccessModalData>

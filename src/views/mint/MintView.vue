@@ -18,18 +18,17 @@ import { getMintInfo } from '@/api'
 import RoadmapButton from '@/components/Roadmap/RoadmapButton.vue'
 import { initialMint } from '@/data'
 import {
-  useComputedSalerL2Data,
+  useComputedSalerFreeMintData,
   useConnectWalletFlow,
   useMintSignature,
   useNFTModal,
-  useReadonlySalerL2Data,
-  useSalerL2Contract,
+  useReadonlySalerFreeMintData,
   useWeb3Wallet
 } from '@/hooks'
 import type { Mint, MintEdition, MintEditionValue } from '@/types'
 import { alertErrorMessage, formatDatetime, isHistorical } from '@/utils'
 
-const { account, ethereum, connect: connectWeb3Wallet, isConnected } = useWeb3Wallet()
+const { account, connect: connectWeb3Wallet, isConnected } = useWeb3Wallet()
 const mintSignature = useMintSignature(account)
 const {
   modalOpen: mintModalOpen,
@@ -43,7 +42,7 @@ const {
   pureCheckImxAccount
 } = useConnectWalletFlow()
 
-const nftData = ref<Mint>(initialMint)
+const mintData = ref<Mint>(initialMint)
 const edition = ref<MintEditionValue>()
 const selected = ref<MintEdition>()
 const salerAddress = ref<string>('')
@@ -55,10 +54,9 @@ const mintAccessModalOpen = ref(false)
 const hasPermitMintAccess = ref(false)
 const hasWhitelistMintAccess = ref(false)
 
-const salerContract = useSalerL2Contract(ethereum, salerAddress)
 const { basePrice, amount, sold, total, isSaleStart, isSaleEnd, getSaleData } =
-  useReadonlySalerL2Data(salerAddress)
-const { coming, closed } = useComputedSalerL2Data(salerAddress)
+  useReadonlySalerFreeMintData()
+const { coming, closed } = useComputedSalerFreeMintData()
 
 const external = computed(() => !!selected.value?.publicSale)
 const publicDateTime = computed(() => {
@@ -69,7 +67,7 @@ const canPublic = computed(() => {
   if (!selected.value?.publicSale) return false
   return isHistorical(selected.value.publicSale.start)
 })
-const editions = computed(() => !!nftData.value.editions.length)
+const editions = computed(() => !!mintData.value.editions.length)
 
 const connected = computed(() => isConnected())
 const permitStart = isSaleStart('permit')
@@ -96,9 +94,9 @@ const whitelistData = getSaleData('whitelist')
 
 const showInfo = computed(() => canPermit.value || canWhitelist.value)
 
-// buttonText 和下面 NFTSaleButton 的展示逻辑没有完全搞清楚
 const buttonText = computed(() => {
-  if (!(edition.value && salerContract.value)) return 'Choose an Edition'
+  // if (!(edition.value && salerContract.value)) return 'Choose an Edition'
+  if (!edition.value) return 'Choose an Edition'
   if (closed.value || !amount.value) return 'Sold Out'
   if (!permitEnd.value && !canPermit.value) return 'No Permit Mint Access'
   if (!whitelistEnd.value && !canWhitelist.value) return 'No Whitelist Mint Access'
@@ -106,24 +104,22 @@ const buttonText = computed(() => {
 })
 
 const handleMintClick = async () => {
-  if (!salerContract.value || !selected.value || connectImxModalOpen.value) return
+  // if (!salerContract.value || !selected.value || connectImxModalOpen.value) return
+  if (!selected.value || connectImxModalOpen.value) return
   try {
     isMinting.value = true
 
     const checkImx = await pureCheckImxAccount()
     if (!checkImx) return
 
-    const salerAddress = salerContract.value.address
-    const nftAddress = selected.value.imxCollection
-
     if (canPermit.value && permitSig.value) {
-      const price = await salerContract.value.permitSalePrice()
-      const tx = await salerContract.value.permitSale(permitSig.value, { value: price })
-      await openNFTModal(salerAddress, nftAddress, tx)
+      // const price = await salerContract.value.permitSalePrice()
+      // const tx = await salerContract.value.permitSale(permitSig.value, { value: price })
+      // await openNFTModal(salerAddress, nftAddress, tx)
     } else if (canWhitelist.value && whitelistSig.value) {
-      const price = await salerContract.value.whitelistSalePrice()
-      const tx = await salerContract.value.whitelistSale(whitelistSig.value, { value: price })
-      await openNFTModal(salerAddress, nftAddress, tx)
+      // const price = await salerContract.value.whitelistSalePrice()
+      // const tx = await salerContract.value.whitelistSale(whitelistSig.value, { value: price })
+      // await openNFTModal(salerAddress, nftAddress, tx)
     }
   } catch (error) {
     alertErrorMessage('Mint faild', error)
@@ -153,7 +149,7 @@ const handleMintAccessModalClose = () => {
 
 watchEffect(async () => {
   const data = await getMintInfo()
-  nftData.value = data
+  mintData.value = data
   if (Array.isArray(data.editions)) {
     edition.value = data.editions[0]?.value
   }
@@ -174,7 +170,7 @@ watchEffect(async () => {
 
 const selectEdition = (edition?: MintEditionValue): void => {
   if (!edition) return
-  const _selected = nftData.value.editions.find((e) => e.value === edition)
+  const _selected = mintData.value.editions.find((e) => e.value === edition)
   if (!_selected) return
   selected.value = _selected
   salerAddress.value = _selected.contract
@@ -188,21 +184,22 @@ watch([edition, account], ([edition]) => selectEdition(edition), { immediate: tr
     <div
       class="grid grid-cols-1 xl:grid-cols-2 xl:gap-y-36px xl:pt-60px pb-100px xl:pb-114px xl:relative"
     >
-      <NFTBanner className="xl:col-span-2" :images="nftData.information.images" />
+      <NFTBanner className="xl:col-span-2" :images="mintData.information.images" />
       <NFTDisclaimer
         className="hidden xl:flex"
-        :images="nftData.disclaimer.images"
-        :content="nftData.disclaimer.content"
+        :images="mintData.disclaimer.images"
+        :content="mintData.disclaimer.content"
       />
-      <div class="grid grid-cols-1 xl:gap-y-36px xl:w-540px xl:-mt-480px xl:ml-56px">
-        <NFTSaleCard :info="nftData.information" :editions="nftData.editions">
+      <!-- <div class="grid grid-cols-1 xl:gap-y-36px xl:w-540px xl:-mt-480px xl:ml-56px"> -->
+      <div class="grid grid-cols-1 xl:gap-y-36px xl:w-540px xl:absolute xl:right-36px xl:mt-96px">
+        <NFTSaleCard :info="mintData.information" :editions="mintData.editions">
           <form class="flex flex-col" action="#">
             <section
               class="flex flex-col gap-12px mb-24px xl:mb-36px"
-              v-if="nftData.editions.length"
+              v-if="mintData.editions.length"
             >
               <NFTEditionRadio
-                v-for="edi in nftData.editions"
+                v-for="edi in mintData.editions"
                 :key="`edition-radio-${edi.value}`"
                 :data="edi"
                 v-model:edition="edition"
@@ -280,11 +277,11 @@ watch([edition, account], ([edition]) => selectEdition(edition), { immediate: tr
         </NFTSaleCard>
         <NFTDisclaimer
           className="xl:hidden"
-          :images="nftData.disclaimer.images"
-          :content="nftData.disclaimer.content"
+          :images="mintData.disclaimer.images"
+          :content="mintData.disclaimer.content"
         />
-        <NFTIntroCard class="m-24px xl:m-0" :intros="nftData.introduction" />
-        <NFTPropertyCard class="mx-24px xl:m-0" :properties="nftData.properties" />
+        <NFTIntroCard class="m-24px xl:m-0" :intros="mintData.introduction" />
+        <NFTPropertyCard class="mx-24px xl:m-0" :properties="mintData.properties" />
       </div>
     </div>
     <NFTMintModal

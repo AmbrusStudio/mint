@@ -36,5 +36,6 @@ export default defineConfig({
     commonjsOptions: {
       transformMixedEsModules: true
     }
-  }
+  },
+  server: { port: 3000 }
 })

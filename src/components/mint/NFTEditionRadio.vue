@@ -2,7 +2,7 @@
 import { useVModel } from '@vueuse/core'
 import { computed, reactive } from 'vue'
 
-import { useComputedSalerL2Data, useReadonlySalerL2Data } from '@/hooks'
+import { useComputedSalerFreeMintData, useReadonlySalerFreeMintData } from '@/hooks'
 import type { MintEdition, MintEditionValue } from '@/types'
 import { isHistorical } from '@/utils'
 
@@ -21,8 +21,8 @@ const props = defineProps<Props>()
 const emits = defineEmits<Emits>()
 
 const editionModel = useVModel(props, 'edition', emits)
-const { basePrice, amount } = useReadonlySalerL2Data(props.data.contract)
-const { coming, closed } = useComputedSalerL2Data(props.data.contract)
+const { basePrice, amount } = useReadonlySalerFreeMintData()
+const { coming, closed } = useComputedSalerFreeMintData()
 
 const external = computed(() => !!props.data?.publicSale)
 const canPublic = computed(() => {
@@ -77,6 +77,7 @@ const labelStyle = computed(() => ({
         Public Mint
       </span>
       <span class="text-white font-medium" v-else-if="closed || !amount">Sold Out</span>
+      <span class="text-white font-medium" v-else-if="price === '0'">Free Mint</span>
       <NFTCurrency className="text-white font-medium" :price="price" v-else />
     </div>
   </label>

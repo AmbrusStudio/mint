@@ -43,14 +43,14 @@ export const roadmapList = [
   {
     title: 'End of 2022',
     list: [
-      'Ambrus\' First Esports Tournament for E4C: Fallen Arena'
+      'Ambrus\' First Esports Tournament for E4C: Fallen Arena',
+      'Special NFT airdrop for NFT holders'
     ]
   },
   {
     title: 'January 2023',
     list: [
-      'Announce NFT utility 2.0',
-      'Special NFT airdrop for NFT holders'
+      'Announce NFT utility 2.0'
     ]
   },
   {
@@ -72,14 +72,14 @@ export const roadmapList = [
     title: '2nd Half 2023',
     list: [
       'Beta-testing spots for NFT holders',
-      '$E4C token airdrop for E4C Rangers Ultimate and Gold Plus edition holders'
+      '$E4C token airdrop for E4C Rangers holders'
     ]
   },
   {
     title: 'End of 2023',
     list: [
       'TGE for $E4C token, listing on major exchanges',
-      'E4C: Final Salvation launch, NFT holders get in-game IP dividend & utilities'
+      'E4C: Final Salvation launch, NFT holders get in-game utilities'
     ]
   }
 ]
