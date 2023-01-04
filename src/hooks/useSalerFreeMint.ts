@@ -34,7 +34,8 @@ const INITIAL_SALER_DATA: SalerData = {
 }
 
 async function getSalerFreeMintData(): Promise<SalerData> {
-  const { soldCount } = await getHiveSaleStatus()
+  const { soldCount, permitTimeStart, permitTimeEnd, whitelistTimeStart, whitelistTimeEnd } =
+    await getHiveSaleStatus()
 
   const total = 9999
   const sold = soldCount
@@ -42,15 +43,17 @@ async function getSalerFreeMintData(): Promise<SalerData> {
   const amount = total - sold
 
   const permit: SaleData = {
-    start: 1673229600,
-    // start: 1672744427,
-    end: 1673402400,
+    // start: 1673229600,
+    start: permitTimeStart,
+    end: permitTimeEnd,
     discount: 0,
     price: basePrice
   }
   const whitelist: SaleData = {
-    start: 1673316000,
-    end: 1673402400,
+    // start: 1673316000,
+    // end: 1673402400,
+    start: whitelistTimeStart,
+    end: whitelistTimeEnd,
     discount: 0,
     price: basePrice
   }
