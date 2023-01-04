@@ -32,7 +32,13 @@ export async function getMintSignature(
   return proof.data
 }
 
-type GetHiveSaleStatus = { soldCount: number }
+type GetHiveSaleStatus = {
+  soldCount: number
+  permitTimeStart: number
+  permitTimeEnd: number
+  whitelistTimeStart: number
+  whitelistTimeEnd: number
+}
 export async function getHiveSaleStatus(): Promise<GetHiveSaleStatus> {
   const { data } = await mintRequest.get<GetHiveSaleStatus>(`${hiveApiPath}/saleStatus`)
   return data
@@ -64,6 +70,10 @@ export async function mintHiveNft(
     { validateStatus: (status) => status < 500 }
   )
   if (status === 400 || status === 401) throw new Error('Invalid account or signature.')
+  if (status === 403) {
+    if ('message' in data && typeof data.message === 'string') throw new Error(data.message)
+    throw new Error('Invalid sale time.')
+  }
   if (status === 409) throw new Error("You've minted, only can mint once.")
   return data
 }
