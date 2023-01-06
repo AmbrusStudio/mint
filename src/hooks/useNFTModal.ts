@@ -10,7 +10,7 @@ type NFTModalDataRef = {
 }
 
 type NFTModalHelpers = {
-  openNFTModal(nftAddress: string, tokenId: string, txId: string): Promise<void>
+  openNFTModal(nftAddress: string, tokenId: string): Promise<void>
   closeNFTModal: () => void
 }
 
@@ -20,7 +20,7 @@ const INITIAL_NFT_MODAL_DATA: NFTModalData = {
   name: '',
   tokenId: 0,
   address: '',
-  transaction: '',
+  // transaction: '',
   images: ''
 }
 
@@ -55,23 +55,18 @@ const open = ref(false)
 //   return { name, tokenId, address: nftAddress, transaction, images, video }
 // }
 
-async function getNFTInfo(
-  nftAddress: string,
-  tokenId: string,
-  txId: string
-): Promise<NFTModalData> {
+async function getNFTInfo(nftAddress: string, tokenId: string): Promise<NFTModalData> {
   const images = 'https://ambrus.s3.amazonaws.com/1672282824928_0.46_poster.jpg'
   const video = 'https://ambrus.s3.amazonaws.com/1671704486463_0.80_Blindbox_Test007.mp4'
   const ethereum = useReadonlyEthereum()
   const nftContract = ERC721__factory.connect(nftAddress, ethereum)
   const name = await nftContract.name()
-  const transaction = txId.toString()
-  return { name, tokenId, address: nftAddress, transaction, images, video }
+  return { name, tokenId, address: nftAddress, images, video }
 }
 
 export function useNFTModal(): NFTModalDataWithHelpers {
-  async function openNFTModal(nftAddress: string, tokenId: string, txId: string) {
-    const modalData = await getNFTInfo(nftAddress, tokenId, txId)
+  async function openNFTModal(nftAddress: string, tokenId: string) {
+    const modalData = await getNFTInfo(nftAddress, tokenId)
     data.value = { ...modalData }
     open.value = true
   }
