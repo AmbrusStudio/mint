@@ -52,7 +52,7 @@ export async function getMintHiveSignatureCode(address: string): Promise<GetMint
   return data
 }
 
-type MintHiveNft = { tokenId: string; transferId: string }
+type MintHiveNft = { tokenId: string }
 export async function mintHiveNft(
   address: string,
   signature: string,
@@ -69,11 +69,11 @@ export async function mintHiveNft(
     },
     { validateStatus: (status) => status < 500 }
   )
-  if (status === 400 || status === 401) throw new Error('Invalid account or signature.')
-  if (status === 403) {
+  if (status > 399) {
     if ('message' in data && typeof data.message === 'string') throw new Error(data.message)
-    throw new Error('Invalid sale time.')
+    if (status === 400 || status === 401) throw new Error('Invalid account or signature.')
+    if (status === 403) throw new Error('Invalid sale time.')
+    // if (status === 409) throw new Error("You've minted, only can mint once.")
   }
-  if (status === 409) throw new Error("You've minted, only can mint once.")
   return data
 }

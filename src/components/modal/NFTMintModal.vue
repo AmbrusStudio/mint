@@ -11,7 +11,7 @@ export type NFTModalData = {
   name: string
   tokenId: string | number
   address: string
-  transaction: string
+  // transaction: string
   images: string | string[]
   video?: string
 }
@@ -32,9 +32,9 @@ const imageSet = computed(() => {
   return undefined
 })
 const addressLink = computed(() => getExplorerLink(props.data.address, ExplorerDataType.ADDRESS))
-const transactionLink = computed(() =>
-  getExplorerLink(props.data.transaction, ExplorerDataType.TRANSACTION)
-)
+// const transactionLink = computed(() =>
+//   getExplorerLink(props.data.transaction, ExplorerDataType.TRANSACTION)
+// )
 const imxMarketLink = computed(() =>
   getIMXMarketInventoryLink(props.data.address, props.data.tokenId)
 )
@@ -84,9 +84,9 @@ const imxMarketLink = computed(() =>
           <NFTMintModalTrait title="Smart Contract Address" :link="addressLink">
             {{ data.address }}
           </NFTMintModalTrait>
-          <NFTMintModalTrait title="Transaction Hash" :link="transactionLink">
+          <!-- <NFTMintModalTrait title="Transaction Hash" :link="transactionLink">
             {{ data.transaction }}
-          </NFTMintModalTrait>
+          </NFTMintModalTrait> -->
           <NFTMintModalTrait title="Immutable X Marketplace" :link="imxMarketLink">
             Click to view {{ data.name }} #{{ data.tokenId }} on Immutable X Marketplace
           </NFTMintModalTrait>

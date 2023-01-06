@@ -121,7 +121,7 @@ const handleMintClick = async () => {
       const saleResult = await freeSale('permit', permitSig.value)
       if (!saleResult) return
       const nftAddress = selected.value.imxCollection
-      await openNFTModal(nftAddress, saleResult.tokenId, saleResult.transferId)
+      await openNFTModal(nftAddress, saleResult.tokenId)
     } else if (canWhitelist.value && whitelistSig.value) {
       // const price = await salerContract.value.whitelistSalePrice()
       // const tx = await salerContract.value.whitelistSale(whitelistSig.value, { value: price })
@@ -129,7 +129,7 @@ const handleMintClick = async () => {
       const saleResult = await freeSale('whitelist', whitelistSig.value)
       if (!saleResult) return
       const nftAddress = selected.value.imxCollection
-      await openNFTModal(nftAddress, saleResult.tokenId, saleResult.transferId)
+      await openNFTModal(nftAddress, saleResult.tokenId)
     }
 
     await refreshData()
