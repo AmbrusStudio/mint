@@ -59,7 +59,7 @@ async function getNFTInfo(nftAddress: string, tokenId: string): Promise<NFTModal
   const images = 'https://ambrus.s3.amazonaws.com/1672282824928_0.46_poster.jpg'
   const video = 'https://ambrus.s3.amazonaws.com/1671704486463_0.80_Blindbox_Test007.mp4'
   let name
-  if (nftAddress.toLowerCase() !== '0x82dcc794Ff38fe8011B80Ad100104827aBe8ed89') {
+  if (nftAddress.toLowerCase() !== '0x82dcc794ff38fe8011b80ad100104827abe8ed89') {
     const ethereum = useReadonlyEthereum()
     const nftContract = ERC721__factory.connect(nftAddress, ethereum)
     name = await nftContract.name()
